@@ -1,0 +1,85 @@
+body{
+/*font-size: 20px;*/
+}
+.body-class{
+background: url('../img/bg.jpg');
+background-size: cover;
+background-repeat: no-repeat;
+}
+.bg-login-image1{
+	background: url('../img/Poly.png');
+background-size: cover;
+background-repeat: no-repeat;
+}
+.btn-ralph{
+	background-color: #7b0d0d;
+	border-color: #7b0d0d;
+	font-weight: bold;
+	color: white;
+}
+.btn-ralph:hover{
+	color: #7b0d0d;
+	background-color: white;
+	border-color: #7b0d0d;
+}
+.btn-ralph:active{
+	color: #7b0d0d;
+	background-color: white;
+	border-color: #7b0d0d;
+}
+.small-ralph{
+	color: #7b0d0d;
+}
+.small-ralph:hover{
+	text-decoration: none;
+}
+.text-gray-ralph{
+	color: #7b0d0d;
+}
+.form-control:focus{
+	border: 2px solid #7b0d0d;
+}
+.form-control{
+	border: 2px solid #7b0d0d;
+	background-color: white;
+}
+.bg-ralph{
+	
+}
+.bg-danger1{
+	background-color: #7b0d0d;
+}
+.bg-gradient-dark1{
+	background-color: #242424;
+}
+.bg-white1{
+	background-color: #7b0d0d;
+}
+.copyright{
+	color: white;
+}
+.rap1{
+	color: white;
+
+}
+.rap1:hover{
+	color: white;
+	background-color: #7b0d0d;
+}
+.img-fluid{
+	width: 40px;
+	height: 40px;
+}
+.half-width{
+    width: 50%;
+}
+select{
+	border: 2px solid #7b0d0d;
+	border-radius: 5px;
+	width: 100%;
+}
+input[type=number]{
+	width: 100%;
+	border-radius: 5px;
+	border: 2px solid #7b0d0d;
+}
