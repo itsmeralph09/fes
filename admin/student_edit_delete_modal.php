@@ -57,7 +57,38 @@
 						<label class="control-label modal-label">Class</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" name="class_id" value="<?php echo $row['class_id']; ?>">
+
+<?php
+
+// Function to retrieve values and mark the selected option
+function generateDropdown($conn, $selectedValue = null)
+{
+    $sql = "SELECT *,
+    CONCAT(program_code, ' ', level, '-', section) AS class_name
+    FROM class_tbl";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo '<select class="form-control" name="class_id">';
+        while ($row = $result->fetch_assoc()) {
+            $class_id = $row['class_id'];
+            $class_name = $row['class_name'];
+            $selected = ($class_id == $selectedValue) ? 'selected' : '';
+            echo "<option value='$class_id' $selected>$class_name</option>";
+        }
+        echo '</select>';
+    } else {
+        echo 'No options available.';
+    }
+}
+
+?>
+            <?php
+
+                $selectedValue = $row['class_id'];
+                generateDropdown($conn, $selectedValue);
+            ?>
+
 					</div>
 				</div>
 
