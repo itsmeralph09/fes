@@ -17,6 +17,16 @@ if ($_SESSION['role'] != "admin") {
     header("Location: ../student/index.php");
     exit;
 }
+
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +56,8 @@ if ($_SESSION['role'] != "admin") {
     <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     
 </head>
 
@@ -78,25 +90,26 @@ if ($_SESSION['role'] != "admin") {
                     <hr class="mb-3 bg-white1">
 
 <div class="container card p-2 mb-4 shadow-sm">
-            <?php if(isset($_SESSION['error'])) { ?>
-                <div class="alert alert-warning  alert-dismissible fade show" id="alert" role="alert">
-                    <strong class="text-danger mb-0"><i class="fas fa-circle-exclamation mr-1"></i><?php echo $_SESSION['error']; ?></strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <?php unset($_SESSION['error']); ?>                
-            <?php } ?> 
 
-            <?php if(isset($_SESSION['success'])) { ?>
-                <div class="alert alert-success alert-dismissible fade show" id="alert" role="alert">
-                    <strong class="text-success mb-0"><i class="fas fa-circle-check mr-1"></i><?php echo $_SESSION['success']; ?></strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <?php unset($_SESSION['success']); ?>  
-            <?php } ?> 
+<?php if(isset($success)) { ?>
+<script>
+Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: '<?php echo $success;?>'
+})
+</script>
+<?php } ?>
+
+<?php if(isset($error)) { ?>
+<script>
+Swal.fire({
+  icon: 'error',
+  title: 'Error!',
+  text: '<?php echo $error;?>'
+})
+</script>
+<?php } ?> 
                             
     <div class="row">
         <div class="col-12 col-md-12">
@@ -108,13 +121,13 @@ if ($_SESSION['role'] != "admin") {
             <hr>
             <div class="container mb-4 border-danger">
                 <!-- <a href="#addnew" data-toggle="modal" class="btn btn-primary mb-3"><span class="glyphicon glyphicon-plus"></span>New</a> -->
-                <table id="myTable" class="table table-bordered nowrap dt-responsive" style="width:100%">
+                <table id="myTable" class="table table-bordered nowrap" style="width:100%">
                     <thead class="table-dark">
-                        <th data-priority="1">#</th>
+                        <th>#</th>
                         <th>Full Name</th>
                         <th>School ID</th>
                         <th>Email</th>
-                        <th data-priority="1">Action</th>
+                        <th>Action</th>
                     </thead>
                     <tbody>
                         <?php
@@ -199,7 +212,7 @@ if ($_SESSION['role'] != "admin") {
         $(document).ready(function(){
         //inialize datatable
         $('#myTable').DataTable({
-        responsive: true
+        scrollX: true
         })
         //hide alert
         $(document).on('click', '.close', function(){

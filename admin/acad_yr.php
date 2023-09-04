@@ -18,7 +18,6 @@ if ($_SESSION['role'] != "admin") {
     exit;
 }
 
-
 if (isset($_SESSION['success'])) {
     $success = $_SESSION['success'];
     unset($_SESSION['success']);
@@ -27,7 +26,6 @@ if (isset($_SESSION['error'])) {
     $error = $_SESSION['error'];
     unset($_SESSION['error']);
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -59,9 +57,8 @@ if (isset($_SESSION['error'])) {
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
 </head>
 
@@ -115,9 +112,6 @@ Swal.fire({
 })
 </script>
 <?php } ?> 
-
-
-
 
                             
     <div class="row">
