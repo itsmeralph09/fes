@@ -17,7 +17,14 @@
 						<label class="control-label modal-label">Program Code</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" name="program_code" required>
+						<!-- <input type="text" class="form-control" name="program_code" required> -->
+						<select name="program_code" id="mod_dropdown" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
+							<option value="" selected disabled>--Select a program--</option>
+							<option value="BSIT">BSIT</option>
+							<option value="BSIS">BSIS</option>
+							<option value="BSCS">BSCS</option>
+							<option value="ACT">ACT</option>
+						</select>
 					</div>
 				</div>
 				<div class="row form-group">
@@ -25,7 +32,7 @@
 						<label class="control-label modal-label">Program Name</label>
 					</div>
 					<div class="col-sm-8">
-						<textarea type="text" class="form-control" name="program_name" rows="3" required></textarea>
+						<textarea type="text" id="mod_textarea" class="form-control" name="program_name" rows="3" readonly></textarea>
 					</div>
 				</div>
 				<div class="row form-group">

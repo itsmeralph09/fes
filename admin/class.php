@@ -214,14 +214,29 @@ Swal.fire({
         });
 
     </script>
-    <script type="text/javascript">
-        setTimeout(function () {
+<script>
+    // JavaScript to update the textarea based on the selected option
+    $(document).ready(function () {
+        $("#mod_dropdown").change(function () {
+            var selectedOption = $(this).val();
+            var textareaValue = "";
 
-            // Closing the alert
-            $('#alert').alert('close');
-        }, 3000);
-    </script>
+            if (selectedOption === "BSIT") {
+                textareaValue = "Bachelor of Science in Information Technology";
+            } else if (selectedOption === "BSIS") {
+                textareaValue = "Bachelor of Science in Information System";
+            } else if (selectedOption === "BSCS") {
+                textareaValue = "Bachelor of Science in Computer Science";
+            } else if (selectedOption === "ACT") {
+                textareaValue = "Associate in Computer Technology";
+            } else {
+                textareaValue = selectedOption;
+            }
 
+            $("#mod_textarea").val(textareaValue);
+        });
+    });
+</script>
 
 </body>
 
