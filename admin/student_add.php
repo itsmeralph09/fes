@@ -41,32 +41,57 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-        if ($password == $confirm_password) {
-            $hashed_pass = password_hash($password, PASSWORD_BCRYPT);
-            
-            $query = "INSERT INTO student_tbl(school_id, first_name, middle_name, last_name, ext_name, class_id, email) VALUES ('$school_id', '$first_name', '$middle_name', '$last_name', '$ext_name', '$class_id', '$email')";
-            $result = mysqli_query($conn, $query);
+    // Check if email already exists in the database
+    $checkEmailQuery = "SELECT * FROM student_tbl WHERE email = '$email'";
+    $checkEmailResult = mysqli_query($conn, $checkEmailQuery);
 
-            $query2 = "INSERT INTO user_tbl(school_id, password, role, status) VALUES ('$school_id', '$hashed_pass', 'faculty', 'active')";
-            $result2 = mysqli_query($conn, $query2);
+    if (mysqli_num_rows($checkEmailResult) > 0) {
+        $_SESSION['error'] = "Email already exists!";
+        header('Location: new_manage_student.php');
+        mysqli_close($conn);
+        exit;
+    }
 
-            if (!$result && !$result2) {
-                // $error = "Error adding student!";
-                $_SESSION['error'] = "Error adding student!";
-                header('Location: new_manage_student.php');
-                exit;  
-            } else{
-                // $success="Student added successfully!";
-                $_SESSION['success'] = "Student added successfully!";
-                header('Location: new_manage_student.php');
-                exit;
-            }
-        }else{
-            // $error = "Passwords do not match!";
-            $_SESSION['error'] = "Passwords do not match!";
-            // header('Location: new_manage_student.php');
-            // exit;            
+    // Check if school ID already exists in the database
+    $checkSchoolIDQuery = "SELECT * FROM student_tbl WHERE school_id = '$school_id'";
+    $checkSchoolIDResult = mysqli_query($conn, $checkSchoolIDQuery);
+
+    if (mysqli_num_rows($checkSchoolIDResult) > 0) {
+        $_SESSION['error'] = "School ID already exists!";
+        header('Location: new_manage_student.php');
+        mysqli_close($conn);
+        exit;
+    }
+
+    if ($password == $confirm_password) {
+        $hashed_pass = password_hash($password, PASSWORD_BCRYPT);
+        
+        $query = "INSERT INTO student_tbl(school_id, first_name, middle_name, last_name, ext_name, class_id, email) VALUES ('$school_id', '$first_name', '$middle_name', '$last_name', '$ext_name', '$class_id', '$email')";
+        $result = mysqli_query($conn, $query);
+
+        $query2 = "INSERT INTO user_tbl(school_id, password, role, status) VALUES ('$school_id', '$hashed_pass', 'faculty', 'active')";
+        $result2 = mysqli_query($conn, $query2);
+
+        if (!$result && !$result2) {
+            // $error = "Error adding student!";
+            $_SESSION['error'] = "Error adding student!";
+            header('Location: new_manage_student.php');
+            mysqli_close($conn);
+            exit;  
+        } else{
+            // $success="Student added successfully!";
+            $_SESSION['success'] = "Student added successfully!";
+            header('Location: new_manage_student.php');
+            mysqli_close($conn);
+            exit;
         }
+    }else{
+        // $error = "Passwords do not match!";
+        $_SESSION['error'] = "Passwords do not match!";
+        // header('Location: new_manage_student.php');
+        mysqli_close($conn);
+        exit;            
+    }
 
 }
 header('location: new_manage_student.php');
