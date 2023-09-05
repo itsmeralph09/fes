@@ -20,8 +20,8 @@ if ($_SESSION['role'] != "admin") {
 
     $year_start = "";
     $year_end = "";
-    $semester = "";
-    $status = "";
+    // $semester = "";
+    // $status = "";
     $acad_year = "";
 
 if (isset($_POST['submit'])) {
@@ -29,8 +29,8 @@ if (isset($_POST['submit'])) {
 
     $year_start = $_POST['year_start'];
     $year_end = $_POST['year_end'];
-    $semester = $_POST['semester'];
-    $status = $_POST['status'];
+    // $semester = $_POST['semester'];
+    // $status = $_POST['status'];
     $acad_year = $year_start."-".$year_end;
 
     // Check if academic year already exists in the database
@@ -44,7 +44,11 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    $query = "INSERT INTO acad_yr_tbl (year_start, year_end, semester, status) VALUES ('$year_start', '$year_end', '$semester', '$status')";
+    $query = "INSERT INTO acad_yr_tbl (year_start, year_end, semester, status)
+    VALUES ('$year_start', '$year_end', '1', 'pending'),
+       ('$year_start', '$year_end', '2', 'pending'),
+       ('$year_start', '$year_end', '3', 'pending')";
+
     $result = mysqli_query($conn, $query);
 
 

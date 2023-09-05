@@ -134,7 +134,7 @@ Swal.fire({
                     <tbody>
                         <?php
                             require '../db/dbconn.php';
-                            $sql = "SELECT * FROM acad_yr_tbl";
+                            $sql = "SELECT * FROM acad_yr_tbl ORDER BY year_start ASC";
 
                             //use for MySQLi Procedural
                             $num = 1;

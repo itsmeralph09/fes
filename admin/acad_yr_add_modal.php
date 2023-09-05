@@ -28,7 +28,7 @@
 						<input type="number" min="2009" max="2099" step="1" name="year_end" required>
 					</div>
 				</div>
-				<div class="row form-group">
+<!-- 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Semester</label>
 					</div>
@@ -39,8 +39,8 @@
 							<option value="3">Mid Year</option>
 						</select>
 					</div>
-				</div>
-				<div class="row form-group">
+				</div> -->
+<!-- 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Evaluation Status</label>
 					</div>
@@ -51,7 +51,7 @@
 							<option value="closed">Closed</option>
 						</select>
 					</div>
-				</div>
+				</div> -->
             </div> 
 			</div>
             <div class="modal-footer">
