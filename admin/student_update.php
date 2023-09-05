@@ -10,7 +10,7 @@
 		$last_name = $_POST['last_name'];
 		$ext_name = $_POST['ext_name'];
 		$email = $_POST['email'];
-		$class_id = $_POST['class_id'];
+		$class_id = $_POST['class_ids'];
 		$password = $_POST['password'];
 		$confirm_password = $_POST['confirm_password'];
 
