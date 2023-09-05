@@ -142,11 +142,11 @@ Swal.fire({
                             while($row = mysqli_fetch_assoc($query)){
 
                                 if ($row['status'] == "started") {
-                                    $status = "<td class='badge-success text-center'>".ucfirst($row['status'])."</td>";
+                                    $status = "<td><div class='row'><div class='col text-center'><span class='badge badge-success rounded-sm badge-lg'><span class='h6'>".ucfirst($row['status'])."</span></span></div></div></td>";
                                 }else if ($row['status'] == "pending"){
-                                    $status = "<td class='badge-warning text-center'>".ucfirst($row['status'])."</td>";
+                                    $status = "<td><div class='row'><div class='col text-center'><span class='badge badge-warning rounded-sm badge-lg'><span class='h6'>".ucfirst($row['status'])."</span></span></div></div></td>";
                                 }else{
-                                    $status = "<td class='badge-secondary text-center'>".ucfirst($row['status'])."</td>";
+                                    $status = "<td><div class='row'><div class='col text-center'><span class='badge badge-secondary rounded-sm badge-lg'><span class='h6'>".ucfirst($row['status'])."</span></span></div></div></td>";
                                 }
 
                                 if ($row['semester'] == 1) {
