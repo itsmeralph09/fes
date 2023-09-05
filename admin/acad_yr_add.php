@@ -22,6 +22,7 @@ if ($_SESSION['role'] != "admin") {
     $year_end = "";
     $semester = "";
     $status = "";
+    $acad_year = "";
 
 if (isset($_POST['submit'])) {
     require '../db/dbconn.php';
@@ -30,6 +31,18 @@ if (isset($_POST['submit'])) {
     $year_end = $_POST['year_end'];
     $semester = $_POST['semester'];
     $status = $_POST['status'];
+    $acad_year = $year_start."-".$year_end;
+
+    // Check if academic year already exists in the database
+    $checkAcadYearQuery = "SELECT * FROM (SELECT *, CONCAT(year_start, '-', year_end) AS acad_year FROM acad_yr_tbl) AS subquery WHERE acad_year = '$acad_year'";
+    $checkAcadYearResult = mysqli_query($conn, $checkAcadYearQuery);
+
+   if (mysqli_num_rows($checkAcadYearResult) > 0) {
+        $_SESSION['error'] = "Academic year "."$acad_year"." already exists!";
+        mysqli_close($conn);
+        header('Location: acad_yr.php');
+        exit;
+    }
 
     $query = "INSERT INTO acad_yr_tbl (year_start, year_end, semester, status) VALUES ('$year_start', '$year_end', '$semester', '$status')";
     $result = mysqli_query($conn, $query);
