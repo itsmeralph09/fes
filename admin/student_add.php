@@ -47,8 +47,8 @@ if (isset($_POST['submit'])) {
 
     if (mysqli_num_rows($checkEmailResult) > 0) {
         $_SESSION['error'] = "Email already exists!";
-        header('Location: new_manage_student.php');
         mysqli_close($conn);
+        header('Location: new_manage_student.php');
         exit;
     }
 
@@ -58,8 +58,8 @@ if (isset($_POST['submit'])) {
 
     if (mysqli_num_rows($checkSchoolIDResult) > 0) {
         $_SESSION['error'] = "School ID already exists!";
-        header('Location: new_manage_student.php');
         mysqli_close($conn);
+        header('Location: new_manage_student.php');
         exit;
     }
 
@@ -75,8 +75,8 @@ if (isset($_POST['submit'])) {
         if (!$result && !$result2) {
             // $error = "Error adding student!";
             $_SESSION['error'] = "Error adding student!";
-            header('Location: new_manage_student.php');
             mysqli_close($conn);
+            header('Location: new_manage_student.php');
             exit;  
         } else{
             // $success="Student added successfully!";
@@ -88,8 +88,8 @@ if (isset($_POST['submit'])) {
     }else{
         // $error = "Passwords do not match!";
         $_SESSION['error'] = "Passwords do not match!";
-        // header('Location: new_manage_student.php');
         mysqli_close($conn);
+        header('Location: new_manage_student.php');
         exit;            
     }
 

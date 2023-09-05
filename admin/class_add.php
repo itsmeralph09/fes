@@ -31,7 +31,19 @@ if (isset($_POST['submit'])) {
     $program_name = $_POST['program_name'];
     $level = $_POST['level'];
     $section = $_POST['section'];
-    // $description = $_POST['description'];
+    $class_name = $program_code." ".$level."-".$section;
+
+
+    // Check if section already exists in the database
+    $checkSectionQuery= "SELECT * FROM (SELECT *, CONCAT(program_code, ' ', level, '-', section) AS class_name FROM class_tbl) AS subquery WHERE class_name = '$class_name'";
+    $checkSectionResult = mysqli_query($conn, $checkSectionQuery);
+
+    if (mysqli_num_rows($checkSectionResult) > 0) {
+        $_SESSION['error'] = "Class already exists!";
+        mysqli_close($conn);
+        header('Location: class.php');
+        exit;
+    }
 
     $query = "INSERT INTO class_tbl (program_code, program_name, level, section) VALUES ('$program_code', '$program_name', '$level', '$section')";
     $result = mysqli_query($conn, $query);
@@ -39,10 +51,12 @@ if (isset($_POST['submit'])) {
 
     if (!$result) {
         $_SESSION['error'] = "Error adding class!";
+        mysqli_close($conn);
         header('Location: class.php');
         exit;  
     } else{
         $_SESSION['success'] = "Class added successfully!";
+        mysqli_close($conn);
         header('Location: class.php');
         exit;
     }
