@@ -102,14 +102,14 @@
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
-                <a href="acad_yr_delete.php?acad_id=<?php echo $row['acad_id']; ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
+                <a href="acad_yr_start.php?acad_id=<?php echo $row['acad_id']; ?>" class="btn btn-success"><i class="fa fa-play m-1"></i>Yes</a>
             </div>
 
         </div>
     </div>
 </div>
 
-<!-- Start -->
+<!-- Stop -->
 <div class="modal fade" id="stop_<?php echo $row['acad_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
