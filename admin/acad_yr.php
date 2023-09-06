@@ -166,8 +166,8 @@ Swal.fire({
                                         <!-- <a href='#edit_".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a> -->
 
                                         <a href='#start_".$row['acad_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-play m-1'></i>Start</a>
-                                        <a href='#stop_".$row['acad_id']."' class='btn btn-secondary btn-sm' data-toggle='modal'><i class='fa fa-stop m-1'></i>Stop</a>
-                                        
+                                        <a href='#stop_".$row['acad_id']."' class='btn btn-secondary btn-sm' data-toggle='modal'><i class='fa fa-stop m-1'></i>Close</a>
+
                                         <!-- <a href='#delete_".$row['acad_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a> -->
                                     </td>
                                 </tr>";

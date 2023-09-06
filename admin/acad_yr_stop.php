@@ -13,7 +13,7 @@
 		$checkStatusResult = mysqli_query($conn, $checkStatusQuery);
 		$row = mysqli_fetch_assoc($checkStatusResult);
 		if ($row['status'] == "closed") {
-			$_SESSION['error'] = 'Academic Year is already closed!';
+			$_SESSION['error'] = 'Academic year is already closed!';
 			mysqli_close($conn);
 			header('location: acad_yr.php');
 			exit;

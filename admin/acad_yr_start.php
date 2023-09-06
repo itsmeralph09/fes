@@ -13,7 +13,7 @@
 		$checkStatusResult = mysqli_query($conn, $checkStatusQuery);
 		$row = mysqli_fetch_assoc($checkStatusResult);
 		if ($row['status'] == "started") {
-			$_SESSION['error'] = 'Academic Year is already started!';
+			$_SESSION['error'] = 'Academic year is already started!';
 			mysqli_close($conn);
 			header('location: acad_yr.php');
 			exit;
@@ -30,7 +30,7 @@
 		$result = mysqli_query($conn, $sql);
 
 		if($result){
-			$_SESSION['success'] = 'Academic Year started successfully!';
+			$_SESSION['success'] = 'Academic year started successfully!';
 			mysqli_close($conn);
 			header('location: acad_yr.php');
 			exit;
