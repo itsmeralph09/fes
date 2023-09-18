@@ -7,3 +7,4 @@
 - [x] Add start button for academic year
 - [ ] Reuse of questionnaires
 - [ ] Sorting per department
+- [ ] Data Visualization
