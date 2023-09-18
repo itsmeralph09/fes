@@ -129,6 +129,7 @@ Swal.fire({
                         <th>Academic Year</th>
                         <th>Semester</th>
                         <th>Evaluation Status</th>
+                        <th>Default</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -156,19 +157,31 @@ Swal.fire({
                                 } else{
                                     $semester = "Mid Year";
                                 }
+
+                                if ($row['is_default'] == "yes") {
+                                    $is_default = "<span class='badge badge-primary rounded-sm badge-sm'><span class='h6'>".ucfirst($row['is_default'])."</span></span>";
+                                } else{
+                                    $is_default = "<span class='badge badge-secondary rounded-sm badge-sm'><span class='h6'>".ucfirst($row['is_default'])."</span></span>";
+                                }
+
+
+
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
                                     <td>".$row['year_start']. "-" .$row['year_end']."</td>
                                     <td>".$semester."</td>
                                    $status
+                                   <td>".$is_default."</td>
                                     <td>
                                         <!-- <a href='#edit_".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a> -->
+                                        
+                                        <a href='#set_default".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-wrench m-1'></i>Set as Default</a>
 
                                         <a href='#start_".$row['acad_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-play m-1'></i>Start</a>
                                         <a href='#stop_".$row['acad_id']."' class='btn btn-secondary btn-sm' data-toggle='modal'><i class='fa fa-stop m-1'></i>Close</a>
 
-                                        <!-- <a href='#delete_".$row['acad_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a> -->
+                                        
                                     </td>
                                 </tr>";
                                 include('acad_yr_edit_delete_modal.php');

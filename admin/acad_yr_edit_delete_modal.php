@@ -167,3 +167,40 @@
         </div>
     </div>
 </div>
+
+
+<!-- Set Default -->
+<div class="modal fade" id="set_default<?php echo $row['acad_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            	<div class="row float-left ml-2"><h4 class="modal-title float-left" id="myModalLabel">Set Default</h4></div>
+                <div class="row float-right mr-2"><button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+            </div>
+            <div class="modal-body">	
+            	<p class="text-center text-primary">Are you sure you want to set this academic year and semester as default?</p>
+				<h5 class="text-center text-secondary">Academic Year: <span class="text-primary"><?php echo $row['year_start'].'-'.$row['year_end']; ?></span></h5>
+				<h5 class="text-center text-secondary">Semester: <span class="text-primary">
+					<?php
+
+						if ($row['semester'] == 1) {
+							echo '1st Semester';
+						} elseif ($row['semester'] == 2) {
+							echo '2nd Semester';
+						} elseif ($row['semester'] == 3) {
+							echo 'Mid-Year';
+						}
+
+					?>
+						
+					</span></h5>
+				
+			</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
+                <a href="acad_yr_setdefault.php?acad_id=<?php echo $row['acad_id']; ?>" class="btn btn-primary"><i class="fa fa-wrench m-1"></i>Yes</a>
+            </div>
+
+        </div>
+    </div>
+</div>

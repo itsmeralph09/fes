@@ -12,8 +12,8 @@
 		$checkStatusQuery = "SELECT * FROM acad_yr_tbl WHERE acad_id = '$acad_id'";
 		$checkStatusResult = mysqli_query($conn, $checkStatusQuery);
 		$row = mysqli_fetch_assoc($checkStatusResult);
-		if ($row['status'] == "started") {
-			$_SESSION['error'] = 'Academic year is already started!';
+		if ($row['is_default'] == "yes") {
+			$_SESSION['error'] = 'Academic year is already the default!';
 			mysqli_close($conn);
 			header('location: acad_yr.php');
 			exit;
@@ -21,25 +21,21 @@
 
 
 		$sql = "UPDATE acad_yr_tbl
-				SET status = CASE 
-				    WHEN status = 'started' THEN 'closed'
-				    WHEN acad_id = '$acad_id' THEN 'started'
-				    ELSE status
-				END,
-				is_default = CASE
+				SET is_default = CASE
 				    WHEN acad_id = '$acad_id' THEN 'yes'
 				    ELSE 'no'
 				END
-				WHERE (status = 'started' OR acad_id = '$acad_id') OR (is_default = 'yes' OR acad_id = '$acad_id')";
+				WHERE is_default = 'yes' OR acad_id = '$acad_id'";
+
 		$result = mysqli_query($conn, $sql);
 
 		if($result){
-			$_SESSION['success'] = 'Academic year started successfully!';
+			$_SESSION['success'] = 'Academic year successfully set as default !';
 			mysqli_close($conn);
 			header('location: acad_yr.php');
 			exit;
 		} else{
-			$_SESSION['error'] = 'Failed to start academic year!';
+			$_SESSION['error'] = 'Failed to set academic year as default!';
 			mysqli_close($conn);
 			header('location: acad_yr.php');
 			exit;
@@ -47,7 +43,7 @@
 
 	}
 	else{
-		$_SESSION['error'] = 'Select academic year to start first!';
+		$_SESSION['error'] = 'Select academic year to set as default!';
 		mysqli_close($conn);
 		header('location: acad_yr.php');
 		exit;
