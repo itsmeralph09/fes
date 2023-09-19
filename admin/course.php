@@ -148,7 +148,7 @@ Swal.fire({
                                         <a href='#delete_".$row['course_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>
                                     </td>
                                 </tr>";
-                                include('class_edit_delete_modal.php');
+                                include('course_edit_delete_modal.php');
                             $num++;}
 
                         ?>
