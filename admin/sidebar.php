@@ -39,7 +39,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="course.php">
                     <i class="fas fa-fw fa-sticky-note"></i>
                     <span>Course</span></a>
             </li>
