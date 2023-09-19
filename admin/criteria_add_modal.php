@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
 			<div class="container-fluid">
-			<form method="POST" action="course_add.php">
+			<form method="POST" action="criteria_add.php">
 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Criteria</label>
