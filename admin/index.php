@@ -78,6 +78,16 @@ if ($_SESSION['role'] != "admin") {
                     <!-- Content Row -->
                     <div class="row">
 
+                        <?php
+
+                        require '../db/dbconn.php';
+
+                            $sql = "SELECT * FROM acad_yr_tbl WHERE is_default = 'yes'";
+
+                            $result = mysqli_query($conn, $sql);
+
+                        ?>
+
                         <!-- Academic Year Card -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-danger shadow h-100 py-2">
@@ -85,14 +95,46 @@ if ($_SESSION['role'] != "admin") {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">
-                                                Academic Year: <p class="text-danger">2022-2023 2nd Semester</p></div>
+                                                Academic Year: 
+                                                <?php 
+                                                    if (mysqli_num_rows($result) >= 1) { 
+                                                        $row = mysqli_fetch_assoc($result); 
+                                                    ?>
+                                                        <p class="text-danger">
+                                                        <?php 
+                                                            echo $row['year_start']."-".$row['year_end']; 
+                                                        ?>
+                                                        <?php if ($row['semester'] == 1) {
+                                                            echo "First Semester";
+                                                        } else if($row['semester'] == 2){
+                                                            echo "Second Semester";
+                                                        } else{
+                                                            echo "Mid-Year";
+                                                        }
+                                                        ?>
+                                                        </p>
+                                                <?php
+                                                    } else{
+                                                        echo "No default academic year set!";
+                                                    }
+                                                ?>
+ 
+                                            </div>
                                             
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-danger"></i>
                                         </div>
                                     </div>
-                                    <div class="h6 mb-0 font-weight-bold text-gray">Evaluation Status: <p class="text-danger">Ongoing</div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray">Evaluation Status: <p class="text-danger">
+                                        <?php
+                                            if ($row['status'] == 'started') {
+                                                 echo "Started";
+                                             } else{
+                                                echo "Closed";
+                                             }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
