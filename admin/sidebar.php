@@ -41,7 +41,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="course.php">
                     <i class="fas fa-fw fa-sticky-note"></i>
-                    <span>Course</span></a>
+                    <span>Course<span class="text-warning">*</span></span></a>
             </li>
 
             <li class="nav-item">

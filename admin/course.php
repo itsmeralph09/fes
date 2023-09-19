@@ -127,6 +127,7 @@ Swal.fire({
                         <th>#</th>
                         <th>Course Code</th>
                         <th>Course Name</th>
+                        <th>Action</th>
                     </thead>
                     <tbody>
                         <?php
@@ -143,8 +144,8 @@ Swal.fire({
                                     <td>".$row['course_code']."</td>
                                     <td>".$row['course_name']."</td>
                                     <td>
-                                        <a href='#edit_".$row['class_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a>
-                                        <a href='#delete_".$row['class_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>
+                                        <a href='#edit_".$row['course_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a>
+                                        <a href='#delete_".$row['course_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>
                                     </td>
                                 </tr>";
                                 include('class_edit_delete_modal.php');
