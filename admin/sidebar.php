@@ -45,9 +45,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="criteria.php">
                     <i class="fas fa-fw fa-tasks"></i>
-                    <span>Evaluation Criteria</span></a>
+                    <span>Evaluation Criteria<span class="text-warning">*</span></span></a>
             </li>
 
             <li class="nav-item">
