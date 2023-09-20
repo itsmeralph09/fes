@@ -39,7 +39,7 @@
 </div>
 
 <!-- Delete -->
-<div class="modal fade" id="delete_<?php echo $row['class_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="delete_<?php echo $row['course_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -48,12 +48,13 @@
             </div>
             <div class="modal-body">	
             	<p class="text-center text-danger">Are you sure you want to delete?</p>
-				<h5 class="text-center text-secondary">Class Name: <span class="text-danger"><?php echo $row['program_code'].' '.$row['level'].'-'.$row['section']; ?></span></h5>
+				<h5 class="text-center text-secondary">Course Code: <span class="text-danger"><?php echo $row['course_code']; ?></span></h5>
+				<h5 class="text-center text-secondary">Course Name: <span class="text-danger"><?php echo $row['course_name']; ?></span></h5>
 				
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
-                <a href="class_delete.php?class_id=<?php echo $row['class_id']; ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
+                <a href="course_delete.php?course_id=<?php echo $row['course_id']; ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
             </div>
 
         </div>
