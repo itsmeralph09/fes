@@ -67,14 +67,6 @@
 						</select>
 					</div>
 				</div>
-				<div class="row form-group">
-					<div class="col-sm-4">
-						<label class="control-label modal-label">Description</label>
-					</div>
-					<div class="col-sm-8">
-						<textarea type="text" class="form-control" name="description" rows="3"><?php echo $row['description']; ?></textarea>
-					</div>
-				</div>
             </div> 
 			</div>
             <div class="modal-footer">

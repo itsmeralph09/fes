@@ -10,7 +10,6 @@
             <div class="modal-body">
 			<div class="container-fluid">
 
-
 			<form method="POST" action="class_add.php">
 				<div class="row form-group">
 					<div class="col-sm-4">
@@ -41,6 +40,7 @@
 					</div>
 					<div class="col-sm-8">
 						<select name="level" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
+							<option value="" selected disabled>--Select a year level--</option>
 							<option value="1">1st Year</option>
 							<option  value="2">2nd Year</option>
 							<option value="3">3rd Year</option>
@@ -54,6 +54,7 @@
 					</div>
 					<div class="col-sm-8">
 						<select name="section" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
+							<option value="" selected disabled>--Select a section--</option>
 							<option value="A">A</option>
 							<option  value="B">B</option>
 							<option value="C">C</option>
