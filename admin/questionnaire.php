@@ -165,16 +165,18 @@ Swal.fire({
                                     $is_default = "<span class='badge badge-secondary rounded-sm badge-sm'><span class='h6'>".ucfirst($row['is_default'])."</span></span>";
                                 }
 
-
+                                $acad_id = $row['acad_id'];
+                                $sql2 = "SELECT * FROM question_tbl WHERE acad_id = '$acad_id'";
+                                $query2 = mysqli_query($conn, $sql2);
+                                $questionCount = mysqli_num_rows($query2);
 
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
                                     <td>".$row['year_start']. "-" .$row['year_end']."</td>
                                     <td>".$semester."</td>
-                                    
                                     <td>".$is_default."</td>
-                                    <td></td>
+                                    <td>".$questionCount."</td>
                                     <td>
                                         
                                         <a href='question.php?acad_id=".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Manage</a>
