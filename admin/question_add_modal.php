@@ -15,8 +15,20 @@
 						<label class="control-label modal-label">Criteria</label>
 					</div>
 					<div class="col-sm-8">
-						<select name="class_id" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
+<?php
+// Include the SelectOption class file
+require 'fetch_criteria.php';
+
+// Create an instance of the SelectOption class
+$selectOption = new SelectOption();
+
+// Get the class options
+$criteriaOptions = $selectOption->getCriteriaOptions();
+
+?>
+						<select name="criteria_id" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
 							<option value="none" selected disabled>Select a criteria</option>
+						<?php echo $criteriaOptions; ?>
 						</select>
 					</div>
 				</div>
@@ -27,6 +39,44 @@
 					<div class="col-sm-8">
 						<!-- <input type="text" class="form-control" name="question" required> -->
 						<textarea type="text" class="form-control" name="question" rows="3" required></textarea>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-sm-4">
+						<label class="control-label modal-label">Academic Year</label>
+					</div>
+					<div class="col-sm-8">
+<?php
+
+	require '../db/dbconn.php';
+	$sql = "SELECT * FROM acad_yr_tbl WHERE acad_id = '$acad_id'";
+	$query = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_assoc($query);
+	$acad = $row['year_start']."-".$row['year_end'];
+	$semester = $row['semester'];
+
+	if ($semester == 1) {
+		$semester = "1st Semester";
+	} else if ($semester == 2) {
+		$semester = "2nd Semester";
+	} else {
+		$semester = "Mid-Year";
+	}
+	
+?>
+
+						<input type="text" class="form-control" name="acad" value="<?php echo $acad; ?>" readonly>
+						<input type="text" class="form-control" name="acad_id" value="<?php echo $acad_id; ?>" hidden>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-sm-4">
+						<label class="control-label modal-label">Semester</label>
+					</div>
+					<div class="col-sm-8">
+
+						<input type="text" class="form-control" name="semester" value="<?php echo $semester; ?>" readonly>
+						
 					</div>
 				</div>				
             </div> 

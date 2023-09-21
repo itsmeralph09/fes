@@ -86,7 +86,30 @@ if (isset($_SESSION['error'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+<?php
+    require '../db/dbconn.php';
+
+    $acad_id = $_GET['acad_id'];
+    $sql = "SELECT * FROM acad_yr_tbl WHERE acad_id='$acad_id'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $acad_year = $row['year_start']."-".$row['year_end'];
+    $sem = $row['semester'];
+?>
+
                         <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-question mr-1"></i>Manage Questions</h1>
+                        <h5 class="h5 mb-0 text-dark">Academic Year <?php echo $acad_year; ?>
+                        <?php
+                            if ($sem == 1) {
+                                $sem = "1st Semester";
+                            } else if ($sem == 2) {
+                                $sem = "2nd Semester";
+                            } else{
+                                $sem = "Mid-Year";
+                            }
+                        ?>
+                            <?php echo $sem; ?>
+                        </h5>
                     </div>
                     <hr class="mb-3 bg-white1">
 
@@ -123,6 +146,19 @@ Swal.fire({
             </div>
             <hr>
             <div class="container mb-4">
+                <h6 class="h6 text-center">  You are viewing questions for Aademic Year <?php echo $acad_year; ?>
+                        <?php
+                            if ($sem == 1) {
+                                $sem = "1st Semester";
+                            } else if ($sem == 2) {
+                                $sem = "2nd Semester";
+                            } else if ($sem == 3) {
+                                $sem = "Mid-Year";
+                            }
+
+                            echo $sem;
+                        ?>
+                </h6>                
                 <table id="myTable" class="table table-bordered nowrap" style="width:100%">
                     <thead class="table-dark">
                         <th>#</th>
@@ -156,11 +192,12 @@ Swal.fire({
                                     <td>".$criteria."</td>
                                     <td>
                                         
-                                        <a href='question.php?acad_id=".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Manage</a>
+                                        <a href='#edit_".$row['question_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a>
+                                        <a href='#delete_".$row['question_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>
                                         
                                     </td>
                                 </tr>";
-                                // include('acad_yr_edit_delete_modal.php');
+                                include('question_edit_delete_modal.php');
                                 
                             $num++;}
 
