@@ -27,7 +27,7 @@ $criteriaOptions = $selectOption->getCriteriaOptions();
 
 ?>
 						<select name="criteria_id" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
-							<option value="none" selected disabled>Select a criteria</option>
+							<option value="" selected disabled>Select a criteria</option>
 						<?php echo $criteriaOptions; ?>
 						</select>
 					</div>
