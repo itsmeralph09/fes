@@ -8,8 +8,9 @@
             </div>
             <div class="modal-body">
 			<div class="container-fluid">
-			<form method="POST" action="criteria_update.php">
+			<form method="POST" action="question_update.php">
 				<input type="hidden" class="form-control" name="question_id" value="<?php echo $row['question_id']; ?>">
+                <input type="hidden" class="form-control" name="acad_id" value="<?php echo $row['acad_id']; ?>">
 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Question</label>
