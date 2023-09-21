@@ -179,7 +179,7 @@ Swal.fire({
                                     <td>".$questionCount."</td>
                                     <td>
                                         
-                                        <a href='question.php?acad_id=".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Manage</a>
+                                        <a href='question.php?acad_id=".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-sliders m-1'></i>Manage</a>
                                         
                                     </td>
                                 </tr>";

@@ -12,12 +12,18 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-white small"><?php echo $_SESSION['name']; ?></span>
-                                <img class="img-profile rounded-circle border"
-                                    src="../assets/img/admin.png">
-                            </a>
+<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <?php
+   $name = $_SESSION['name'];
+   $initials = strtoupper(substr($name, 0, 1));
+   $avatarUrl = "https://ui-avatars.com/api/?name=" . urlencode($name) . "&size=48&rounded=true&background=random&color=fff";
+   ?>
+   <span class="mr-2 d-none d-lg-inline text-white small"><?php echo $name; ?></span>
+   <img class="img-profile rounded-circle border"
+        src="<?php echo $avatarUrl; ?>">
+</a>
+
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
