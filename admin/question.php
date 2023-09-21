@@ -143,6 +143,7 @@ Swal.fire({
             </div>
             <div class="container mb-3 mt-3">
                 <a href="#addnew" data-toggle="modal" class="btn btn-primary"><i class="fa-solid fa-plus mr-1"></i>New</a>
+                <a href="questionnaire.php" class="btn btn-secondary float-right"><i class="fa-solid fa-chevron-left mr-1"></i>Back</a>
             </div>
             <hr>
             <div class="container mb-4">
