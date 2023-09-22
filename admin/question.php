@@ -136,6 +136,23 @@ Swal.fire({
 </script>
 <?php } ?> 
 
+<?php
+// Step 2: Create a database connection
+
+
+// Step 3: Retrieve academic years for the dropdown
+$sql_years = "SELECT DISTINCT acad_id FROM acad_yr_tbl";
+$result_years = $conn->query($sql_years);
+
+$academic_years = array();
+if ($result_years->num_rows > 0) {
+    while ($row = $result_years->fetch_assoc()) {
+        $academic_years[] = $row['acad_id'];
+    }
+}
+
+// Step 4: Create the Bootstrap modal structure
+?>
                             
     <div class="row">
         <div class="col-12 col-md-12">
@@ -143,7 +160,58 @@ Swal.fire({
             </div>
             <div class="container mb-3 mt-3">
                 <a href="#addnew" data-toggle="modal" class="btn btn-primary"><i class="fa-solid fa-plus mr-1"></i>New</a>
+                <a href="#" class="btn btn-success" data-toggle="modal" data-target="#previousQuestionnairesModal"><i class="fa-solid fa-clock-rotate-left mr-1"></i>Previous Questionnaires</a>
                 <a href="questionnaire.php" class="btn btn-secondary float-right"><i class="fa-solid fa-chevron-left mr-1"></i>Back</a>
+
+
+    <!-- Display the questionnaire data in the modal -->
+    <div class="modal" id="previousQuestionnairesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Previous Questionnaires</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Step 6: Dropdown selection of academic years -->
+                    <div class="form-group">
+                        <label for="academicYear">Select Academic Year:</label>
+                        <select class="form-control" id="academicYear" name="acad">
+                            <option value="" selected disabled>Select an academic year</option>
+                            <?php foreach ($academic_years as $year) : ?>
+                                <?php
+                                    require '../db/dbconn.php';
+                                    $fetchAcad = "SELECT * FROM acad_yr_tbl WHERE acad_id='$year'";
+                                    $fetchAcadQuery = mysqli_query($conn, $fetchAcad);
+                                    $fetchRow = mysqli_fetch_assoc($fetchAcadQuery);
+                                    if ($fetchRow['semester'] == 1) {
+                                        $semester = "1st Semester";
+                                    } elseif ($fetchRow['semester'] == 2) {
+                                        $semester = "2nd Semester";
+                                    } elseif ($fetchRow['semester'] == 3) {
+                                        $semester = "Mid-Year";
+                                    }
+                                    $acad = $fetchRow['year_start']."-".$fetchRow['year_end']." ".$semester;
+                                ?>
+
+                                <option value="<?php echo $year; ?>"><?php echo $acad; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <!-- Step 7: Text div to display questions -->
+                    <div id="questionList">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="insertQuestionsBtn">Use Questions</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
             </div>
             <hr>
             <div class="container mb-4">
@@ -255,6 +323,7 @@ Swal.fire({
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
         $(document).ready(function(){
@@ -270,6 +339,50 @@ Swal.fire({
         });
 
     </script>
+<script>
+$(document).ready(function() {
+    // Step 8: Handle dropdown change event
+    $('#academicYear').change(function() {
+        var selectedYear = $(this).val();
+        
+        // Step 9: Fetch questions for the selected academic year using AJAX
+        $.ajax({
+            type: 'POST',
+            url: 'fetch_questions.php', // Create a separate PHP file to handle this AJAX request
+            data: { academic_year: selectedYear },
+            success: function(response) {
+                $('#questionList').html(response);
+            }
+        });
+    });
+
+    // Step 10: Handle the insertQuestionsBtn click event
+    $('#insertQuestionsBtn').click(function() {
+        var selectedYear = $('#academicYear').val();
+        
+        // Collect all questions and their associated criteria_id
+        var questionData = [];
+        $('.criteria-id').each(function() {
+            var question = $(this).prev().text().trim(); // Get the question text
+            var criteriaId = $(this).val(); // Get the associated criteria_id
+            questionData.push({ question: question, criteria_id: criteriaId });
+        });
+
+        // Step 11: Send an AJAX request to insert_questions.php
+        $.ajax({
+            type: 'POST',
+            url: 'insert_prev_questions.php', // Create a separate PHP file to handle this AJAX request
+            data: { academic_year: selectedYear, questions: JSON.stringify(questionData) },
+            success: function(response) {
+                // Handle the response if needed
+                alert(response);
+            }
+        });
+    });
+
+});
+</script>
+
 
 
 </body>
