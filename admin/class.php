@@ -229,6 +229,12 @@ Swal.fire({
                 textareaValue = "Bachelor of Science in Computer Science";
             } else if (selectedOption === "ACT") {
                 textareaValue = "Associate in Computer Technology";
+            } else if (selectedOption === "BEED") {
+                textareaValue = "Bachelor of Science in Elementary Education";
+            } else if (selectedOption === "BCAED") {
+                textareaValue = "Bachelor of Science in Culture and Arts Education";
+            } else if (selectedOption === "BCED") {
+                textareaValue = "Bachelor of Science in Early Childhood Education";
             } else {
                 textareaValue = selectedOption;
             }

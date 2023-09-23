@@ -18,11 +18,18 @@
 					<div class="col-sm-8">
 						<!-- <input type="text" class="form-control" name="program_code" required> -->
 						<select name="program_code" id="mod_dropdown" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
-							<option value="" selected disabled>--Select a program--</option>
-							<option value="BSIT">BSIT</option>
-							<option value="BSIS">BSIS</option>
-							<option value="BSCS">BSCS</option>
-							<option value="ACT">ACT</option>
+							<option value="" selected disabled>Select a program</option>
+							<optgroup label="Institute of Computing Studies">
+								<option value="BSIT">BSIT</option>
+								<option value="BSIS">BSIS</option>
+								<option value="BSCS">BSCS</option>
+								<option value="ACT">ACT</option>
+							</optgroup>
+							<optgroup label="Institute of Education">
+								<option value="BEED">BEED</option>
+								<option value="BCAED">BCAED</option>
+								<option value="BCED">BCED</option>
+							</optgroup>
 						</select>
 					</div>
 				</div>
@@ -40,7 +47,7 @@
 					</div>
 					<div class="col-sm-8">
 						<select name="level" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
-							<option value="" selected disabled>--Select a year level--</option>
+							<option value="" selected disabled>Select a year level</option>
 							<option value="1">1st Year</option>
 							<option  value="2">2nd Year</option>
 							<option value="3">3rd Year</option>
@@ -54,7 +61,7 @@
 					</div>
 					<div class="col-sm-8">
 						<select name="section" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
-							<option value="" selected disabled>--Select a section--</option>
+							<option value="" selected disabled>Select a section</option>
 							<option value="A">A</option>
 							<option  value="B">B</option>
 							<option value="C">C</option>

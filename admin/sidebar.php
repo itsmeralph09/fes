@@ -58,11 +58,10 @@
 
 
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-bar"></i>
-                    <span>Evaluation Report</span></a>
-            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
 
             <li class="nav-item">
                 <a class="nav-link" href="faculty.php">
@@ -76,9 +75,6 @@
                     <span>Students <span class="text-warning">*</span></span></a>
             </li>                      
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
             <li class="nav-item">
                 <a class="nav-link" href="admin.php">
                     <i class="fas fa-fw fa-user"></i>
@@ -87,6 +83,12 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-fw fa-chart-bar"></i>
+                    <span>Evaluation Report</span></a>
+            </li>
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
