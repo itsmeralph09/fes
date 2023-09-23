@@ -14,17 +14,16 @@ if (isset($_POST['academic_year'])) {
     $result = $stmt->get_result();
 
     if (mysqli_num_rows($result) >= 1) {
-        $questionList = "<ul>";
+        $questionList = "<ol>";
         while ($row = $result->fetch_assoc()) {
             $criteriaToFetch = $row['criteria_id'];
             $fetchCriteria = "SELECT * FROM criteria_tbl WHERE criteria_id='$criteriaToFetch'";
             $fetchCriteriaQuery = mysqli_query($conn, $fetchCriteria);
             $fetchRow = mysqli_fetch_assoc($fetchCriteriaQuery);
             $criteria = $fetchRow['criteria'];
-        $questionList .= "<li>" . $row['question'] . " - " . $criteria. 
-                            "<input type='hidden' class='criteria-id' value='$criteriaToFetch'>" . "</li>";
+        $questionList .= "<li class='p-1 text-light'>" . $row['question'] . " </li><input type='hidden' class='criteria-id' value='$criteriaToFetch'>";
         }
-        $questionList .= "</ul>";
+        $questionList .= "</ol>";
         // Step 6: Return the list of questions as an AJAX response
         echo $questionList;
     } else{

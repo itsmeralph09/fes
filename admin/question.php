@@ -60,6 +60,38 @@ if (isset($_SESSION['error'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if the URL has a success parameter (insertion succeeded)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success')) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Questions inserted successfully.',
+        }).then(function() {
+            // Refresh the page to reflect the changes
+            location.reload();
+        });
+    }
+
+    // Check if the URL has an error parameter (insertion failed)
+    if (urlParams.has('error')) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Failed to insert questions. Please try again.',
+        }).then(function() {
+            // Refresh the page to reflect the changes
+            location.reload();
+        });
+    }
+});
+</script>
+
+
 </head>
 
 <body id="page-top">
@@ -137,8 +169,6 @@ Swal.fire({
 <?php } ?> 
 
 <?php
-// Step 2: Create a database connection
-
 
 // Step 3: Retrieve academic years for the dropdown
 $sql_years = "SELECT DISTINCT acad_id FROM acad_yr_tbl";
@@ -159,13 +189,13 @@ if ($result_years->num_rows > 0) {
             <div class="row">
             </div>
             <div class="container mb-3 mt-3">
-                <a href="#addnew" data-toggle="modal" class="btn btn-primary"><i class="fa-solid fa-plus mr-1"></i>New</a>
-                <a href="#" class="btn btn-success" data-toggle="modal" data-target="#previousQuestionnairesModal"><i class="fa-solid fa-clock-rotate-left mr-1"></i>Previous Questionnaires</a>
-                <a href="questionnaire.php" class="btn btn-secondary float-right"><i class="fa-solid fa-chevron-left mr-1"></i>Back</a>
+                <a href="#addnew" data-toggle="modal" class="btn btn-primary p-2"><i class="fa-solid fa-plus mr-1"></i>New</a>
+                <a href="#" class="btn btn-success p-2" data-toggle="modal" data-target="#previousQuestionnairesModal"><i class="fa-solid fa-clock-rotate-left mr-1"></i>Previous Questionnaires</a>
+                <a href="questionnaire.php" class="btn btn-secondary float-lg-right p-2"><i class="fa-solid fa-chevron-left mr-1"></i>Back</a>
 
 
     <!-- Display the questionnaire data in the modal -->
-    <div class="modal" id="previousQuestionnairesModal">
+    <div class="modal" id="previousQuestionnairesModal" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -199,17 +229,20 @@ if ($result_years->num_rows > 0) {
                         </select>
                     </div>
                     <!-- Step 7: Text div to display questions -->
-                    <div id="questionList">
+                    <div id="questionList" class="bg-dark rounded">
                         <!-- Questions will be loaded here -->
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="insertQuestionsBtn">Use Questions</button>
+                    <button type="button" class="btn btn-primary" id="insertQuestionsBtn" disabled>Use Questions</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+
 
 
             </div>
@@ -241,7 +274,7 @@ if ($result_years->num_rows > 0) {
 
                             $acad_id = $_GET['acad_id'];
 
-                            $sql = "SELECT * FROM question_tbl WHERE acad_id='$acad_id'";
+                            $sql = "SELECT * FROM question_tbl WHERE acad_id='$acad_id' ORDER BY criteria_id ASC";
 
                             //use for MySQLi Procedural
                             $num = 1;
@@ -307,23 +340,25 @@ if ($result_years->num_rows > 0) {
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="../assets/js/sb-admin-2.min.js"></script>
 
-
-    <!-- <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
         $(document).ready(function(){
@@ -332,23 +367,27 @@ if ($result_years->num_rows > 0) {
             // responsive: true
             scrollX: true
         })
-        //hide alert
-        $(document).on('click', '.close', function(){
-            $('.alert').hide();
-        })
         });
 
     </script>
+
 <script>
 $(document).ready(function() {
     // Step 8: Handle dropdown change event
     $('#academicYear').change(function() {
         var selectedYear = $(this).val();
+
+        // Enable or disable the "Use Questions" button based on the selected value
+        if (selectedYear) {
+            $('#insertQuestionsBtn').prop('disabled', false);
+        } else {
+            $('#insertQuestionsBtn').prop('disabled', true);
+        }
         
         // Step 9: Fetch questions for the selected academic year using AJAX
         $.ajax({
             type: 'POST',
-            url: 'fetch_questions.php', // Create a separate PHP file to handle this AJAX request
+            url: 'fetch_questions.php',
             data: { academic_year: selectedYear },
             success: function(response) {
                 $('#questionList').html(response);
@@ -359,7 +398,7 @@ $(document).ready(function() {
     // Step 10: Handle the insertQuestionsBtn click event
     $('#insertQuestionsBtn').click(function() {
         var selectedYear = $('#academicYear').val();
-        
+        var acadId = '<?php echo $acad_id; ?>'; // Get the acad_id from PHP
         // Collect all questions and their associated criteria_id
         var questionData = [];
         $('.criteria-id').each(function() {
@@ -368,22 +407,59 @@ $(document).ready(function() {
             questionData.push({ question: question, criteria_id: criteriaId });
         });
 
-        // Step 11: Send an AJAX request to insert_questions.php
-        $.ajax({
-            type: 'POST',
-            url: 'insert_prev_questions.php', // Create a separate PHP file to handle this AJAX request
-            data: { academic_year: selectedYear, questions: JSON.stringify(questionData) },
-            success: function(response) {
-                // Handle the response if needed
-                alert(response);
+        // Step 11: Open a SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Confirm Usage',
+            text: 'Are you sure you want to use these questions?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                // User confirmed, send an AJAX request to insert_prev_questions.php
+                $.ajax({
+                    type: 'POST',
+                    url: 'insert_prev_questions.php',
+                    data: { academic_year: selectedYear, questions: JSON.stringify(questionData), acad_id: acadId },
+                    dataType: 'json', // Expect JSON response
+                    success: function(response) {
+                        console.log(response); // Add this line for debugging
+                        // Check the response from the server
+                        if (response.success) {
+                            // Insertion succeeded
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Questions inserted successfully.',
+                            }).then(function() {
+                                // Refresh the page after successful insertion
+                                location.reload();
+                            });
+                        } else {
+                            // Insertion failed
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: response.error,
+                            });
+                        }
+                    },
+                    error: function() {
+                        // AJAX request error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Failed to send the request. Please try again later.',
+                        });
+                    },
+                });
             }
         });
     });
-
 });
 </script>
-
-
+<!--  -->
 
 </body>
 
