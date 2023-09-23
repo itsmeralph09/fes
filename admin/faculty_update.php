@@ -12,6 +12,7 @@
 		$email = $_POST['email'];
 		$password = $_POST['password'];
 		$confirm_password = $_POST['confirm_password'];
+		$department = $_POST['department'];
 
 		$query_userid = "SELECT * FROM user_tbl WHERE school_id = '" . $school_id . "'";
 		$query_result = mysqli_query($conn, $query_userid);
@@ -19,7 +20,7 @@
 		$user_id = $query_row['user_id'];
 
 		if (empty($password)) {
-			$sql = "UPDATE faculty_tbl SET first_name = '$first_name', middle_name ='$middle_name', last_name = '$last_name',  ext_name = '$ext_name', email='$email' WHERE faculty_id = '$faculty_id'";
+			$sql = "UPDATE faculty_tbl SET first_name = '$first_name', middle_name ='$middle_name', last_name = '$last_name',  ext_name = '$ext_name', email='$email', department='$department' WHERE faculty_id = '$faculty_id'";
 			$result = mysqli_query($conn, $sql);
 			if($result){
 						$_SESSION['success'] = 'Faculty updated successfully, but password remain unchanged!';
@@ -30,7 +31,7 @@
 				$sql2 = "UPDATE user_tbl SET password ='$hashed_pass' WHERE user_id ='$user_id'";
 				$result2 = mysqli_query($conn, $sql2);
 
-				$sql = "UPDATE faculty_tbl SET first_name = '$first_name', middle_name ='$middle_name', last_name = '$last_name',  ext_name = '$ext_name', email='$email' WHERE faculty_id = '$faculty_id'";
+				$sql = "UPDATE faculty_tbl SET first_name = '$first_name', middle_name ='$middle_name', last_name = '$last_name',  ext_name = '$ext_name', email='$email', department='$department' WHERE faculty_id = '$faculty_id'";
 				$result = mysqli_query($conn, $sql);
 					if($result || $result2){
 						$_SESSION['success'] = 'Faculty updated successfully, and password changed!';

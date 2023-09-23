@@ -128,6 +128,7 @@ Swal.fire({
                         <th>Full Name</th>
                         <th>School ID</th>
                         <th>Email</th>
+                        <th>Department</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -147,6 +148,7 @@ Swal.fire({
                                     <td>".$row['first_name']. " " .$row['middle_name']. " " .$row['last_name']."</td> 
                                     <td>".$row['school_id']."</td>
                                     <td>".$row['email']."</td>
+                                    <td>".strtoupper($row['department'])."</td>
                                     <td>
                                         <a href='#edit_".$row['faculty_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a>
                                         <a href='#delete_".$row['faculty_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>

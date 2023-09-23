@@ -26,6 +26,7 @@ $school_id = "";
 $email = "";
 $password = "";
 $confirm_password = "";
+$department = "";
 
 if (isset($_POST['submit'])) {
     require '../db/dbconn.php';
@@ -38,6 +39,7 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $department = $_POST['department'];
 
     // Check if email already exists in the database
     $checkEmailQuery = "SELECT * FROM faculty_tbl WHERE email = '$email'";
@@ -64,7 +66,7 @@ if (isset($_POST['submit'])) {
         if ($password == $confirm_password) {
             $hashed_pass = password_hash($password, PASSWORD_BCRYPT);
             
-            $query = "INSERT INTO faculty_tbl (school_id, first_name, middle_name, last_name, ext_name, email) VALUES ('$school_id', '$first_name', '$middle_name', '$last_name', '$ext_name', '$email')";
+            $query = "INSERT INTO faculty_tbl (school_id, first_name, middle_name, last_name, ext_name, email, department) VALUES ('$school_id', '$first_name', '$middle_name', '$last_name', '$ext_name', '$email', '$department')";
             $result = mysqli_query($conn, $query);
 
             $query2 = "INSERT INTO user_tbl(school_id, password, role, status) VALUES ('$school_id', '$hashed_pass', 'faculty', 'active')";

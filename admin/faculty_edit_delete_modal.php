@@ -60,6 +60,26 @@
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-4">
+						<label class="control-label modal-label">Department</label>
+					</div>
+					<div class="col-sm-8">
+						<select name="department" required>
+							<option value="<?php echo $row['department']; ?>" selected>
+								<?php 
+									if ($row['department'] == "ics"){
+										echo "Institue of Computing Studies";
+									} elseif($row['department'] == "ied"){
+										echo "Institue of Education";
+									}
+								?>
+							</option>
+							<option value="ics">Institute of Computing Studies</option>
+							<option value="ied">Institute of Education</option>
+						</select>
+					</div>
+				</div>
+				<div class="row form-group">
+					<div class="col-sm-4">
 						<label class="control-label modal-label">Password</label>
 					</div>
 					<div class="col-sm-8">
