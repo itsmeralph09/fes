@@ -205,9 +205,9 @@ if ($result_years->num_rows > 0) {
                 <div class="modal-body">
                     <!-- Step 6: Dropdown selection of academic years -->
                     <div class="form-group">
-                        <label for="academicYear">Select Academic Year:</label>
+                        <label for="academicYear">Previous Academic Year and Semester</label>
                         <select class="form-control" id="academicYear" name="acad">
-                            <option value="" selected disabled>Select an academic year</option>
+                            <option value="" selected disabled>Select an academic year and semester</option>
                             <?php foreach ($academic_years as $year) : ?>
                                 <?php
                                     require '../db/dbconn.php';
@@ -234,8 +234,9 @@ if ($result_years->num_rows > 0) {
                     </div>
                 </div>
                 <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-default " data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Close</button>
                     <button type="button" class="btn btn-primary" id="insertQuestionsBtn" disabled>Use Questions</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

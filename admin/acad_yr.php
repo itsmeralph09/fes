@@ -159,9 +159,9 @@ Swal.fire({
                                 }
 
                                 if ($row['is_default'] == "yes") {
-                                    $is_default = "<span class='badge badge-primary rounded-sm badge-sm'><span class='h6'>".ucfirst($row['is_default'])."</span></span>";
+                                    $is_default = "<div class='row'><div class='col text-center'><i class='fa-solid fa-circle-check text-primary fa-xl'></i></div></div>";
                                 } else{
-                                    $is_default = "<span class='badge badge-secondary rounded-sm badge-sm'><span class='h6'>".ucfirst($row['is_default'])."</span></span>";
+                                    $is_default = "<div class='row'><div class='col text-center'><i class='fa-solid fa-circle-xmark fa-xl'></i></div></div>";
                                 }
 
 
