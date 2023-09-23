@@ -44,10 +44,10 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    $query = "INSERT INTO acad_yr_tbl (year_start, year_end, semester, status)
-    VALUES ('$year_start', '$year_end', '1', 'pending'),
-       ('$year_start', '$year_end', '2', 'pending'),
-       ('$year_start', '$year_end', '3', 'pending')";
+    $query = "INSERT INTO acad_yr_tbl (year_start, year_end, semester, status, is_default)
+    VALUES ('$year_start', '$year_end', '1', 'pending', 'no'),
+       ('$year_start', '$year_end', '2', 'pending', 'no'),
+       ('$year_start', '$year_end', '3', 'pending', 'no')";
 
     $result = mysqli_query($conn, $query);
 
