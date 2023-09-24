@@ -62,7 +62,7 @@
 </div>
 
 <!-- Delete -->
-<div class="modal fade" id="delete_<?php echo $row['criteria_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="delete_<?php echo $row['question_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,12 +71,20 @@
             </div>
             <div class="modal-body">	
             	<p class="text-center text-danger">Are you sure you want to delete?</p>
-				<h5 class="text-center text-secondary">Criteria: <span class="text-danger"><?php echo $row['criteria']; ?></span></h5>
+				<h5 class="text-center text-secondary">Question: <span class="text-danger"><?php echo $row['question']; ?></span></h5>
+<?php
+                                $criteria_id = $row['criteria_id'];
+                                $sql3 = "SELECT * FROM criteria_tbl WHERE criteria_id = '$criteria_id'";
+                                $result3 = mysqli_query($conn, $sql3);
+                                $row2 = mysqli_fetch_assoc($result3);
+                                $criteria1 = $row2["criteria"];
+?>
+                <h5 class="text-center text-secondary">Criteria: <span class="text-danger"><?php echo $criteria1; ?></span></h5>
 				
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
-                <a href="criteria_delete.php?criteria_id=<?php echo $row['criteria_id']; ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
+                <a href="question_delete.php?question_id=<?php echo urlencode($row['question_id']); ?>&acad_id=<?php echo urlencode($acad_id); ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
             </div>
 
         </div>
