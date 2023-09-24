@@ -262,47 +262,48 @@ if ($_SESSION['role'] != "admin") {
                             </div>
                         </div>
 
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-danger">Distribution of Users</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle" style="color: #7b0d0d;"></i> Student
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle" style="color: #7b6d6d;"></i> Faculty
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle" style="color: #F65b78;"></i> Admin
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- Polar Area Chart -->
+<div class="col-xl-4 col-lg-5">
+    <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-danger">Number of Users</h6>
+            <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Dropdown Header:</div>
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+            <div class="chart-pie pt-4 pb-2">
+                <canvas id="myPolarChart"></canvas>
+            </div>
+            <div class="mt-4 text-center small">
+                <span class="mr-2">
+                    <i class="fas fa-circle" style="color: #7b0d0d;"></i> Student
+                </span>
+                <span class="mr-2">
+                    <i class="fas fa-circle" style="color: #7b6d6d;"></i> Faculty
+                </span>
+                <span class="mr-2">
+                    <i class="fas fa-circle" style="color: #F65b78;"></i> Admin
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
                     </div>
 
                     <!-- Content Row -->
@@ -355,9 +356,105 @@ if ($_SESSION['role'] != "admin") {
     <!-- Page level plugins -->
     <script src="../assets/vendor/chart.js/Chart.min.js"></script>
 
+
     <!-- Page level custom scripts -->
     <script src="../assets/js/demo/chart-area-demo.js"></script>
-    <script src="../assets/js/demo/chart-pie-demo.js"></script>
+<script>
+// Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
+
+// Function to fetch data from PHP script
+function fetchDataFromDatabase() {
+    return fetch('polar_chart_fetch.php')
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        });
+}
+
+// Create the polar area chart when the data is fetched
+async function createPolarChart() {
+    const data = await fetchDataFromDatabase();
+
+    // Polar Area Chart Example
+    var ctx = document.getElementById("myPolarChart");
+    var myPolarChart = new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+            labels: ["Student", "Faculty", "Admin"],
+            datasets: [{
+                data: data, // Use the fetched data here
+                backgroundColor: ['rgba(123, 13, 13, 0.5)', 'rgba(123, 109, 109, 0.5)', 'rgba(246, 91, 120, 0.5)'],
+                hoverBackgroundColor: ['rgba(155, 45, 45, 0.7)', 'rgba(123, 61, 61, 0.7)', 'rgba(245, 75, 80, 0.7)'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+            },
+            legend: {
+                display: false
+            },
+            scale: {
+                gridLines: {
+                    color: "#e3e3e3"
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                datalabels: {
+                    formatter: function (value, ctx) {
+                        var sum = ctx.chart.data.datasets[0].data.reduce(function (a, b) {
+                            return a + b;
+                        }, 0);
+                        var percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    borderRadius: 6,
+                    anchor: 'center',
+                    align: 'center',
+                    offset: 0,
+                    font: {
+                        weight: 'bold',
+                        size: 14,
+                    },
+                    padding: 6,
+                }
+            }
+        },
+    });
+}
+
+// Call the function to create the chart
+createPolarChart();
+
+</script>
+
 
 </body>
 
