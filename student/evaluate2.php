@@ -85,104 +85,105 @@ if ($_SESSION['role'] != "student") {
                     
                     <div class="col-12 col-md-12 mb-2">
                         <div class="card card-settings shadow-sm p-4">
-<div class="app-card-body">
-    <div class="">
-        <h4 class="app-page-title text-dark">Submit Evaluation</h4>
-    </div>
-    <hr>
-    <div class="">
-        <form class="form">
-<?php
-// Replace with your database connection details
-require '../db/dbconn.php';
+                                                        
+                            <div class="app-card-body">
+                                <div class="">
+                                    <h4 class="app-page-title text-dark">Submit Evaluation</h4>
+                                </div>
+                                <hr>
+                                <div class="">
+                                    <form class="form">
+                            <?php
+                            // Replace with your database connection details
+                            require '../db/dbconn.php';
 
-// SQL query to fetch faculty records
-$sql = "SELECT faculty_id, first_name, middle_name, last_name, ext_name, department FROM faculty_tbl";
+                            // SQL query to fetch faculty records
+                            $sql = "SELECT faculty_id, first_name, middle_name, last_name, ext_name, department FROM faculty_tbl";
 
-$result = $conn->query($sql);
+                            $result = $conn->query($sql);
 
-// Initialize optgroup variables
-$icsOptions = '';
-$iedOptions = '';
+                            // Initialize optgroup variables
+                            $icsOptions = '';
+                            $iedOptions = '';
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $full_name = $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['ext_name'];
-        $option = '<option value="' . $row['faculty_id'] . '">' . $full_name . '</option>';
-        
-        // Group options based on department
-        if ($row['department'] === 'ics') {
-            $icsOptions .= $option;
-        } elseif ($row['department'] === 'ied') {
-            $iedOptions .= $option;
-        }
-    }
-}
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    $full_name = $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['ext_name'];
+                                    $option = '<option value="' . $row['faculty_id'] . '">' . $full_name . '</option>';
+                                    
+                                    // Group options based on department
+                                    if ($row['department'] === 'ics') {
+                                        $icsOptions .= $option;
+                                    } elseif ($row['department'] === 'ied') {
+                                        $iedOptions .= $option;
+                                    }
+                                }
+                            }
 
-// Close the database connection
-$conn->close();
-?>
-            <div class="row"><!-- Added a row container -->
-                <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
-                    <fieldset class="form-group input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-danger1 text-light">
-                                <i class="fas fa-chalkboard-user"></i> <!-- FontAwesome book icon -->
-                            </span>
-                        </div>
-                        <select id="facultySelect" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
-                            <option value="" disabled selected>Select a Faculty</option>
-                            <optgroup class="font-italic" label="Institute of Computing Studies">
-                                <?php echo $icsOptions; ?>
-                            </optgroup>
-                            <optgroup class="font-italic" label="Institute of Education">
-                                <?php echo $iedOptions; ?>
-                            </optgroup>
-                        </select>
-                    </fieldset>
-                </div>
-<?php
-// Replace with your database connection details
-require '../db/dbconn.php';
+                            // Close the database connection
+                            $conn->close();
+                            ?>
+                                        <div class="row"><!-- Added a row container -->
+                                            <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
+                                                <fieldset class="form-group input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-danger1 text-light">
+                                                            <i class="fas fa-chalkboard-user"></i> <!-- FontAwesome book icon -->
+                                                        </span>
+                                                    </div>
+                                                    <select id="facultySelect" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
+                                                        <option value="" disabled selected>Select a Faculty</option>
+                                                        <optgroup class="font-italic" label="Institute of Computing Studies">
+                                                            <?php echo $icsOptions; ?>
+                                                        </optgroup>
+                                                        <optgroup class="font-italic" label="Institute of Education">
+                                                            <?php echo $iedOptions; ?>
+                                                        </optgroup>
+                                                    </select>
+                                                </fieldset>
+                                            </div>
+                            <?php
+                            // Replace with your database connection details
+                            require '../db/dbconn.php';
 
-// SQL query to fetch course records
-$sql = "SELECT course_id, course_code, course_name FROM course_tbl";
+                            // SQL query to fetch course records
+                            $sql = "SELECT course_id, course_code, course_name FROM course_tbl";
 
-$result = $conn->query($sql);
+                            $result = $conn->query($sql);
 
-// Generate the select options
-$options = '<option value="" disabled selected>Select a Course</option>';
+                            // Generate the select options
+                            $options = '<option value="" disabled selected>Select a Course</option>';
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $options .= '<option value="' . $row['course_id'] . '">' . $row['course_code'] . ' - ' . $row['course_name'] . '</option>';
-    }
-}
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    $options .= '<option value="' . $row['course_id'] . '">' . $row['course_code'] . ' - ' . $row['course_name'] . '</option>';
+                                }
+                            }
 
-// Close the database connection
-$conn->close();
-?>
-                <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
-                    <fieldset class="form-group input-group">
-                        <div class="input-group-prepend">
-                             <span class="input-group-text bg-danger1 text-light">
-                                <i class="fas fa-sticky-note"></i> <!-- FontAwesome book icon -->
-                            </span>
-                        </div>
-                        <select id="courseSelect" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" disabled required>
-                            <?php echo $options; ?>
-                        </select>
-                    </fieldset>
-                </div>
-            </div>
-            </div>
-            <hr>
-            <div class="">
-                <button type="submit" class="btn btn-primary float-right">Select</button>
-            </div>
-        </form>
-    
-</div><!--//app-card-body-->
+                            // Close the database connection
+                            $conn->close();
+                            ?>
+                                            <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
+                                                <fieldset class="form-group input-group">
+                                                    <div class="input-group-prepend">
+                                                         <span class="input-group-text bg-danger1 text-light">
+                                                            <i class="fas fa-sticky-note"></i> <!-- FontAwesome book icon -->
+                                                        </span>
+                                                    </div>
+                                                    <select id="courseSelect" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" disabled required>
+                                                        <?php echo $options; ?>
+                                                    </select>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <hr>
+                                        <div class="">
+                                            <button type="submit" class="btn btn-primary float-right">Select</button>
+                                        </div>
+                                    </form>
+                                
+                            </div><!--//app-card-body-->
 
 
 
