@@ -8,6 +8,7 @@ if (!isset($_SESSION['name'])) {
 } else{
       unset($_SESSION['name']);
       unset($_SESSION['role']);
+      unset($_SESSION['student_id']);
 
       unset($_COOKIE['PHPSESSID']);
       setcookie('PHPSESSID', '', time() - 3600, '/');

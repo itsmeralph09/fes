@@ -18,8 +18,97 @@ if ($_SESSION['role'] != "student") {
     exit;
 }
 
-$_SESSION['active_acad_yr'] = 3;
+?>
+<?php
+// Replace with your database connection details
+require '../db/dbconn.php';
 
+// Check if the active academic year is set in the session
+if (isset($_SESSION['course_id_to_evaluate']) && isset($_SESSION['faculty_id_to_evaluate'])) {
+$acad_id = $_SESSION['active_acad_yr'];
+    // SQL query to fetch questions grouped by criteria_id for the active academic year
+    $sql = "SELECT criteria_id, GROUP_CONCAT(question_id ORDER BY question_id ASC SEPARATOR '|') AS grouped_question_ids
+            FROM question_tbl
+            WHERE acad_id = $acad_id
+            GROUP BY criteria_id";
+
+    $result = $conn->query($sql);
+
+    // Create an array to map radio button values to labels
+    $radioValues = [
+        4 => 'Strongly Agree',
+        3 => 'Agree',
+        2 => 'Disagree',
+        1 => 'Strongly Disagree'
+    ];
+
+// Handle form submission
+if (isset($_POST['submit'])) {
+
+    $course_id = $_SESSION['course_id_to_evaluate'];
+    $faculty_id = $_SESSION['faculty_id_to_evaluate'];
+    $acad_id = $_SESSION['active_acad_yr'];
+    $department = $_SESSION['department'];
+
+    $student_id = $_SESSION['student_id'];
+    $class_id = $_SESSION['class_id'];
+    $eval_id = $_GET['eval_id'];
+
+    $comments = $_POST['comments'];
+
+    $insertEvalSql = "INSERT INTO eval_tbl (eval_id, acad_id, student_id, course_id, faculty_id, class_id, department, comments)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmtEval = $conn->prepare($insertEvalSql);
+
+    if ($stmtEval === false) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    // Assuming eval_id is an integer
+    $stmtEval->bind_param('siiiiiss', $eval_id, $acad_id, $student_id, $course_id, $faculty_id, $class_id, $department, $comments);
+
+    if ($stmtEval->execute()) {
+        echo "Insertion successful.";
+    } else {
+        echo "Insertion failed: " . $stmtEval->error;
+    }
+
+    $stmtEval->close();
+
+
+    // Iterate through criteria
+    while ($row = $result->fetch_assoc()) {
+        $criteriaId = $row['criteria_id'];
+        $questionIds = explode('|', $row['grouped_question_ids']);
+
+        // Iterate through questions
+        foreach ($questionIds as $questionId) {
+            // Check if a score is submitted for this question
+            if (isset($_POST["question_{$questionId}"])) {
+                $score = intval($_POST["question_{$questionId}"]);
+                // Insert the answer into eval_answer_tbl
+                $insertSql = "INSERT INTO eval_answer_tbl (eval_id, question_id, score)
+                              VALUES (?, ?, ?)";
+                $stmt = $conn->prepare($insertSql);
+                $stmt->bind_param('sii', $eval_id, $questionId, $score);
+                $stmt->execute();
+            }
+        }
+    }
+        $_SESSION['success'] = 'Evaluation submitted successfully!';
+        unset($_SESSION['course_id_to_evaluate']);
+        unset($_SESSION['faculty_id_to_evaluate']);
+        header('Location: evaluate2.php');
+        exit;
+    }
+
+} else {
+    // Handle the case where the active academic year is not set in the session
+    $_SESSION['error'] = 'No faculty and subject selected!';
+    header("Location: evaluate2.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,91 +174,15 @@ $_SESSION['active_acad_yr'] = 3;
                     
                 <div class="row g-4 mb-4">
                     
-<!--                     <div class="col-12 col-md-12 mb-2">
-                        <div class="card card-settings shadow-sm p-4">
-                            <div class="app-card-body">
-                <h4 class="app-page-title">Select Evaluation</h4>
-                                <form class="form">
-                                    <div class="mb-3">
-                                        <fieldset class="form-group">
-                                            <select class="form-select form-select-sm form-control" aria-label=".form-select-sm example">
-                                              <option selected>Select Faculty and Course..</option>
-                                              <option value="1">Maria Theresa Bayani - ITE 3</option>
-                                              <option value="2">Lester Angelo Dela Cruz - ITH 108</option>
-                                            </select>
-                                        </fieldset>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Select</button>
-                                </form>
-                            </div>
-                            
-                        </div>
-                    </div> -->
+
                     <div class="col-12 col-md-12">
                         <div class="card card-settings shadow-sm pb-4">
 
-<?php
 
-// Replace with your database connection details
-require '../db/dbconn.php';
-
-// Check if the active academic year is set in the session
-if (isset($_SESSION['active_acad_yr'])) {
-    $activeAcadYear = $_SESSION['active_acad_yr'];
-
-    // SQL query to fetch questions grouped by criteria_id for the active academic year
-    $sql = "SELECT criteria_id, GROUP_CONCAT(question_id ORDER BY question_id ASC SEPARATOR '|') AS grouped_question_ids
-            FROM question_tbl
-            WHERE acad_id = $activeAcadYear
-            GROUP BY criteria_id";
-
-    $result = $conn->query($sql);
-
-    // Create an array to map radio button values to labels
-    $radioValues = [
-        4 => 'Strongly Agree',
-        3 => 'Agree',
-        2 => 'Disagree',
-        1 => 'Strongly Disagree'
-    ];
-
-// Handle form submission
-if (isset($_POST['submit'])) {
-    // Iterate through criteria
-    while ($row = $result->fetch_assoc()) {
-        $criteriaId = $row['criteria_id'];
-        $questionIds = explode('|', $row['grouped_question_ids']);
-
-        // Iterate through questions
-        foreach ($questionIds as $questionId) {
-            // Check if a score is submitted for this question
-            if (isset($_POST["question_{$questionId}"])) {
-                $score = intval($_POST["question_{$questionId}"]);
-                // Insert the answer into eval_answer_tbl
-                $insertSql = "INSERT INTO eval_answer_tbl (eval_id, question_id, score)
-                              VALUES (?, ?, ?)";
-                $stmt = $conn->prepare($insertSql);
-                $stmt->bind_param('iii', $evalId, $questionId, $score);
-                // Replace $evalId with the actual evaluation ID
-                $evalId = 1; // You need to set the correct evaluation ID
-                $stmt->execute();
-            }
-        }
-    }
-        // Optionally, you can redirect to another page after submission
-        // header('Location: another_page.php');
-        // exit();
-    }
-
-} else {
-    // Handle the case where the active academic year is not set in the session
-    echo 'Active academic year not set in the session.';
-}
-?>
 
 
     <div class="container mt-4">
-        <h4 class="mb-3">Questionnaire</h4>
+        <h4 class="mb-3">Questionnaires:</h4>
     <div class="table-responsive overflow-auto">
         <form method="POST" action="">
             <?php
@@ -178,7 +191,26 @@ if (isset($_POST['submit'])) {
                     $criteriaId = $row['criteria_id'];
                     $questionIds = explode('|', $row['grouped_question_ids']);
 
-                    echo '<h5 class="text-success">Criteria ' . $criteriaId . '</h5>';
+                        $fetchCriteriaSql = "SELECT * FROM criteria_tbl WHERE criteria_id = ?";
+                        $stmtfetchCriteria = $conn->prepare($fetchCriteriaSql);
+
+                        // You should bind the parameter to the prepared statement, not the SQL string.
+                        $stmtfetchCriteria->bind_param('i', $criteriaId);
+                        $stmtfetchCriteria->execute();
+
+                        // You should use $stmtfetchCriteria to fetch the result, not the SQL string.
+                        $resultCriteria = $stmtfetchCriteria->get_result();
+
+                        if ($rowCriteria = $resultCriteria->fetch_assoc()) {
+                            // Assuming 'criteria' is a column in your table, you can access it like this:
+                            $criteriaIdFetch = $rowCriteria['criteria'];
+                        } else {
+                            // Handle the case when no row is found.
+                            $criteriaIdFetch = null; // or any default value you want
+                        }
+
+
+                    echo '<h5 class="text-success">' . $criteriaIdFetch . '</h5>';
                     echo '<table class="table table-striped table-hover"  style="width:100%">';
                     foreach ($questionIds as $questionId) {
                         // Fetch the actual question from the database
@@ -196,7 +228,7 @@ if (isset($_POST['submit'])) {
                             // Create radio buttons for each question
                             foreach ($radioValues as $value => $label) {
                                 echo '<div class="form-check form-check-inline">';
-                                echo '<input class="form-check-input" type="radio" name="question_' . $questionId . '" value="' . $value . '">';
+                                echo '<input class="form-check-input" type="radio" name="question_' . $questionId . '" value="' . $value . '" required>';
                                 echo '<label class="form-check-label">' . $label . '</label>';
                                 echo '</div>';
                             }
@@ -210,9 +242,20 @@ if (isset($_POST['submit'])) {
                 echo 'No questions found for the active academic year.';
             }
             ?>
-            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="comments-field">
+                <div class="comments-field-title p-2">
+                    <h4>Suggestions:</h4>
+                </div>
+                <div class="col-12">
+                    <textarea name="comments" class="rounded" id="" rows="3" style="width: 100%;"></textarea>
+                </div>
+            </div>
+            <div class="p-2">
+                <button type="submit" name="submit" class="btn btn-primary float-right">Submit</button>
+            </div>
         </form>
-    </div>
+    
         <!-- Add a submit button or other form controls here if needed -->
     </div>
                             

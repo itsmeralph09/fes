@@ -18,6 +18,32 @@ if ($_SESSION['role'] != "student") {
     exit;
 }
 
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
+require '../db/dbconn.php';
+
+
+$fetchActiveAcadYearSQL = "SELECT * FROM acad_yr_tbl WHERE status ='started'";
+$fetchActiveAcadYear = $conn->query($fetchActiveAcadYearSQL);
+
+if ($fetchActiveAcadYear->num_rows > 0) {
+    $rowAcad = $fetchActiveAcadYear->fetch_assoc();
+    $_SESSION['active_acad_yr'] = $rowAcad['acad_id'];
+} else {
+    $_SESSION['no_active_acad_yr'] = "Evaluation for the current academic year and semester has not started!";
+}
+
+
+// Close the database connection
+$conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,8 +70,35 @@ if ($_SESSION['role'] != "student") {
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
     <!-- <script src="../assets/fontawesome-free-6.4.0-web/js/all.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
 </head>
+
+<?php if(isset($success)) { ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '<?php echo $success;?>'
+    });
+});
+</script>
+<?php } ?>
+
+<?php if(isset($error)) { ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: '<?php echo $error;?>'
+    });
+});
+</script>
+<?php } ?>
+
 
 <body id="page-top">
 
@@ -85,64 +138,64 @@ if ($_SESSION['role'] != "student") {
                     
                     <div class="col-12 col-md-12 mb-2">
                         <div class="card card-settings shadow-sm p-4">
-                                                        
+
                             <div class="app-card-body">
                                 <div class="">
                                     <h4 class="app-page-title text-dark">Submit Evaluation</h4>
                                 </div>
                                 <hr>
                                 <div class="">
-                                    <form class="form">
-                            <?php
-                            // Replace with your database connection details
-                            require '../db/dbconn.php';
+                                    <form class="form" action="pre_evaluate.php" method="post">
+                                        <?php
+                                        // Replace with your database connection details
+                                        require '../db/dbconn.php';
 
-                            // SQL query to fetch faculty records
-                            $sql = "SELECT faculty_id, first_name, middle_name, last_name, ext_name, department FROM faculty_tbl";
+                                        // SQL query to fetch faculty records
+                                        $sql = "SELECT faculty_id, first_name, middle_name, last_name, ext_name, department FROM faculty_tbl";
 
-                            $result = $conn->query($sql);
+                                        $result = $conn->query($sql);
 
-                            // Initialize optgroup variables
-                            $icsOptions = '';
-                            $iedOptions = '';
+                                        // Initialize optgroup variables
+                                        $icsOptions = '';
+                                        $iedOptions = '';
 
-                            if ($result->num_rows > 0) {
-                                while ($row = $result->fetch_assoc()) {
-                                    $full_name = $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['ext_name'];
-                                    $option = '<option value="' . $row['faculty_id'] . '">' . $full_name . '</option>';
-                                    
-                                    // Group options based on department
-                                    if ($row['department'] === 'ics') {
-                                        $icsOptions .= $option;
-                                    } elseif ($row['department'] === 'ied') {
-                                        $iedOptions .= $option;
-                                    }
-                                }
-                            }
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                $full_name = $row['first_name'] . ' ' . $row['middle_name'] . ' ' . $row['last_name'] . ' ' . $row['ext_name'];
+                                                $option = '<option value="' . $row['faculty_id'] . '">' . $full_name . '</option>';
+                                                
+                                                // Group options based on department
+                                                if ($row['department'] === 'ics') {
+                                                    $icsOptions .= $option;
+                                                } elseif ($row['department'] === 'ied') {
+                                                    $iedOptions .= $option;
+                                                }
+                                            }
+                                        }
 
-                            // Close the database connection
-                            $conn->close();
-                            ?>
-                                        <div class="row"><!-- Added a row container -->
-                                            <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
-                                                <fieldset class="form-group input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-danger1 text-light">
-                                                            <i class="fas fa-chalkboard-user"></i> <!-- FontAwesome book icon -->
-                                                        </span>
-                                                    </div>
-                                                    <select id="facultySelect" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
-                                                        <option value="" disabled selected>Select a Faculty</option>
-                                                        <optgroup class="font-italic" label="Institute of Computing Studies">
-                                                            <?php echo $icsOptions; ?>
-                                                        </optgroup>
-                                                        <optgroup class="font-italic" label="Institute of Education">
-                                                            <?php echo $iedOptions; ?>
-                                                        </optgroup>
-                                                    </select>
-                                                </fieldset>
-                                            </div>
-                            <?php
+                                        // Close the database connection
+                                        $conn->close();
+                                        ?>
+                                                    <div class="row"><!-- Added a row container -->
+                                                        <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
+                                                            <fieldset class="form-group input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text bg-danger1 text-light">
+                                                                        <i class="fas fa-chalkboard-user"></i> <!-- FontAwesome book icon -->
+                                                                    </span>
+                                                                </div>
+                                                                <select id="facultySelect" name="faculty_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
+                                                                    <option value="" disabled selected>Select a Faculty</option>
+                                                                    <optgroup label="Institute of Computing Studies">
+                                                                        <?php echo $icsOptions; ?>
+                                                                    </optgroup>
+                                                                    <optgroup label="Institute of Education">
+                                                                        <?php echo $iedOptions; ?>
+                                                                    </optgroup>
+                                                                </select>
+                                                            </fieldset>
+                                                        </div>
+                                        <?php
                             // Replace with your database connection details
                             require '../db/dbconn.php';
 
@@ -170,7 +223,7 @@ if ($_SESSION['role'] != "student") {
                                                             <i class="fas fa-sticky-note"></i> <!-- FontAwesome book icon -->
                                                         </span>
                                                     </div>
-                                                    <select id="courseSelect" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" disabled required>
+                                                    <select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" disabled required>
                                                         <?php echo $options; ?>
                                                     </select>
                                                 </fieldset>
@@ -179,7 +232,7 @@ if ($_SESSION['role'] != "student") {
                                         </div>
                                         <hr>
                                         <div class="">
-                                            <button type="submit" class="btn btn-primary float-right">Select</button>
+                                            <button type="submit" name="submit" value="submit" class="btn btn-primary float-right">Select</button>
                                         </div>
                                     </form>
                                 
@@ -189,125 +242,7 @@ if ($_SESSION['role'] != "student") {
 
                         </div><!--//app-card-->
                     </div>
-                    <div class="col-12 col-md-12">
-                        <div class="card card-settings shadow-sm p-4">
-                            <div class="card-body">
-                                <form class="settings-form">
-                                    <div class="mb-3">
-                                        <fieldset class="border p-2 w-100">
-                       <legend  class="w-auto">Rating Legend</legend>
-                       <p>5 = Strongly Agree, 4 = Agree, 3 = Uncertain, 2 = Disagree, 1 = Strongly Disagree</p>
-                    </fieldset><br>
-                                        <label for="setting-input-2" class="form-label text-dark">Attendance</label>
-                                        <table class="table app-table-hover mb-0 text-left">
-                                        <thead>
-                                            <tr>
-                                                <th class="cell">Questions</th>
-                                                <th class="cell">5</th>
-                                                <th class="cell">4</th>
-                                                <th class="cell">3</th>
-                                                <th class="cell">2</th>
-                                                <th class="cell">1</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="cell">Start classes on time.</td>
-                                                <td>
-                                                    <input type="radio" name="answer" id="answer" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer" id="answer" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer" id="answer" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer" id="answer" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer" id="answer" value="yes" required>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="cell">Always attend classes schedule.</td>
-                                                <td>
-                                                    <input type="radio" name="answer1" id="answer1" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer1" id="answer1" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer1" id="answer1" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer1" id="answer1" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer1" id="answer1" value="yes" required>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    </div><br>
-                                    <div class="mb-3">
-                                        <label for="setting-input-3" class="form-label text-dark">Preparedness</label>
-                                        <table class="table app-table-hover mb-0 text-left">
-                                        <thead>
-                                            <tr>
-                                                <th class="cell">Questions</th>
-                                                <th class="cell">5</th>
-                                                <th class="cell">4</th>
-                                                <th class="cell">3</th>
-                                                <th class="cell">2</th>
-                                                <th class="cell">1</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="cell">Mastered the lesson.</td>
-                                                <td>
-                                                    <input type="radio" name="answer2" id="answer2" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer2" id="answer2" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer2" id="answer2" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer2" id="answer2" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer2" id="answer2" value="yes" required>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="cell">Prepare a well-structured lesson.</td>
-                                                <td>
-                                                    <input type="radio" name="answer4" id="answer4" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer4" id="answer4" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer4" id="answer4" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer4" id="answer4" value="yes" required>
-                                                </td>
-                                                <td>
-                                                    <input type="radio" name="answer4" id="answer4" value="yes" required>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </form>
-                            </div><!--//app-card-body-->
-                            
-                        </div><!--//app-card-->
-                    </div>
+
                 </div><!--//row-->
             </div><!--//container-fluid-->
         </div><!--//app-content-->                
@@ -359,7 +294,7 @@ if ($_SESSION['role'] != "student") {
     <script src="../assets/dataTables/jquery-3.5.1.js"></script> 
     <script src="../assets/dataTables/jquery.dataTables.min.js"></script>
 
-    <script>
+<script>
     // Get references to the select elements
     var facultySelect = document.getElementById('facultySelect');
     var courseSelect = document.getElementById('courseSelect');
@@ -369,6 +304,48 @@ if ($_SESSION['role'] != "student") {
         // Enable or disable the course select element based on whether an option is selected in the faculty select
         courseSelect.disabled = !facultySelect.value;
     });
+
+$(document).ready(function() {
+    // When the "Select" button is clicked
+    $("#submitBtn").click(function(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Get the selected faculty_id and course_id
+        var faculty_id = $("#facultySelect").val();
+        var course_id = $("#courseSelect").val();
+
+        // Check if both faculty_id and course_id are selected
+        if (faculty_id !== "" && course_id !== "") {
+            // Make an AJAX request to pre_evaluate.php
+            $.ajax({
+                type: "POST",
+                url: "pre_evaluate.php",
+                data: {
+                    faculty_id: faculty_id,
+                    course_id: course_id
+                },
+                success: function(response) {
+                    // Handle the response from pre_evaluate.php here (if needed)
+                    console.log(response);
+                    
+                    // Redirect to pre_evaluate.php after a successful AJAX request
+                    window.location.href = "pre_evaluate.php";
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors here (if needed)
+                    console.error(xhr.responseText);
+                }
+            });
+        } else {
+            // If faculty_id or course_id is not selected, display an error message
+            alert("Please select both a faculty and a course.");
+        }
+    });
+});
+
+
+
 </script>
 
 </body>

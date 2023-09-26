@@ -63,6 +63,8 @@ if (isset($_POST['submit'])) {
                         $result1 = mysqli_query($conn, $query1);
                         $row1 = mysqli_fetch_assoc($result1);
                         $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
+                        $_SESSION['student_id'] = $row1['student_id'];
+                        $_SESSION['class_id'] = $row1['class_id'];
                         header("Location: ./student/index.php");
                         exit;
                 }
