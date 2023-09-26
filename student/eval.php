@@ -99,7 +99,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['success'] = 'Evaluation submitted successfully!';
         unset($_SESSION['course_id_to_evaluate']);
         unset($_SESSION['faculty_id_to_evaluate']);
-        header('Location: evaluate2.php');
+        header('Location: evaluate.php');
         exit;
     }
 
@@ -248,7 +248,7 @@ if (isset($_POST['submit'])) {
                     <h4>Suggestions:</h4>
                 </div>
                 <div class="col-12">
-                    <textarea name="comments" class="rounded" id="" rows="3" style="width: 100%;"></textarea>
+                    <textarea name="comments" class="rounded" id="" rows="3" style="width: 100%;" required></textarea>
                 </div>
             </div>
             <div class="p-2">
