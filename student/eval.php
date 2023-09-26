@@ -106,7 +106,7 @@ $_SESSION['active_acad_yr'] = 3;
                         </div>
                     </div> -->
                     <div class="col-12 col-md-12">
-                        <div class="card card-settings shadow-sm p-2">
+                        <div class="card card-settings shadow-sm pb-4">
 
 <?php
 
@@ -127,10 +127,10 @@ if (isset($_SESSION['active_acad_yr'])) {
 
     // Create an array to map radio button values to labels
     $radioValues = [
-        4 => 'Excellent',
-        3 => 'Good',
-        2 => 'Fair',
-        1 => 'Poor'
+        4 => 'Strongly Agree',
+        3 => 'Agree',
+        2 => 'Disagree',
+        1 => 'Strongly Disagree'
     ];
 
 // Handle form submission
@@ -168,7 +168,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 
-    <div class="container mt-5">
+    <div class="container mt-4">
         <h4 class="mb-3">Questionnaire</h4>
     <div class="table-responsive overflow-auto">
         <form method="POST" action="">
@@ -189,8 +189,8 @@ if (isset($_POST['submit'])) {
                             $questionText = $questionData['question'];
                             // Display the question as a label
                             echo '<tr>';
-                            echo '<td>' . $questionText . '</td>';
-                            echo '<td>';
+                            echo '<td class="col-md-6 col-sm-8">' . $questionText . '</td>';
+                            echo '<td class="col-md-6 col-sm-4">';
                             // Create a hidden field for the question_id
                             echo '<input type="hidden" name="question_id_' . $questionId . '" value="' . $questionId . '">';
                             // Create radio buttons for each question
