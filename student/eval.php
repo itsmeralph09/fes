@@ -99,7 +99,8 @@ if (isset($_POST['submit'])) {
         $_SESSION['success'] = 'Evaluation submitted successfully!';
         // unset($_SESSION['course_id_to_evaluate']);
         // unset($_SESSION['faculty_id_to_evaluate']);
-        header('Location: post_evaluate.php?eval_id=' . $_GET['eval_id']);
+        // header('Location: post_evaluate.php?eval_id=' . $_GET['eval_id']);
+        header('Location: evaluate.php');
         exit;
     }
 
@@ -135,6 +136,56 @@ if (isset($_POST['submit'])) {
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
     <!-- <script src="../assets/fontawesome-free-6.4.0-web/js/all.min.js"></script> -->
+<style>
+span.text-new{
+    color: #00005c;
+}
+input[type="radio"] {
+  display: none;
+}
+
+label {
+  display: flex;
+  cursor: pointer;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.375em;
+}
+label input {
+  position: absolute;
+  left: -9999px;
+}
+label input:checked + span {
+  background-color: #d6d6e5;
+}
+label input:checked + span:before {
+  box-shadow: inset 0 0 0 0.4375em #00005c;
+}
+label span {
+  display: flex;
+  align-items: center;
+  padding: 0.375em 0.75em 0.375em 0.375em;
+  border-radius: 99em;
+  transition: 0.25s ease;
+}
+label span:hover {
+  background-color: #d6d6e5;
+}
+label span:before {
+  display: flex;
+  flex-shrink: 0;
+  content: "";
+  background-color: #fff;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  margin-right: 0.375em;
+  transition: 0.25s ease;
+  box-shadow: inset 0 0 0 0.125em #00005c;
+}
+
+</style>
 </head>
 
 <body id="page-top">
@@ -204,8 +255,8 @@ if ($resultFetchCourse->num_rows > 0) {
 
         <fieldset class=" p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
            <legend class="w-auto text-gray-ralph font-weight-light">Evaluation Details:</legend>
-           <p class="text-gray-ralph font-weight-bold">Faculty Name: <span class="text-dark font-weight-normal"><?php echo $facultyName; ?></span></p>
-           <p class="text-gray-ralph font-weight-bold">Course: <span class="text-dark font-weight-normal"><?php echo $course; ?></span></p>
+           <p class="text-gray-ralph font-weight-bold">Faculty Name: <span class="font-weight-normal text-new"><?php echo $facultyName; ?></span></p>
+           <p class="text-gray-ralph font-weight-bold">Course: <span class="font-weight-normal text-new"><?php echo $course; ?></span></p>
         </fieldset>
 <!--         <hr>
         <h4 class="mb-3 text-center">Questionnaires:</h4>
@@ -260,8 +311,10 @@ if ($resultFetchCourse->num_rows > 0) {
                             // Create radio buttons for each question
                             foreach ($radioValues as $value => $label) {
                                 echo '<div class="form-check form-check-inline">';
+                                echo '<label class="form-check-label">';
                                 echo '<input class="form-check-input" type="radio" name="question_' . $questionId . '" value="' . $value . '" required>';
-                                echo '<label class="form-check-label">' . $label . '</label>';
+                                echo '<span>' . $label . '</span>'; 
+                                echo '</label>';
                                 echo '</div>';
                             }
                             echo '</td>';
