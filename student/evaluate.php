@@ -37,7 +37,9 @@ if ($fetchActiveAcadYear->num_rows > 0) {
     $rowAcad = $fetchActiveAcadYear->fetch_assoc();
     $_SESSION['active_acad_yr'] = $rowAcad['acad_id'];
 } else {
-    $_SESSION['no_active_acad_yr'] = "Evaluation for the current academic year and semester has not started!";
+    $_SESSION['error'] = "Evaluation for the current academic year and semester is not yet started!";
+    header('Location: evaluate.php');
+    exit;
 }
 
 
@@ -282,17 +284,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     <!-- Custom scripts for all pages-->
     <script src="../assets/js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="../assets/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="../assets/js/demo/chart-area-demo.js"></script>
-    <script src="../assets/js/demo/chart-pie-demo.js"></script>
-
-        <!-- Datatables -->
-    <script src="../assets/dataTables/jquery-3.5.1.js"></script> 
-    <script src="../assets/dataTables/jquery.dataTables.min.js"></script>
 
 <script>
     // Get references to the select elements

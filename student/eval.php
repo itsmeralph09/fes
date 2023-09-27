@@ -25,7 +25,7 @@ require '../db/dbconn.php';
 
 // Check if the active academic year is set in the session
 if (isset($_SESSION['course_id_to_evaluate']) && isset($_SESSION['faculty_id_to_evaluate'])) {
-$acad_id = $_SESSION['active_acad_yr'];
+    $acad_id = $_SESSION['active_acad_yr'];
     // SQL query to fetch questions grouped by criteria_id for the active academic year
     $sql = "SELECT criteria_id, GROUP_CONCAT(question_id ORDER BY question_id ASC SEPARATOR '|') AS grouped_question_ids
             FROM question_tbl
@@ -97,9 +97,9 @@ if (isset($_POST['submit'])) {
         }
     }
         $_SESSION['success'] = 'Evaluation submitted successfully!';
-        unset($_SESSION['course_id_to_evaluate']);
-        unset($_SESSION['faculty_id_to_evaluate']);
-        header('Location: evaluate.php');
+        // unset($_SESSION['course_id_to_evaluate']);
+        // unset($_SESSION['faculty_id_to_evaluate']);
+        header('Location: post_evaluate.php?eval_id=' . $_GET['eval_id']);
         exit;
     }
 
@@ -135,7 +135,6 @@ if (isset($_POST['submit'])) {
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
     <!-- <script src="../assets/fontawesome-free-6.4.0-web/js/all.min.js"></script> -->
-
 </head>
 
 <body id="page-top">
@@ -177,12 +176,42 @@ if (isset($_POST['submit'])) {
 
                     <div class="col-12 col-md-12">
                         <div class="card card-settings shadow-sm pb-4">
+<?php
 
+$sqlFetchFaculty = "SELECT CONCAT_WS(' ', `first_name`, `middle_name`, `last_name`, `ext_name`) AS `faculty_name`
+                   FROM `faculty_tbl`
+                   WHERE `faculty_id` = " . $_SESSION['faculty_id_to_evaluate'];
 
+$resultFetchFaculty = $conn->query($sqlFetchFaculty);
 
+if ($resultFetchFaculty->num_rows > 0) {
+    // Faculty name found
+    $rowFetchFaculty = $resultFetchFaculty->fetch_assoc();
+    $facultyName = $rowFetchFaculty['faculty_name'];
+}
+
+$sqlFetchCourse = "SELECT `course_name`,`course_code` FROM `course_tbl` WHERE `course_id` = ". $_SESSION['course_id_to_evaluate'];
+$resultFetchCourse = $conn->query($sqlFetchCourse);
+
+if ($resultFetchCourse->num_rows > 0) {
+    $rowFetchCourse = $resultFetchCourse->fetch_assoc();
+    $course = $rowFetchCourse['course_code'] . " - " . $rowFetchCourse['course_name'];
+}
+
+?>
 
     <div class="container mt-4">
-        <h4 class="mb-3">Questionnaires:</h4>
+
+        <fieldset class=" p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
+           <legend class="w-auto text-gray-ralph font-weight-light">Evaluation Details:</legend>
+           <p class="text-gray-ralph font-weight-bold">Faculty Name: <span class="text-dark font-weight-normal"><?php echo $facultyName; ?></span></p>
+           <p class="text-gray-ralph font-weight-bold">Course: <span class="text-dark font-weight-normal"><?php echo $course; ?></span></p>
+        </fieldset>
+<!--         <hr>
+        <h4 class="mb-3 text-center">Questionnaires:</h4>
+        <hr> -->
+<fieldset class=" p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
+   <legend class="w-auto text-gray-ralph font-weight-light">Questionnaires:</legend>    
     <div class="table-responsive overflow-auto">
         <form method="POST" action="">
             <?php
@@ -210,8 +239,11 @@ if (isset($_POST['submit'])) {
                         }
 
 
-                    echo '<h5 class="text-success">' . $criteriaIdFetch . '</h5>';
-                    echo '<table class="table table-striped table-hover"  style="width:100%">';
+                    echo '<h5 class="text-success font-weight-bold">' . $criteriaIdFetch . '</h5>';
+                    echo '<table class="table table-hover"  style="width:100%">';
+                    echo '<th class="bg-dark text-light">Questions</th>';
+                    echo '<th class="bg-dark text-light">Ratings</th>';
+                    $num = 1;
                     foreach ($questionIds as $questionId) {
                         // Fetch the actual question from the database
                         $questionSql = "SELECT question FROM question_tbl WHERE question_id = $questionId";
@@ -221,7 +253,7 @@ if (isset($_POST['submit'])) {
                             $questionText = $questionData['question'];
                             // Display the question as a label
                             echo '<tr>';
-                            echo '<td class="col-md-6 col-sm-8">' . $questionText . '</td>';
+                            echo '<td class="col-md-6 col-sm-8">'.$num . ". " . $questionText . '</td>';
                             echo '<td class="col-md-6 col-sm-4">';
                             // Create a hidden field for the question_id
                             echo '<input type="hidden" name="question_id_' . $questionId . '" value="' . $questionId . '">';
@@ -235,6 +267,7 @@ if (isset($_POST['submit'])) {
                             echo '</td>';
                             echo '</tr>';
                         }
+                        $num++;
                     }
                     echo '</table>';
                 }
@@ -243,13 +276,18 @@ if (isset($_POST['submit'])) {
             }
             ?>
             </div>
+        </fieldset>
             <div class="comments-field">
-                <div class="comments-field-title p-2">
+<!--                 <div class="comments-field-title p-2">
                     <h4>Suggestions:</h4>
-                </div>
+                </div> -->
+        <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
+            <legend class="w-auto text-gray-ralph font-weight-light">Suggestions:</legend>  
                 <div class="col-12">
+                    <p class="font-italic">Feel free to leave your suggestions and comments here. Your identity will remain anoymous.</p>
                     <textarea name="comments" class="rounded" id="" rows="3" style="width: 100%;" required></textarea>
                 </div>
+        </fieldset>
             </div>
             <div class="p-2">
                 <button type="submit" name="submit" class="btn btn-primary float-right">Submit</button>
