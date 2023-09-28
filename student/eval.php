@@ -136,56 +136,7 @@ if (isset($_POST['submit'])) {
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
     <!-- <script src="../assets/fontawesome-free-6.4.0-web/js/all.min.js"></script> -->
-<style>
-span.text-new{
-    color: #00005c;
-}
-input[type="radio"] {
-  display: none;
-}
-
-label {
-  display: flex;
-  cursor: pointer;
-  font-weight: 500;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 0.375em;
-}
-label input {
-  position: absolute;
-  left: -9999px;
-}
-label input:checked + span {
-  background-color: #d6d6e5;
-}
-label input:checked + span:before {
-  box-shadow: inset 0 0 0 0.4375em #00005c;
-}
-label span {
-  display: flex;
-  align-items: center;
-  padding: 0.375em 0.75em 0.375em 0.375em;
-  border-radius: 99em;
-  transition: 0.25s ease;
-}
-label span:hover {
-  background-color: #d6d6e5;
-}
-label span:before {
-  display: flex;
-  flex-shrink: 0;
-  content: "";
-  background-color: #fff;
-  width: 1.5em;
-  height: 1.5em;
-  border-radius: 50%;
-  margin-right: 0.375em;
-  transition: 0.25s ease;
-  box-shadow: inset 0 0 0 0.125em #00005c;
-}
-
-</style>
+    <link rel="stylesheet" type="text/css" href="../assets/css/custom-radio.css">
 </head>
 
 <body id="page-top">
@@ -218,7 +169,7 @@ label span:before {
 
 
         <div class="app-content">
-            <div class="">
+            <div class="p-0">
                 
 
                     
@@ -226,7 +177,7 @@ label span:before {
                     
 
                     <div class="col-12 col-md-12">
-                        <div class="card card-settings shadow-sm pb-4">
+                        <div class="card card-settings shadow-sm p-0 pb-4">
 <?php
 
 $sqlFetchFaculty = "SELECT CONCAT_WS(' ', `first_name`, `middle_name`, `last_name`, `ext_name`) AS `faculty_name`
@@ -253,15 +204,15 @@ if ($resultFetchCourse->num_rows > 0) {
 
     <div class="container mt-4">
 
-        <fieldset class=" p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
+        <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
            <legend class="w-auto text-gray-ralph font-weight-light">Evaluation Details:</legend>
-           <p class="text-gray-ralph font-weight-bold">Faculty Name: <span class="font-weight-normal text-new"><?php echo $facultyName; ?></span></p>
-           <p class="text-gray-ralph font-weight-bold">Course: <span class="font-weight-normal text-new"><?php echo $course; ?></span></p>
+           <p class="text-gray-ralph font-weight-bold">Faculty Name: <span class="text-new"><?php echo $facultyName; ?></span></p>
+           <p class="text-gray-ralph font-weight-bold">Course: <span class="text-new"><?php echo $course; ?></span></p>
         </fieldset>
 <!--         <hr>
         <h4 class="mb-3 text-center">Questionnaires:</h4>
         <hr> -->
-<fieldset class=" p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
+<fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
    <legend class="w-auto text-gray-ralph font-weight-light">Questionnaires:</legend>    
     <div class="table-responsive overflow-auto">
         <form method="POST" action="">
@@ -289,11 +240,11 @@ if ($resultFetchCourse->num_rows > 0) {
                             $criteriaIdFetch = null; // or any default value you want
                         }
 
-
-                    echo '<h5 class="text-success font-weight-bold">' . $criteriaIdFetch . '</h5>';
-                    echo '<table class="table table-hover"  style="width:100%">';
-                    echo '<th class="bg-dark text-light">Questions</th>';
-                    echo '<th class="bg-dark text-light">Ratings</th>';
+                    echo '<div class="card mb-2 overflow-auto shadow-sm" style="width: 100%">';
+                    echo '<div class="card card-header pb-0 overflow-auto"><h5 class="text-new font-weight-bold text-center">' . $criteriaIdFetch . '</h5></div>';
+                    echo '<table class="table table-hover overflow-auto" style="width:100%">';
+                    echo '<th class="bg-dark text-light text-center">Questions</th>';
+                    echo '<th class="bg-dark text-light text-center">Ratings</th>';
                     $num = 1;
                     foreach ($questionIds as $questionId) {
                         // Fetch the actual question from the database
@@ -304,7 +255,7 @@ if ($resultFetchCourse->num_rows > 0) {
                             $questionText = $questionData['question'];
                             // Display the question as a label
                             echo '<tr>';
-                            echo '<td class="col-md-6 col-sm-8">'.$num . ". " . $questionText . '</td>';
+                            echo '<td class="col-md-6 col-sm-8 text-dark">'.$num . ". " . $questionText . '</td>';
                             echo '<td class="col-md-6 col-sm-4">';
                             // Create a hidden field for the question_id
                             echo '<input type="hidden" name="question_id_' . $questionId . '" value="' . $questionId . '">';
@@ -313,7 +264,7 @@ if ($resultFetchCourse->num_rows > 0) {
                                 echo '<div class="form-check form-check-inline">';
                                 echo '<label class="form-check-label">';
                                 echo '<input class="form-check-input" type="radio" name="question_' . $questionId . '" value="' . $value . '" required>';
-                                echo '<span>' . $label . '</span>'; 
+                                echo '<span class="user-select-none">' . $label . '</span>'; 
                                 echo '</label>';
                                 echo '</div>';
                             }
@@ -323,6 +274,7 @@ if ($resultFetchCourse->num_rows > 0) {
                         $num++;
                     }
                     echo '</table>';
+                    echo '</div>';
                 }
             } else {
                 echo 'No questions found for the active academic year.';
@@ -392,16 +344,8 @@ if ($resultFetchCourse->num_rows > 0) {
     <!-- Custom scripts for all pages-->
     <script src="../assets/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="../assets/vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="../assets/js/demo/chart-area-demo.js"></script>
-    <script src="../assets/js/demo/chart-pie-demo.js"></script>
-
         <!-- Datatables -->
     <script src="../assets/dataTables/jquery-3.5.1.js"></script> 
-    <script src="../assets/dataTables/jquery.dataTables.min.js"></script> 
 <script>
     // Get all form-check-label elements
     var labels = document.querySelectorAll('.form-check-label');
