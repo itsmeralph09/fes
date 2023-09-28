@@ -136,6 +136,7 @@ if (isset($_POST['submit'])) {
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
     <!-- <script src="../assets/fontawesome-free-6.4.0-web/js/all.min.js"></script> -->
+
     <link rel="stylesheet" type="text/css" href="../assets/css/custom-radio.css">
 </head>
 
@@ -200,20 +201,38 @@ if ($resultFetchCourse->num_rows > 0) {
     $course = $rowFetchCourse['course_code'] . " - " . $rowFetchCourse['course_name'];
 }
 
+$sqlFetchAcad = "SELECT* FROM `acad_yr_tbl` WHERE `acad_id` = ". $_SESSION['active_acad_yr'];
+$resultFetchAcad = $conn->query($sqlFetchAcad);
+
+if ($resultFetchAcad->num_rows > 0) {
+    $rowFetchAcad = $resultFetchAcad->fetch_assoc();
+
+    if ($rowFetchAcad['semester'] == 1) {
+       $sem = "First Semester";
+    } else if($rowFetchAcad['semester'] == 2){
+        $sem = "Second Semester";
+    } else{
+        $sem = "Mid-Year";
+    }
+    $acad = $rowFetchAcad['year_start'] . "-" . $rowFetchAcad['year_end'] . " " . $sem;
+                                                            
+}
+
 ?>
 
     <div class="container mt-4">
 
-        <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
-           <legend class="w-auto text-gray-ralph font-weight-light">Evaluation Details:</legend>
-           <p class="text-gray-ralph font-weight-bold">Faculty Name: <span class="text-new"><?php echo $facultyName; ?></span></p>
-           <p class="text-gray-ralph font-weight-bold">Course: <span class="text-new"><?php echo $course; ?></span></p>
+        <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #00005c;">
+           <legend class="w-auto text-blue-ralph font-weight-bolder">Evaluation Details:</legend>
+           <p class="text-blue-ralph font-weight-bold">Faculty Name: <span class="text-dark font-weight-normal"><?php echo $facultyName; ?></span></p>
+           <p class="text-blue-ralph font-weight-bold">Course: <span class="text-dark font-weight-normal"><?php echo $course; ?></span></p>
+           <p class="text-blue-ralph font-weight-bold">Academic Year & Semester: <span class="text-dark font-weight-normal"><?php echo $acad; ?></span></p>
         </fieldset>
 <!--         <hr>
         <h4 class="mb-3 text-center">Questionnaires:</h4>
         <hr> -->
-<fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
-   <legend class="w-auto text-gray-ralph font-weight-light">Questionnaires:</legend>    
+<fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #00005c;">
+   <legend class="w-auto text-blue-ralph font-weight-bolder">Questionnaires:</legend>    
     <div class="table-responsive overflow-auto">
         <form method="POST" action="">
             <?php
@@ -240,8 +259,8 @@ if ($resultFetchCourse->num_rows > 0) {
                             $criteriaIdFetch = null; // or any default value you want
                         }
 
-                    echo '<div class="card mb-2 overflow-auto shadow-sm" style="width: 100%">';
-                    echo '<div class="card card-header pb-0 overflow-auto"><h5 class="text-new font-weight-bold text-center">' . $criteriaIdFetch . '</h5></div>';
+                    echo '<div class="card mb-2 overflow-auto" style="width: 100%">';
+                    echo '<div class="card-header bg-light pb-0 overflow-auto"><h5 class="text-new font-weight-bold text-center">' . $criteriaIdFetch . '</h5></div>';
                     echo '<table class="table table-hover overflow-auto" style="width:100%">';
                     echo '<th class="bg-dark text-light text-center">Questions</th>';
                     echo '<th class="bg-dark text-light text-center">Ratings</th>';
@@ -261,7 +280,7 @@ if ($resultFetchCourse->num_rows > 0) {
                             echo '<input type="hidden" name="question_id_' . $questionId . '" value="' . $questionId . '">';
                             // Create radio buttons for each question
                             foreach ($radioValues as $value => $label) {
-                                echo '<div class="form-check form-check-inline">';
+                                echo '<div class="form-check form-check-inline p-md-0 m-md-0">';
                                 echo '<label class="form-check-label">';
                                 echo '<input class="form-check-input" type="radio" name="question_' . $questionId . '" value="' . $value . '" required>';
                                 echo '<span class="user-select-none">' . $label . '</span>'; 
@@ -286,14 +305,15 @@ if ($resultFetchCourse->num_rows > 0) {
 <!--                 <div class="comments-field-title p-2">
                     <h4>Suggestions:</h4>
                 </div> -->
-        <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
-            <legend class="w-auto text-gray-ralph font-weight-light">Suggestions:</legend>  
+        <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #00005c;">
+            <legend class="w-auto text-blue-ralph font-weight-bolder">Comments:</legend>  
                 <div class="col-12">
-                    <p class="font-italic">Feel free to leave your suggestions and comments here. Your identity will remain anoymous.</p>
+                    <p class="font-italic">Feel free to leave your suggestions and comments here.</p>
                     <textarea name="comments" class="rounded" id="" rows="3" style="width: 100%;" required></textarea>
                 </div>
         </fieldset>
             </div>
+            <hr class="p-0">
             <div class="p-2">
                 <button type="submit" name="submit" class="btn btn-primary float-right">Submit</button>
             </div>
@@ -344,9 +364,7 @@ if ($resultFetchCourse->num_rows > 0) {
     <!-- Custom scripts for all pages-->
     <script src="../assets/js/sb-admin-2.min.js"></script>
 
-        <!-- Datatables -->
-    <script src="../assets/dataTables/jquery-3.5.1.js"></script> 
-<script>
+<!-- <script>
     // Get all form-check-label elements
     var labels = document.querySelectorAll('.form-check-label');
 
@@ -362,7 +380,66 @@ if ($resultFetchCourse->num_rows > 0) {
             }
         });
     });
+</script> -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select the form element by its ID
+    const form = document.querySelector("form");
+
+    // Select the submit button
+    const submitButton = document.querySelector("button[type='submit']");
+
+    // Function to check if textarea and radio buttons are empty
+    function checkFields() {
+      // Check if the textarea is empty
+      const textarea = document.querySelector("textarea[name='comments']");
+      if (textarea.value.trim() === "") {
+        return true; // Return true if textarea is empty
+      }
+
+      // Check if any radio buttons are selected
+      const radioButtons = document.querySelectorAll("input[type='radio']");
+      for (const radioButton of radioButtons) {
+        if (radioButton.checked) {
+          return false; // Return false if at least one radio button is checked
+        }
+      }
+      
+      return true; // Return true if no radio button is checked
+    }
+
+    // Function to enable or disable the submit button based on field values
+    function updateSubmitButton() {
+      if (checkFields()) {
+        submitButton.disabled = true; // Disable the button if fields are empty
+      } else {
+        submitButton.disabled = false; // Enable the button if fields are filled
+      }
+    }
+
+    // Add an event listener to the textarea for input events
+    const textarea = document.querySelector("textarea[name='comments']");
+    textarea.addEventListener("input", updateSubmitButton);
+
+    // Add an event listener to radio buttons for click events
+    const radioButtons = document.querySelectorAll("input[type='radio']");
+    for (const radioButton of radioButtons) {
+      radioButton.addEventListener("click", updateSubmitButton);
+    }
+
+    // Initial check and state of the submit button
+    updateSubmitButton();
+
+    // Add an event listener to the form on submit
+    form.addEventListener("submit", function (event) {
+      if (checkFields()) {
+        event.preventDefault(); // Prevent form submission if fields are empty
+        alert("Please fill in all required fields before submitting.");
+      }
+    });
+  });
 </script>
+
 </body>
 
 </html>
