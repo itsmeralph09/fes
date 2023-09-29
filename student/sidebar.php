@@ -28,10 +28,14 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="evaluate.php">
-                    <i class="fas fa-fw fa-tasks"></i>
+                    <i class="fa-regular fa-square-check"></i>
                     <span>Evaluate</span></a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link" href="evaluation_submitted.php">
+                    <i class="fas fa-fw fa-tasks"></i>
+                    <span>Submitted Evaluation</span></a>
+            </li>
             
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

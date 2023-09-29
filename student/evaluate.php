@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h2 mb-0 text-gray-800"><i class="fa-solid fa-list-check mr-2"></i>Evaluation</h1>
+                        <h1 class="h2 mb-0 text-gray-800"><i class="fa-regular fa-square-check mr-1"></i>Evaluation</h1>
                     </div>
                     <hr class="mb-3 bg-white1">
 
@@ -181,11 +181,11 @@ document.addEventListener('DOMContentLoaded', function () {
                                                     <div class="row"><!-- Added a row container -->
                                                         <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
                                                             <fieldset class="form-group input-group">
-                                                                <div class="input-group-prepend">
+                                                                <!-- <div class="input-group-prepend">
                                                                     <span class="input-group-text bg-danger1 text-light">
-                                                                        <i class="fas fa-chalkboard-user"></i> <!-- FontAwesome book icon -->
+                                                                        <i class="fas fa-chalkboard-user"></i>
                                                                     </span>
-                                                                </div>
+                                                                </div> -->
                                                                 <select id="facultySelect" name="faculty_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
                                                                     <option value="" disabled selected>Select a Faculty</option>
                                                                     <optgroup label="Institute of Computing Studies">
@@ -220,11 +220,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             ?>
                                             <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
                                                 <fieldset class="form-group input-group">
-                                                    <div class="input-group-prepend">
+                                                    <!-- <div class="input-group-prepend">
                                                          <span class="input-group-text bg-danger1 text-light">
-                                                            <i class="fas fa-sticky-note"></i> <!-- FontAwesome book icon -->
+                                                            <i class="fas fa-sticky-note"></i>
                                                         </span>
-                                                    </div>
+                                                    </div> -->
                                                     <select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" disabled required>
                                                         <?php echo $options; ?>
                                                     </select>

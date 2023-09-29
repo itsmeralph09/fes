@@ -97,8 +97,8 @@ if (isset($_POST['submit'])) {
         }
     }
         $_SESSION['success'] = 'Evaluation submitted successfully!';
-        // unset($_SESSION['course_id_to_evaluate']);
-        // unset($_SESSION['faculty_id_to_evaluate']);
+        unset($_SESSION['course_id_to_evaluate']);
+        unset($_SESSION['faculty_id_to_evaluate']);
         // header('Location: post_evaluate.php?eval_id=' . $_GET['eval_id']);
         header('Location: evaluate.php');
         exit;
@@ -106,8 +106,8 @@ if (isset($_POST['submit'])) {
 
 } else {
     // Handle the case where the active academic year is not set in the session
-    $_SESSION['error'] = 'No faculty and subject selected!';
-    header("Location: evaluate2.php");
+    $_SESSION['error'] = 'Please select faculty and course to evaluate!';
+    header("Location: evaluate.php");
     exit;
 }
 ?>
