@@ -261,7 +261,7 @@ if ($resultFetchAcad->num_rows > 0) {
 
                     echo '<div class="card mb-2 overflow-auto" style="width: 100%">';
                     echo '<div class="card-header bg-light pb-0 overflow-auto"><h5 class="text-new font-weight-bold text-center">' . $criteriaIdFetch . '</h5></div>';
-                    echo '<table class="table table-hover overflow-auto" style="width:100%">';
+                    echo '<table class="table table-hover overflow-auto mb-0" style="width:100%">';
                     echo '<th class="bg-dark text-light text-center">Questions</th>';
                     echo '<th class="bg-dark text-light text-center">Ratings</th>';
                     $num = 1;

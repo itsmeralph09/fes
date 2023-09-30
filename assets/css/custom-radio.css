@@ -20,6 +20,7 @@ label input {
   left: -9999px;
 }
 label input:checked + span {
+  color: #00005c;
   background-color: #d6d6e5;
 }
 label input:checked + span:before {
