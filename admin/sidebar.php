@@ -85,8 +85,8 @@
             <hr class="sidebar-divider d-none d-md-block">
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-bar"></i>
+                <a class="nav-link" href="report.php">
+                    <i class="fas fa-fw fa-chart-pie"></i>
                     <span>Evaluation Report</span></a>
             </li>
 
