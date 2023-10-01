@@ -218,7 +218,7 @@ function updateChart(criteriaNames, avgScores) {
     }
 
     polarAreaChart = new Chart(ctx, {
-        type: 'polarArea',
+        type: 'bar',
         data: data,
         options: {
             scale: {
@@ -257,16 +257,26 @@ function updateChart(criteriaNames, avgScores) {
                 data: { selectedCourse: selectedCourse },
                 success: function (response) {
                     // Parse the JSON response
+                    console.log(response);
                     var data = JSON.parse(response);
 
-                    // Update the chart with the new data
-                    updateChart(data.criteriaNames, data.avgScores);
+
+                    // Check if the classData array is empty
+                    if (data.criteriaNames.length === 0) {
+                        // Display a SweetAlert2 notification for empty data
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'No Data Available',
+                            text: 'There is no data available for the selected course.',
+                        });
+                    } else {
+                        // Update the chart with the new data
+                        updateChart(data.criteriaNames, data.avgScores);
+                    }
                     $('#selectedCourseSpan').text($('#selectedCourse option:selected').text());
 
                 },
                 error: function () {
-                    // Handle the error more gracefully here
-                    // Example using SweetAlert2:
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
@@ -296,8 +306,18 @@ $(document).ready(function () {
                     console.log(response);
                     var data = JSON.parse(response);
 
-                    // Update the donut chart with the new data
-                    updateDonutChart(data.classData);
+                    // Check if the classData array is empty
+                    if (data.classData.length === 0) {
+                        // Display a SweetAlert2 notification for empty data
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'No Data Available',
+                            text: 'There is no data available for the selected course.',
+                        });
+                    } else {
+                        // Update the donut chart with the new data
+                        updateDonutChart(data.classData);
+                    }
                 },
                 error: function () {
                     // Handle the error more gracefully here
@@ -343,13 +363,20 @@ function updateDonutChart(classData) {
                 labels: classNames,
                 datasets: [{
                     data: studentCounts,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)',
-                    ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+            ],
                 }],
             },
             options: {

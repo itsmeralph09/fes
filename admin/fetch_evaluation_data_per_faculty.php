@@ -51,7 +51,7 @@ if (isset($_POST['selectedCourse']) && is_numeric($_POST['selectedCourse'])) {
             }
         } else {
             // Handle the case where no data is found for the selected course
-            echo 'No data available for the selected course';
+            // echo 'No data available for the selected course';
         }
     } else {
         // Handle database query error
