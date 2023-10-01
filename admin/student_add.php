@@ -52,11 +52,15 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    // Check if school ID already exists in the database
-    $checkSchoolIDQuery = "SELECT * FROM student_tbl WHERE school_id = '$school_id'";
-    $checkSchoolIDResult = mysqli_query($conn, $checkSchoolIDQuery);
+    // Check if school ID already exists in the faculty_tbl
+    $checkFacultyQuery = "SELECT * FROM student_tbl WHERE school_id = '$school_id'";
+    $checkFacultyResult = mysqli_query($conn, $checkFacultyQuery);
 
-    if (mysqli_num_rows($checkSchoolIDResult) > 0) {
+    // Check if school ID already exists in the user_tbl
+    $checkUserQuery = "SELECT * FROM user_tbl WHERE school_id = '$school_id'";
+    $checkUserResult = mysqli_query($conn, $checkUserQuery);
+
+    if (mysqli_num_rows($checkFacultyResult) > 0 || mysqli_num_rows($checkUserResult) > 0) {
         $_SESSION['error'] = "School ID already exists!";
         mysqli_close($conn);
         header('Location: new_manage_student.php');

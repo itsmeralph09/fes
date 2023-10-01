@@ -73,7 +73,7 @@ $classOptions = $selectOption->getClassOptions();
 
 
 						<select name="class_id" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
-							<option value="none" selected disabled>Select a class section</option>
+							<option value="" selected disabled>Select a class section</option>
 						<?php echo $classOptions; ?>
 						</select>
 					</div>
