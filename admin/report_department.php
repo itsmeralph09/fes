@@ -1,0 +1,318 @@
+<?php
+session_start();
+if (!isset($_SESSION['school_id'])) {
+    header("Location: ../login.php");
+    $_SESSION['error'] = "You must login first!";
+    exit;
+}
+
+if ($_SESSION['role'] != "admin") {
+    header("Location: ../login.php");
+    $_SESSION['error'] = "You must login first!";
+    exit;
+} elseif ($_SESSION['role'] == "faculty") {
+    header("Location: ../faculty/index.php");
+    exit;
+} elseif ($_SESSION['role'] == "student"){
+    header("Location: ../student/index.php");
+    exit;
+}
+
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PCB FES - Admin Dashboard</title>
+
+<!-- new css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+
+
+    <!-- Custom fonts for this template-->
+    <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../assets/css/custom.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <?php include 'sidebar.php'; ?>
+        <!-- End of Sidebar -->
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <?php include 'topbar.php'; ?>
+                <!-- End of Topbar -->
+
+                <div class="container-fluid justify-content-center">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+<?php
+    require '../db/dbconn.php';
+
+    $acad_id = $_GET['acad_id'];
+    $sql = "SELECT * FROM acad_yr_tbl WHERE acad_id='$acad_id'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $acad_year = $row['year_start']."-".$row['year_end'];
+    $sem = $row['semester'];
+?>
+
+                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-chart-pie mr-1"></i>Evaluation Report</h1>
+                        <h5 class="h5 mb-0 text-dark">Academic Year <?php echo $acad_year; ?>
+                        <?php
+                            if ($sem == 1) {
+                                $sem = "1st Semester";
+                            } else if ($sem == 2) {
+                                $sem = "2nd Semester";
+                            } else{
+                                $sem = "Mid-Year";
+                            }
+                        ?>
+                            <?php echo $sem; ?>
+                        </h5>
+                    </div>
+                    <hr class="mb-3 bg-white1">
+
+                    <div class="container card p-2 mb-4 shadow-sm">
+                        <div class="row">
+                            <div class="col-12 col-md-12">
+                                <div class="row">
+                                </div>
+                                    <div class="container my-3">
+                                        <a href="report.php" class="btn btn-lg btn-secondary p-1"><i class="fa-solid fa-chevron-left mr-1"></i>Back</a>
+                                    </div>
+                                    <hr class="mt-1">
+                                    <div class="container">
+                                    <div class="container p-0">
+                                        <fieldset class="p-3 my-3 w-100 rounded" style="border:2px solid #7b0d0d;">
+                                            <legend class="w-auto text-gray-ralph font-weight-bolder">Select Department:</legend>
+                                            <form method="post" id="evaluationForm">
+                                                <div class="">
+                                                    
+                                                    <select name="selectedDepartment" id="selectedDepartment" class="form-select form-select-lg">
+                                                        <option value="" selected disabled>Select a department</option>
+                                                        <option value="ics">Institue of Computing Studies</option>
+                                                        <option value="ied">Institue of Education</option>
+                                                        
+                                                    </select>
+                                                </div>
+                                                <hr>
+                                                <div class="">
+                                                    <input class="btn btn-primary my-1 float-right" type="button" value="Generate" id="generateButton">
+                                                </div>
+                                            </form>
+                                        </fieldset>
+
+
+                                        
+                                        <fieldset class="p-1 my-1 w-100 rounded" style="border:2px solid #7b0d0d;">
+                                            <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
+                                            <div class="text-center font-italic">You are viewing evaluation report for <span class="font-weight-bold" id="selectedDepartmentSpan">(no department selected)</span> for Academic Year <?php echo $acad_year. " ". $sem; ?></div>
+                                            <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Department Selected</div>
+                                        <div class="d-flex flex-lg-row flex-column py-4">
+                                            
+                                                
+                                                    <div class="col-lg-6 col-12 justify-content-center align-content-center" id="ics-container">
+                                                        
+                                                        
+                                                        <canvas id="polarAreaChart"></canvas>
+                                                        
+                                                    </div>
+                                                    <div class="col-lg-6 col-12" id="ied-container" style="border: 2px dotted pink;">
+                                                        <canvas class="p-1" id="donutChart"></canvas>
+                                                    </div>
+                                                
+                                        </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <?php include 'footer.php'; ?>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button -->
+    <a class="scroll-to-top bg-danger rounded-circle" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal -->
+    <?php include 'logout.php'; ?>
+
+    <!-- JavaScript and Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../assets/js/sb-admin-2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+<script>
+    // Define a variable to store the chart instance
+    var polarAreaChart = null;
+
+    // Function to create the polar area chart
+    function createPolarAreaChart(criteriaData) {
+
+        if (criteriaData.length === 0) {
+            // No data, show the hiddenDiv and hide the chart and table containers
+            $('#hiddenDiv').show();
+            return;
+        }
+
+        // Data is available, hide the hiddenDiv and show the chart and table containers
+        $('#hiddenDiv').hide();
+        $('#selectedDepartmentSpan').text($('#selectedDepartment option:selected').text());
+
+        var labels = [];
+        var data = [];
+
+        // Extract data for labels and percentage scores
+        criteriaData.forEach(function (item) {
+            labels.push(item.criteria);
+            data.push(item.percentageScore);
+        });
+
+        // Destroy the existing chart if it exists
+        if (polarAreaChart !== null) {
+            polarAreaChart.destroy();
+        }
+
+        // Create the polar area chart
+        var ctx = document.getElementById('polarAreaChart').getContext('2d');
+        polarAreaChart = new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                    ],
+                }]
+            },
+            options: {
+                scale: {
+                    ticks: {
+                        beginAtZero: true,
+                        max: 100, // Set the maximum value to 100 (percentage)
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.label + ': ' + context.formattedValue + '%';
+                            }
+                        }
+                    },
+                    // title: {
+                    //     display: true,
+                    //     text: 'Institute of Computing Studies'
+                    // }
+                }
+            }
+        });
+    }
+
+    // Function to fetch data and create chart when the button is clicked
+    $('#generateButton').click(function () {
+        var selectedDepartment = $('#selectedDepartment').val();
+        var selectedAcadYear = <?php echo $_GET['acad_id']; ?>; // Replace with the selected academic year ID
+        fetchData(selectedDepartment, selectedAcadYear);
+
+        // Clear the selected option in the <select> element
+        // $('#selectedDepartment').val('');
+    });
+
+    // Function to send an AJAX request to fetch data from the PHP script
+    function fetchData(selectedDepartment, selectedAcadYear) {
+        $.ajax({
+            url: 'fetch_evaluation_data_per_department.php', // Replace with the correct URL to your PHP script
+            type: 'POST',
+            data: {
+                selectedDepartment: selectedDepartment,
+                selectedAcadYear: selectedAcadYear
+            },
+            success: function (response) {
+                console.log(response);
+                var data = JSON.parse(response);
+                if (data.criteriaData.length > 0) {
+                    // Data is available, create the polar area chart
+                    createPolarAreaChart(data.criteriaData);
+                } else {
+                    // No data, show an error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'No Data',
+                        text: 'No data available for the selected department and academic year.',
+                    });
+                }
+            },
+            error: function () {
+                // Handle the error more gracefully here
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error fetching data',
+                });
+            }
+        });
+    }
+</script>
+
+
+</script>
+</body>
+</html>

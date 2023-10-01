@@ -176,7 +176,7 @@ Swal.fire({
                                     <td>".$row['year_start']. "-" .$row['year_end']. " " .$semester."</td>                              
                                     <td>
                                         
-                                        <a href='report_option.php?acad_id=".$row['acad_id']."' class='btn btn-success' data-toggle='modal'><i class='fa fa-eye m-1'></i>View</a>
+                                        <a href='report_department.php?acad_id=".$row['acad_id']."' class='btn btn-success' data-toggle='modal'><i class='fa fa-eye m-1'></i>View</a>
                                         
                                     </td>
                                 </tr>";
