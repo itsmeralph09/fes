@@ -69,7 +69,7 @@ if (isset($_POST['submit'])) {
         $query = "INSERT INTO student_tbl(school_id, first_name, middle_name, last_name, ext_name, class_id, email) VALUES ('$school_id', '$first_name', '$middle_name', '$last_name', '$ext_name', '$class_id', '$email')";
         $result = mysqli_query($conn, $query);
 
-        $query2 = "INSERT INTO user_tbl(school_id, password, role, status) VALUES ('$school_id', '$hashed_pass', 'faculty', 'active')";
+        $query2 = "INSERT INTO user_tbl(school_id, password, role, status) VALUES ('$school_id', '$hashed_pass', 'student', 'active')";
         $result2 = mysqli_query($conn, $query2);
 
         if (!$result && !$result2) {
