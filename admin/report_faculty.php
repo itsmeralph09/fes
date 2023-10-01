@@ -85,7 +85,7 @@ if (isset($_SESSION['error'])) {
                                 </div>
                                     <div class="container">
                                     <div class="container p-0">
-                                        <fieldset class="p-3 my-3 w-100 rounded" style="border:2px dotted #7b0d0d;">
+                                        <fieldset class="p-3 my-3 w-100 rounded" style="border:2px solid #7b0d0d;">
                                             <legend class="w-auto text-gray-ralph font-weight-bolder">Select Course:</legend>
                                             <form method="post" id="evaluationForm">
                                                 <div class="">
@@ -102,7 +102,7 @@ if (isset($_SESSION['error'])) {
                                                             }
                                                         }
                                                     ?>
-                                                    <select name="selectedCourse" id="selectedCourse" class="form-select form-select-lg">
+                                                    <select name="selectedCourse" id="selectedCourse" class="form-select form-select-lg" required>
                                                         <option value="" selected disabled>Select a course</option>
                                                         <?php foreach ($courses as $courseId => $courseName) { ?>
                                                             <option value="<?php echo $courseId; ?>"><?php echo  $courseName; ?></option>
@@ -116,11 +116,11 @@ if (isset($_SESSION['error'])) {
                                             </form>
                                         </fieldset>
                                         <div class="text-center">
-                                            <h6 class="font-italic">You are viewing reports for course: <span id="selectedCourseSpan"></span></h6>
+                                            <div class="font-italic">You are viewing report for course: <span class="font-weight-bold" id="selectedCourseSpan">(no course selected)</span></div>
                                         </div>
                                         
-                                        <fieldset class="p-1 my-1 w-100 rounded" style="border:2px dotted #7b0d0d;">
-                                            <legend class="w-auto text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
+                                        <fieldset class="p-1 my-1 w-100 rounded" style="border:2px solid #7b0d0d;">
+                                            <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Course Selected</div>
                                         <div class="d-flex flex-lg-row flex-column">
                                             
@@ -218,7 +218,7 @@ function updateChart(criteriaNames, avgScores) {
     }
 
     polarAreaChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'polarArea',
         data: data,
         options: {
             scale: {
@@ -272,8 +272,9 @@ function updateChart(criteriaNames, avgScores) {
                     } else {
                         // Update the chart with the new data
                         updateChart(data.criteriaNames, data.avgScores);
+                        $('#selectedCourseSpan').text($('#selectedCourse option:selected').text());
                     }
-                    $('#selectedCourseSpan').text($('#selectedCourse option:selected').text());
+                    
 
                 },
                 error: function () {
@@ -377,6 +378,7 @@ function updateDonutChart(classData) {
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
             ],
+            borderWidth: 1
                 }],
             },
             options: {

@@ -117,11 +117,10 @@ if (isset($_SESSION['error'])) {
                                             <form method="post" id="evaluationForm">
                                                 <div class="">
                                                     
-                                                    <select name="selectedDepartment" id="selectedDepartment" class="form-select form-select-lg">
+                                                    <select name="selectedDepartment" id="selectedDepartment" class="form-select form-select-lg" required>
                                                         <option value="" selected disabled>Select a department</option>
                                                         <option value="ics">Institue of Computing Studies</option>
                                                         <option value="ied">Institue of Education</option>
-                                                        
                                                     </select>
                                                 </div>
                                                 <hr>
@@ -135,7 +134,7 @@ if (isset($_SESSION['error'])) {
                                         
                                         <fieldset class="p-1 my-1 w-100 rounded" style="border:2px solid #7b0d0d;">
                                             <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
-                                            <div class="text-center font-italic">You are viewing evaluation report for <span class="font-weight-bold" id="selectedDepartmentSpan">(no department selected)</span> for Academic Year <?php echo $acad_year. " ". $sem; ?></div>
+                                            <div class="text-center font-italic">You are viewing evaluation report for Academic Year <?php echo $acad_year. " ". $sem; ?> for department: <span class="font-weight-bold" id="selectedDepartmentSpan">(no department selected)</span></div>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Department Selected</div>
                                         <div class="d-flex flex-lg-row flex-column py-4">
                                             
@@ -279,7 +278,7 @@ if (isset($_SESSION['error'])) {
     // Function to send an AJAX request to fetch data from the PHP script
     function fetchData(selectedDepartment, selectedAcadYear) {
         $.ajax({
-            url: 'fetch_evaluation_data_per_department.php', // Replace with the correct URL to your PHP script
+            url: 'fetch_evaluation_data_per_department.php',
             type: 'POST',
             data: {
                 selectedDepartment: selectedDepartment,
@@ -294,9 +293,9 @@ if (isset($_SESSION['error'])) {
                 } else {
                     // No data, show an error message
                     Swal.fire({
-                        icon: 'error',
+                        icon: 'info',
                         title: 'No Data',
-                        text: 'No data available for the selected department and academic year.',
+                        text: 'There is no data available for the selected department.',
                     });
                 }
             },
