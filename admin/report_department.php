@@ -107,7 +107,7 @@ if (isset($_SESSION['error'])) {
                                 <div class="row">
                                 </div>
                                     <div class="container my-3">
-                                        <a href="report.php" class="btn btn-lg btn-secondary p-1"><i class="fa-solid fa-chevron-left mr-1"></i>Back</a>
+                                        <a href="report.php" class="btn btn-lg btn-secondary p-1"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
                                     </div>
                                     <hr class="mt-1">
                                     <div class="container">
@@ -119,13 +119,13 @@ if (isset($_SESSION['error'])) {
                                                     
                                                     <select name="selectedDepartment" id="selectedDepartment" class="form-select form-select-lg" required>
                                                         <option value="" selected disabled>Select a department</option>
-                                                        <option value="ics">Institue of Computing Studies</option>
-                                                        <option value="ied">Institue of Education</option>
+                                                        <option value="ics">Institue of Computing Studies (ICS)</option>
+                                                        <option value="ied">Institue of Education (IED)</option>
                                                     </select>
                                                 </div>
                                                 <hr>
                                                 <div class="">
-                                                    <input class="btn btn-primary my-1 float-right" type="button" value="Generate" id="generateButton">
+                                                    <button class="btn btn-primary my-1 float-right" type="button" value="Generate" id="generateButton"><i class="fa-solid fa-gears mr-1"></i>Generate</button>
                                                 </div>
                                             </form>
                                         </fieldset>
@@ -134,7 +134,8 @@ if (isset($_SESSION['error'])) {
                                         
                                         <fieldset class="p-1 my-1 w-100 rounded" style="border:2px solid #7b0d0d;">
                                             <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
-                                            <div class="text-center font-italic">You are viewing evaluation report for Academic Year <?php echo $acad_year. " ". $sem; ?> for department: <span class="font-weight-bold" id="selectedDepartmentSpan">(no department selected)</span></div>
+                                            <div class="text-center font-italic">You are viewing evaluation report for Academic Year <?php echo $acad_year. " ". $sem; ?> for department: </div>
+                                            <div class="text-center font-weight-bold" id="selectedDepartmentSpan"></div>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Department Selected</div>
                                         <div class="d-flex flex-lg-row flex-column py-4">
                                             
@@ -145,8 +146,8 @@ if (isset($_SESSION['error'])) {
                                                         <canvas id="polarAreaChart"></canvas>
                                                         
                                                     </div>
-                                                    <div class="col-lg-6 col-12" id="ied-container" style="border: 2px dotted pink;">
-                                                        <canvas class="p-1" id="donutChart"></canvas>
+                                                    <div class="col-lg-6 col-12" id="ied-container">
+                                                        <canvas class="" id="donutChart"></canvas>
                                                     </div>
                                                 
                                         </div>
@@ -256,10 +257,10 @@ if (isset($_SESSION['error'])) {
                             }
                         }
                     },
-                    // title: {
-                    //     display: true,
-                    //     text: 'Institute of Computing Studies'
-                    // }
+                    title: {
+                        display: true,
+                        text: 'Ratings Per criteria'
+                    }
                 }
             }
         });
@@ -311,7 +312,130 @@ if (isset($_SESSION['error'])) {
     }
 </script>
 
+<script>
+// AJAX request when the "Generate" button is clicked
+$(document).ready(function () {
+    $('#generateButton').click(function () {
+        var selectedDepartment = $('#selectedDepartment').val();
+        var selectedAcadYear = <?php echo $_GET['acad_id']; ?>;
 
+        // AJAX request to fetch evaluation summary (total number of students per class)
+        $.ajax({
+            url: 'fetch_total_students_per_department.php', // Replace with the correct URL
+            type: 'POST',
+            data: { 
+                selectedDepartment: selectedDepartment,
+                selectedAcadYear: selectedAcadYear
+            },
+            success: function (response) {
+                // Parse the JSON response
+                console.log(response);
+                var data = JSON.parse(response);
+
+                // Check if the classData array is empty
+                if (data.classData.length === 0) {
+                    // Display a SweetAlert2 notification for empty data
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'No Data Available',
+                        text: 'There is no data available for the selected department.',
+                    });
+                } else {
+                    // Update the donut chart with the new data
+                    updateDonutChart(data.classData);
+                }
+            },
+            error: function () {
+                // Handle the error more gracefully here
+                // Example using SweetAlert2:
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error fetching data',
+                });
+            }
+        });
+    });
+});
+
+// Define a variable to store the chart instance
+var donutChart;
+
+// Function to update the donut chart
+function updateDonutChart(classData) {
+    // Check if there is data to display
+    if (classData.length === 0) {
+        // No data, show the hiddenDiv and hide the chart container
+        $('#hiddenDiv').show();
+        return;
+    }
+
+    // Data is available, hide the hiddenDiv and show the chart container
+    $('#hiddenDiv').hide();
+
+    // Extract class names and student counts
+    var classNames = [];
+    var studentCounts = [];
+    classData.forEach(function (item) {
+        classNames.push(item.className);
+        studentCounts.push(item.totalStudents);
+    });
+
+    // Create the donut chart or update the existing one
+    if (typeof donutChart === 'undefined') {
+        var ctxDonut = document.getElementById('donutChart').getContext('2d');
+        donutChart = new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: classNames,
+                datasets: [{
+                    data: studentCounts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1,
+                }],
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                var label = context.label;
+                                var value = context.raw;
+                                var percentage = ((value / studentCounts.reduce((a, b) => a + b, 0)) * 100).toFixed(2) + '%';
+                                return label + ': ' + value + ' student(s) (' + percentage + ')';
+                            },
+                        },
+                    },title: {
+                        display: true,
+                        text: 'Students Who Evaluated'
+                    }
+                },
+            },
+        });
+    } else {
+        // Update the existing chart with new data
+        donutChart.data.labels = classNames;
+        donutChart.data.datasets[0].data = studentCounts;
+        donutChart.update();
+    }
+}
 </script>
 </body>
 </html>
