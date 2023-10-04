@@ -6,5 +6,5 @@
 - [x] Academic years are set in "Pending" status when created
 - [x] Add start button for academic year
 - [x] Reuse of questionnaires
-- [ ] Sorting per department
+- [x] Sorting per department
 - [ ] Data Visualization
