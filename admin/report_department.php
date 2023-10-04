@@ -107,7 +107,7 @@ if (isset($_SESSION['error'])) {
                                 <div class="row">
                                 </div>
                                     <div class="container my-3">
-                                        <a href="report.php" class="btn btn-lg btn-secondary p-1"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
+                                        <a href="report.php" class="btn btn-secondary p-2"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
                                     </div>
                                     <hr class="mt-1">
                                     <div class="container">

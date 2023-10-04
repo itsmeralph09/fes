@@ -177,7 +177,7 @@ Swal.fire({
                                     $status                  
                                     <td>
                                         
-                                        <a href='report_department.php?acad_id=".$row['acad_id']."' class='btn btn-sm btn-success' data-toggle='modal'><i class='fa fa-eye m-1'></i>View</a>
+                                        <a href='report_faculty.php?acad_id=".$row['acad_id']."&faculty_id=1' class='btn btn-sm btn-success' data-toggle='modal'><i class='fa fa-eye m-1'></i>View</a>
                                         
                                     </td>
                                 </tr>";

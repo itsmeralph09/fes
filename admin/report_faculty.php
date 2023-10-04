@@ -248,13 +248,18 @@ function updateChart(criteriaNames, avgScores) {
     $(document).ready(function () {
         $('#generateButton').click(function () {
             var selectedCourse = $('#selectedCourse').val();
+            var selectedFaculty = <?php echo $_GET['faculty_id']; ?>;
+            var selectedAcadYear = <?php echo $_GET['acad_id']; ?>;
 
 
             // Make an AJAX request to fetch evaluation data
             $.ajax({
                 url: 'fetch_evaluation_data_per_faculty.php', // Replace with the correct URL
                 type: 'POST',
-                data: { selectedCourse: selectedCourse },
+                data: { selectedCourse: selectedCourse,
+                        selectedFaculty: selectedFaculty,
+                        selectedAcadYear: selectedAcadYear
+                     },
                 success: function (response) {
                     // Parse the JSON response
                     console.log(response);

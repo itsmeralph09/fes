@@ -6,37 +6,40 @@ $courseNames = [];
 $criteriaNames = [];
 $avgScores = [];
 $maxScore = 4;
-$facultyId = 1;
+
 
 if (isset($_POST['selectedCourse']) && is_numeric($_POST['selectedCourse'])) {
     $selectedCourse = $_POST['selectedCourse'];
-
+    $selectedFaculty = $_POST['selectedFaculty'];
+    $selectedAcadYear = $_POST['selectedAcadYear'];
     // Validate $selectedCourse to prevent SQL injection
     $selectedCourse = intval($selectedCourse);
 
     // SQL query to retrieve evaluation data for the selected course
     $sql = "
-        SELECT
-            c.course_name,
-            crit.criteria,
-            (AVG(eat.score) / $maxScore) * 100 AS avg_score_percentage
-        FROM
-            eval_tbl AS et
-        INNER JOIN
-            eval_answer_tbl AS eat ON et.eval_id = eat.eval_id
-        INNER JOIN
-            question_tbl AS qt ON eat.question_id = qt.question_id
-        INNER JOIN
-            criteria_tbl AS crit ON qt.criteria_id = crit.criteria_id
-        INNER JOIN
-            course_tbl AS c ON et.course_id = c.course_id
-        WHERE
-            et.faculty_id = $facultyId
-            AND c.course_id = $selectedCourse
-        GROUP BY
-            crit.criteria
-        ORDER BY
-            crit.criteria_order
+            SELECT
+                c.course_name,
+                crit.criteria,
+                (AVG(eat.score) / $maxScore) * 100 AS avg_score_percentage
+            FROM
+                eval_tbl AS et
+            INNER JOIN
+                eval_answer_tbl AS eat ON et.eval_id = eat.eval_id
+            INNER JOIN
+                question_tbl AS qt ON eat.question_id = qt.question_id
+            INNER JOIN
+                criteria_tbl AS crit ON qt.criteria_id = crit.criteria_id
+            INNER JOIN
+                course_tbl AS c ON et.course_id = c.course_id
+            WHERE
+                et.acad_id = $selectedAcadYear
+                AND et.faculty_id = $selectedFaculty
+                AND c.course_id = $selectedCourse
+            GROUP BY
+                c.course_name,
+                crit.criteria
+            ORDER BY
+                crit.criteria_order;
     ";
 
     // Execute the SQL query
