@@ -454,8 +454,5 @@ async function createPolarChart() {
 createPolarChart();
 
 </script>
-
-
 </body>
-
 </html>
