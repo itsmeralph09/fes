@@ -140,12 +140,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     
                     <div class="col-12 col-md-12 mb-2">
                         <div class="card card-settings shadow-sm p-4">
+                            <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
+                                <legend class="w-auto text-gray-ralph font-weight-bolder">Submit Evaluation:</legend>
 
                             <div class="app-card-body">
-                                <div class="">
+                                <!-- <div class="">
                                     <h4 class="app-page-title text-dark">Submit Evaluation</h4>
-                                </div>
-                                <hr>
+                                </div> -->
+                                <!-- <hr> -->
                                 <div class="">
                                     <form class="form" action="pre_evaluate.php" method="post">
                                         <?php
@@ -225,20 +227,21 @@ document.addEventListener('DOMContentLoaded', function () {
                                                             <i class="fas fa-sticky-note"></i>
                                                         </span>
                                                     </div> -->
-                                                    <select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" disabled required>
+                                                    <select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
                                                         <?php echo $options; ?>
                                                     </select>
                                                 </fieldset>
                                             </div>
                                         </div>
                                         </div>
-                                        <hr>
-                                        <div class="">
+                                        
+                                        
                                             <button type="submit" name="submit" value="submit" class="btn btn-primary float-right">Select</button>
-                                        </div>
+                                        
                                     </form>
                                 
                             </div><!--//app-card-body-->
+                            </fieldset>
 
 
 
@@ -286,15 +289,15 @@ document.addEventListener('DOMContentLoaded', function () {
     <script src="../assets/js/sb-admin-2.min.js"></script>
 
 <script>
-    // Get references to the select elements
-    var facultySelect = document.getElementById('facultySelect');
-    var courseSelect = document.getElementById('courseSelect');
+    // // Get references to the select elements
+    // var facultySelect = document.getElementById('facultySelect');
+    // var courseSelect = document.getElementById('courseSelect');
 
-    // Add an event listener to the faculty select element
-    facultySelect.addEventListener('change', function() {
-        // Enable or disable the course select element based on whether an option is selected in the faculty select
-        courseSelect.disabled = !facultySelect.value;
-    });
+    // // Add an event listener to the faculty select element
+    // facultySelect.addEventListener('change', function() {
+    //     // Enable or disable the course select element based on whether an option is selected in the faculty select
+    //     courseSelect.disabled = !facultySelect.value;
+    // });
 
 $(document).ready(function() {
     // When the "Select" button is clicked

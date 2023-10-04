@@ -1,18 +1,18 @@
-<?php 
+<?php
 session_start();
 require './db/dbconn.php';
 
 if (isset($_SESSION['name'])) {
     if ($_SESSION['role'] == "student") {
-    header("Location: ./student/index.php");
-    $_SESSION['error'] = "You must login first!";
-    exit;
+        header("Location: ./student/index.php");
+        $_SESSION['error'] = "You must login first!";
+        exit;
     } elseif ($_SESSION['role'] == "faculty") {
-    header("Location: ./faculty/index.php");
-    exit;
-    } elseif ($_SESSION['role'] == "admin"){
-    header("Location: ./admin/index.php");
-    exit;
+        header("Location: ./faculty/index.php");
+        exit;
+    } elseif ($_SESSION['role'] == "admin") {
+        header("Location: ./admin/index.php");
+        exit;
     }
 }
 
@@ -35,46 +35,46 @@ if (isset($_POST['submit'])) {
 
     if (mysqli_num_rows($result) > 0) {
 
-            $row = mysqli_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($result);
 
-            $hashed_pass = $row['password'];
+        $hashed_pass = $row['password'];
 
-            if (password_verify($password, $hashed_pass)) {
+        if (password_verify($password, $hashed_pass)) {
             $_SESSION['school_id'] = $row['school_id'];
             $_SESSION['role'] = $row['role'];
 
-                // check ng role
-                if ($row['role'] == "admin") {
-                        $query1 = "SELECT * FROM admin_tbl WHERE school_id = '$school_id'";
-                        $result1 = mysqli_query($conn, $query1);
-                        $row1 = mysqli_fetch_assoc($result1);
-                        $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
-                        header("Location: ./admin/index.php");
-                        exit;
-                }elseif ($row['role'] == "faculty") {
-                        $query1 = "SELECT * FROM faculty_tbl WHERE school_id = '$school_id'";
-                        $result1 = mysqli_query($conn, $query1);
-                        $row1 = mysqli_fetch_assoc($result1);
-                        $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
-                        header("Location: ./faculty/index.php");
-                        exit;
-                }else{
-                        $query1 = "SELECT * FROM student_tbl WHERE school_id = '$school_id'";
-                        $result1 = mysqli_query($conn, $query1);
-                        $row1 = mysqli_fetch_assoc($result1);
-                        $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
-                        $_SESSION['student_id'] = $row1['student_id'];
-                        $_SESSION['class_id'] = $row1['class_id'];
-                        header("Location: ./student/index.php");
-                        exit;
-                }
+            // check ng role
+            if ($row['role'] == "admin") {
+                $query1 = "SELECT * FROM admin_tbl WHERE school_id = '$school_id'";
+                $result1 = mysqli_query($conn, $query1);
+                $row1 = mysqli_fetch_assoc($result1);
+                $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
+                header("Location: ./admin/index.php");
+                exit;
+            } elseif ($row['role'] == "faculty") {
+                $query1 = "SELECT * FROM faculty_tbl WHERE school_id = '$school_id'";
+                $result1 = mysqli_query($conn, $query1);
+                $row1 = mysqli_fetch_assoc($result1);
+                $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
+                header("Location: ./faculty/index.php");
+                exit;
+            } else {
+                $query1 = "SELECT * FROM student_tbl WHERE school_id = '$school_id'";
+                $result1 = mysqli_query($conn, $query1);
+                $row1 = mysqli_fetch_assoc($result1);
+                $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
+                $_SESSION['student_id'] = $row1['student_id'];
+                $_SESSION['class_id'] = $row1['class_id'];
+                header("Location: ./student/index.php");
+                exit;
+            }
 
-            } else{
+        } else {
             $error = "Incorrect Password!";
             $_SESSION['error'] = $error;
             header("Location: login.php");
-            }
-    } else{
+        }
+    } else {
         $error = "School ID not found!";
         $_SESSION['error'] = $error;
         header("Location: login.php");
