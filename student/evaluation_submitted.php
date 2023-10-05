@@ -123,13 +123,13 @@ Swal.fire({
             </div>
             <!-- <hr> -->
             <div class="container mb-4 overflow-auto">
-                <table id="myTable" class="table table-bordered nowrap table-striped p-1" style="width: 100%;">
+                <table id="myTable" class="table table-bordered nowrap" style="width: 100%;">
                     <thead class="table-dark">
                         <th>#</th>
                         <th>Faculty</th>
                         <th>Course</th>
                         <th>Date Taken</th>
-                        <th>Action</th>
+                        <!-- <th>Action</th> -->
                     </thead>
                     <tbody>
                         <?php
@@ -176,11 +176,11 @@ Swal.fire({
                                     <td>".$course."</td>
                                    
                                    <td>".$dateOnly."</td>
-                                    <td>
-                                        
-                                        <a href='#stop_".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'>View</a>    
-                                    </td>
+
                                 </tr>";
+                                    // <td> 
+                                    //     <a href='#stop_".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'>View</a>    
+                                    // </td>
                                 // include('acad_yr_edit_delete_modal.php');
                                 
                             $num++;}

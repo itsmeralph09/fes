@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="col-12 col-md-12 mb-2">
                         <div class="card card-settings shadow-sm p-4">
                             <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
-                                <legend class="w-auto text-gray-ralph font-weight-bolder">Submit Evaluation:</legend>
+                                <legend class="w-auto text-gray-ralph font-weight-bolder">Evaluate:</legend>
 
                             <div class="app-card-body">
                                 <!-- <div class="">
