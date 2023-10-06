@@ -29,25 +29,25 @@
             <li class="nav-item">
                 <a class="nav-link" href="acad_yr.php">
                     <i class="fas fa-fw fa-graduation-cap"></i>
-                    <span>Academic Year <span class="text-warning">*</span></span></a>
+                    <span>Academic Year</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="class.php">
                     <i class="fas fa-fw fa-chalkboard-teacher"></i>
-                    <span>Class <span class="text-warning">*</span></span></a>
+                    <span>Class</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="course.php">
                     <i class="fas fa-fw fa-sticky-note"></i>
-                    <span>Course<span class="text-warning">*</span></span></a>
+                    <span>Course</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="criteria.php">
                     <i class="fas fa-fw fa-tasks"></i>
-                    <span>Evaluation Criteria<span class="text-warning">*</span></span></a>
+                    <span>Evaluation Criteria</span></a>
             </li>
 
             <li class="nav-item">
@@ -56,9 +56,24 @@
                     <span>Questionnaires</span></a>
             </li>
 
-
-
-
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-chart-pie"></i>
+                    <span>Evaluation Report</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Report per:</h6>
+                        <a class="collapse-item" href="report.php">Department</a>
+                        <a class="collapse-item" href="report_2.php">Faculty</a>
+                    </div>
+                </div>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -66,29 +81,29 @@
             <li class="nav-item">
                 <a class="nav-link" href="faculty.php">
                     <i class="fas fa-fw fa-person-chalkboard"></i>
-                    <span>Faculties <span class="text-warning">*</span></span></a>
+                    <span>Faculties</span></a>
             </li> 
 
             <li class="nav-item">
                 <a class="nav-link" href="new_manage_student.php">
                     <i class="fas fa-fw fa-person-walking"></i>
-                    <span>Students <span class="text-warning">*</span></span></a>
+                    <span>Students</span></a>
             </li>                      
 
             <li class="nav-item">
                 <a class="nav-link" href="admin.php">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Admin User <span class="text-warning">*</span></span></a>
+                    <span>Admin User</span></a>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
-            <li class="nav-item">
+<!--             <li class="nav-item">
                 <a class="nav-link" href="report.php">
                     <i class="fas fa-fw fa-chart-pie"></i>
                     <span>Evaluation Report</span></a>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Utilities Collapse Menu -->
 <!--             <li class="nav-item">

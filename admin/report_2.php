@@ -86,7 +86,7 @@ if (isset($_SESSION['error'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-chart-pie mr-1"></i>Evaluation Report</h1>
+                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-chart-pie mr-1"></i>Evaluation Report - Faculty</h1>
                     </div>
                     <hr class="mb-3 bg-white1">
 

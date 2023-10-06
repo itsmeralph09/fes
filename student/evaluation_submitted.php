@@ -123,7 +123,7 @@ Swal.fire({
             </div>
             <!-- <hr> -->
             <div class="container mb-4 overflow-auto">
-                <table id="myTable" class="table table-bordered nowrap" style="width: 100%;">
+                <table id="rap" class="table table-bordered nowrap" style="width: 100%;">
                     <thead class="table-dark">
                         <th>#</th>
                         <th>Faculty</th>
@@ -242,7 +242,7 @@ Swal.fire({
     <script>
         $(document).ready(function(){
         //inialize datatable
-        $('#myTable').DataTable({
+        $('#rap').DataTable({
             scrollX: true
         })
         });
