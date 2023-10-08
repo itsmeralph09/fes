@@ -1,2 +1,2 @@
 # ignore sql file
-db/
+db/dbconn.php
