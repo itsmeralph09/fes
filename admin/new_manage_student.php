@@ -124,7 +124,7 @@ Swal.fire({
             <hr>
             <div class="container mb-4 border-danger">
                 <!-- <a href="#addnew" data-toggle="modal" class="btn btn-primary mb-3"><span class="glyphicon glyphicon-plus"></span>New</a> -->
-                <table id="myTable" class="table table-bordered" style="width:100%">
+                <table id="myTable" class="table table-bordered nowrap" style="width:100%">
                     <thead class="table-dark">
                         <th>#</th>
                         <th>Full Name</th>
@@ -234,7 +234,13 @@ Swal.fire({
         });
 
     </script>
+    <script type="text/javascript">
+        setTimeout(function () {
 
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 4000);
+    </script>
 
 </body>
 
