@@ -12,20 +12,37 @@
 				<input type="hidden" class="form-control" name="class_id" value="<?php echo $row['class_id']; ?>">
 				<div class="row form-group">
 					<div class="col-sm-4">
-						<label class="control-label modal-label">Program Code</label>
+						<label class="control-label modal-label">Program</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" name="program_code" value="<?php echo $row['program_code']; ?>">
+<select class="form-control" name="program_ids">
+<?php
+	    $sqlFetchProgram = "SELECT *,
+	    CONCAT(program_code, ' - ', program_name) AS program
+	    FROM program_tbl";
+	    $resultFetchProgram = $conn->query($sqlFetchProgram);
+
+	    if ($resultFetchProgram->num_rows > 0) {
+	        
+	        while ($resultFetchRow = $resultFetchProgram->fetch_assoc()) {
+
+	            $program_ids = $resultFetchRow['program_id'];
+	            $program = $resultFetchRow['program'];
+	            $selected = ($program_ids == $program_id) ? 'selected' : '';
+
+	            echo "<option value='$program_ids' $selected>$program</option>";
+	        }
+	        
+	    } else{
+	    	echo "<option value='none' selected disabled>No class available</option>";
+	    }
+
+?>
+</select>
+
 					</div>
 				</div>
-				<div class="row form-group">
-					<div class="col-sm-4">
-						<label class="control-label modal-label">Program Name</label>
-					</div>
-					<div class="col-sm-8">
-						<textarea type="text" class="form-control" name="program_name" rows="3"><?php echo $row['program_name']; ?></textarea>
-					</div>
-				</div>
+
 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Level or Year</label>

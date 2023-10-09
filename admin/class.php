@@ -143,6 +143,7 @@ Swal.fire({
                             $num = 1;
                             $query = mysqli_query($conn, $sql);
                             while($row = mysqli_fetch_assoc($query)){
+                                $program_id = $row['program_id'];
                                 echo
                                 "<tr>
                                     <td>".$num."</td>

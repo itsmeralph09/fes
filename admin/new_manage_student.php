@@ -140,7 +140,7 @@ Swal.fire({
                                     SELECT student_tbl.*, class_tbl.* 
                                     FROM student_tbl
                                     INNER JOIN class_tbl ON student_tbl.class_id = class_tbl.class_id
-                                    ORDER BY student_tbl.class_id
+                                    ORDER BY student_tbl.school_id
                                 ";
 
                             //use for MySQLi Procedural
@@ -150,6 +150,7 @@ Swal.fire({
 
                             while($row = mysqli_fetch_assoc($query)){
 
+                                $class_id = $row['class_id'];
                                 $class= $row['program_code']." ".$row['level']."-".$row['section'];
 
                                 echo

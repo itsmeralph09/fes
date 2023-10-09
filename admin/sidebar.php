@@ -33,6 +33,12 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link" href="program.php">
+                    <i class="fas fa-fw fa-graduation-cap"></i>
+                    <span>Program</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="class.php">
                     <i class="fas fa-fw fa-chalkboard-teacher"></i>
                     <span>Class</span></a>
