@@ -126,12 +126,18 @@ Swal.fire({
                     <thead class="table-dark">
                         <th>#</th>
                         <th>Class</th>
+                        <th>Program</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
                         <?php
                             require '../db/dbconn.php';
-                            $sql = "SELECT * FROM class_tbl ORDER BY program_code";
+                            $sql = "
+                                    SELECT class_tbl.*, program_tbl.*
+                                    FROM class_tbl
+                                    INNER JOIN program_tbl ON class_tbl.program_id = program_tbl.program_id
+                                    ORDER BY program_tbl.program_id
+                                ";
 
                             //use for MySQLi Procedural
                             $num = 1;
@@ -141,6 +147,7 @@ Swal.fire({
                                 "<tr>
                                     <td>".$num."</td>
                                     <td>".$row['program_code']. " " .$row['level']. "-" .$row['section']."</td>
+                                    <td>".$row['program_name']."</td>
                                     <td>
                                         <a href='#edit_".$row['class_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a>
                                         <a href='#delete_".$row['class_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>

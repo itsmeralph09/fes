@@ -20,6 +20,7 @@ if ($_SESSION['role'] != "admin") {
 
 $program_code = "";
 $program_name = "";
+$program_id = "";
 $level = "";
 $section = "";
 $description = "";
@@ -27,10 +28,22 @@ $description = "";
 if (isset($_POST['submit'])) {
     require '../db/dbconn.php';
 
-    $program_code = $_POST['program_code'];
-    $program_name = $_POST['program_name'];
+    // $program_code = $_POST['program_code'];
+    // $program_name = $_POST['program_name'];
+    $program_id = $_POST['program_id'];
     $level = $_POST['level'];
     $section = $_POST['section'];
+
+    $fetchProgramQuery = "SELECT * FROM program_tbl WHERE program_id = '$program_id'";
+    $fetchProgramResult = mysqli_query($conn, $fetchProgramQuery);
+
+    if (mysqli_num_rows($fetchProgramResult) == 1) {
+        $fetchProgramRow = mysqli_fetch_assoc($fetchProgramResult);
+        $program_code = strtoupper($fetchProgramRow['program_code']);
+        $program_name = ucwords($fetchProgramRow['program_name']);
+    }
+
+
     $class_name = $program_code." ".$level."-".$section;
 
 
@@ -45,7 +58,7 @@ if (isset($_POST['submit'])) {
         exit;
     }
 
-    $query = "INSERT INTO class_tbl (program_code, program_name, level, section) VALUES ('$program_code', '$program_name', '$level', '$section')";
+    $query = "INSERT INTO class_tbl (program_id, program_code, program_name, level, section) VALUES ('$program_id', '$program_code', '$program_name', '$level', '$section')";
     $result = mysqli_query($conn, $query);
 
 

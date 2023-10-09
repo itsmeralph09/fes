@@ -136,7 +136,12 @@ Swal.fire({
                     <tbody>
                         <?php
                             require '../db/dbconn.php';
-                            $sql = "SELECT * FROM student_tbl ORDER BY date_created ASC";
+                            $sql = "
+                                    SELECT student_tbl.*, class_tbl.* 
+                                    FROM student_tbl
+                                    INNER JOIN class_tbl ON student_tbl.class_id = class_tbl.class_id
+                                    ORDER BY student_tbl.class_id
+                                ";
 
                             //use for MySQLi Procedural
                             $num = 1;
@@ -145,12 +150,7 @@ Swal.fire({
 
                             while($row = mysqli_fetch_assoc($query)){
 
-                                $class_id = $row['class_id'];
-
-                                $sql2 = "SELECT * FROM class_tbl WHERE class_id = '$class_id'";
-                                $result2 = mysqli_query($conn, $sql2);
-                                $row1 = mysqli_fetch_assoc($result2);
-                                $class= $row1['program_code']." ".$row1['level']."-".$row1['section'];
+                                $class= $row['program_code']." ".$row['level']."-".$row['section'];
 
                                 echo
                                 "<tr>

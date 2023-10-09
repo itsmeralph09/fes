@@ -25,8 +25,8 @@ $department_id = "";
 if (isset($_POST['submit'])) {
     require '../db/dbconn.php';
 
-    $program_code = strtolower($_POST['program_code']);
-    $program_name = strtolower($_POST['program_name']);
+    $program_code = strtoupper($_POST['program_code']);
+    $program_name = ucwords($_POST['program_name']);
     $department_id = $_POST['department_id'];
     $program = $program_code . " - " . $program_name;
 

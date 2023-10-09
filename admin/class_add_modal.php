@@ -11,12 +11,12 @@
 			<div class="container-fluid">
 
 			<form method="POST" action="class_add.php">
-				<div class="row form-group">
+<!-- 				<div class="row form-group">
 					<div class="col-sm-4">
-						<label class="control-label modal-label">Program Code</label>
+						<label class="control-label modal-label">Program</label>
 					</div>
 					<div class="col-sm-8">
-						<!-- <input type="text" class="form-control" name="program_code" required> -->
+						
 						<select name="program_code" id="mod_dropdown" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
 							<option value="" selected disabled>Select a program</option>
 							<optgroup label="Institute of Computing Studies">
@@ -32,13 +32,34 @@
 							</optgroup>
 						</select>
 					</div>
-				</div>
-				<div class="row form-group">
+				</div> -->
+<!-- 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Program Name</label>
 					</div>
 					<div class="col-sm-8">
 						<textarea type="text" id="mod_textarea" class="form-control" name="program_name" rows="3" readonly></textarea>
+					</div>
+				</div> -->
+				<div class="row form-group">
+					<div class="col-sm-4">
+						<label class="control-label modal-label">Program</label>
+					</div>
+					<div class="col-sm-8">
+						<?php
+						// Include the SelectOption class file
+						require 'fetch_program.php';
+
+						// Create an instance of the SelectOption class
+						$selectOption = new SelectOption();
+
+						// Get the class options
+						$programOptions = $selectOption->getProgramOptions();
+						?>
+						<select name="program_id" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
+							<option value="" selected disabled>Select a program</option>
+							<?php echo $programOptions; ?>
+						</select>
 					</div>
 				</div>
 				<div class="row form-group">
