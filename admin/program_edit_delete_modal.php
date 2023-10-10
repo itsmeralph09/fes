@@ -31,7 +31,7 @@
 						<label class="control-label modal-label">Department</label>
 					</div>
 					<div class="col-sm-8">
-						<select class="form-control" name="program_ids">
+						<select class="form-select" name="program_ids">
 						<?php
 							    $sqlFetchDepartment = "SELECT * FROM department_tbl";
 							    $resultFetchDepartment = $conn->query($sqlFetchDepartment);

@@ -57,7 +57,7 @@
 						<label class="control-label modal-label">Class</label>
 					</div>
 					<div class="col-sm-8">
-<select class="form-control" name="class_ids">
+<select class="form-select" name="class_ids">
 <?php
 
 

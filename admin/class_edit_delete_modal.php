@@ -15,7 +15,7 @@
 						<label class="control-label modal-label">Program</label>
 					</div>
 					<div class="col-sm-8">
-<select class="form-control" name="program_ids">
+<select class="form-select" name="program_ids">
 <?php
 	    $sqlFetchProgram = "SELECT *,
 	    CONCAT(program_code, ' - ', program_name) AS program
