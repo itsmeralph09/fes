@@ -34,7 +34,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="program.php">
-                    <i class="fas fa-fw fa-graduation-cap"></i>
+                    <i class="fas fa-fw fa-chalkboard"></i>
                     <span>Program</span></a>
             </li>
 

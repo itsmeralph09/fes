@@ -28,7 +28,7 @@
 				</div>
 				<div class="row form-group">
 					<div class="col-sm-4">
-						<label class="control-label modal-label">Class</label>
+						<label class="control-label modal-label">Department</label>
 					</div>
 					<div class="col-sm-8">
 						<select class="form-control" name="program_ids">
