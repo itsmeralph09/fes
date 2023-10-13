@@ -74,7 +74,29 @@ if (isset($_SESSION['error'])) {
                 <div class="container-fluid justify-content-center">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+<?php
+    require '../db/dbconn.php';
+
+    $acad_id = $_GET['acad_id'];
+    $sql = "SELECT * FROM acad_yr_tbl WHERE acad_id='$acad_id'";
+    $query = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($query);
+    $acad_year = $row['year_start']."-".$row['year_end'];
+    $sem = $row['semester'];
+?>
                         <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-chart-bar mr-1"></i>Evaluation Report</h1>
+                        <h5 class="h5 mb-0 text-dark">Academic Year <?php echo $acad_year; ?>
+                                                <?php
+                            if ($sem == 1) {
+                                $sem = "1st Semester";
+                            } else if ($sem == 2) {
+                                $sem = "2nd Semester";
+                            } else{
+                                $sem = "Mid-Year";
+                            }
+                        ?>
+                            <?php echo $sem; ?>
+                        </h5>
                     </div>
                     <hr class="mb-3 bg-white1">
 
@@ -83,35 +105,55 @@ if (isset($_SESSION['error'])) {
                             <div class="col-12 col-md-12">
                                 <div class="row">
                                 </div>
+                                    <div class="container my-3">
+                                        <a href="report.php" class="btn btn-secondary p-2"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
+                                    </div>
+                                    <hr class="mt-1">
                                     <div class="container">
                                     <div class="container p-0">
                                         <fieldset class="p-3 my-3 w-100 rounded" style="border:2px solid #7b0d0d;">
                                             <legend class="w-auto text-gray-ralph font-weight-bolder">Select Course:</legend>
                                             <form method="post" id="evaluationForm">
-                                                <div class="">
+                                                
                                                     <?php 
                                                         require '../db/dbconn.php';
                                                         // Get a list of courses for the dropdown
-                                                        $courses = [];
-                                                        $sql = "SELECT course_id, course_code, course_name FROM course_tbl";
-                                                        $result = $conn->query($sql);
-                                                        if ($result->num_rows > 0) {
-                                                            while ($row = $result->fetch_assoc()) {
+                                                        // $courses = [];
+                                                        // $sql = "SELECT course_id, course_code, course_name FROM course_tbl";
+                                                        // $result = $conn->query($sql);
+                                                        // if ($result->num_rows > 0) {
+                                                        //     while ($row = $result->fetch_assoc()) {
+                                                        //         // Use an associative array to store course_id as the key and course_code + course_name as the value
+                                                        //         $courses[$row['course_id']] = $row['course_code'] . ' - ' . $row['course_name'];
+                                                        //     }
+                                                        // }
+
+                                                        $faculties = [];
+                                                        $sql2 = "SELECT faculty_id, CONCAT(first_name,' ',last_name) AS faculty_name, department FROM faculty_tbl";
+                                                        $result2 = $conn->query($sql2);
+                                                        if ($result2->num_rows > 0) {
+                                                            while ($row2 = $result2->fetch_assoc()) {
                                                                 // Use an associative array to store course_id as the key and course_code + course_name as the value
-                                                                $courses[$row['course_id']] = $row['course_code'] . ' - ' . $row['course_name'];
+                                                                $faculties[$row2['faculty_id']] = $row2['faculty_name'];
                                                             }
                                                         }
                                                     ?>
-                                                    <select name="selectedCourse" id="selectedCourse" class="form-select form-select-lg" required>
-                                                        <option value="" selected disabled>Select a course</option>
-                                                        <?php foreach ($courses as $courseId => $courseName) { ?>
-                                                            <option value="<?php echo $courseId; ?>"><?php echo  $courseName; ?></option>
+                                                <div class="mb-2 form-group">
+                                                    <select name="selectedFaculty" id="selectedFaculty" class="form-select form-select-sm form-control" required>
+                                                        <option value="" selected disabled>Select a faculty</option>
+                                                        <?php foreach ($faculties as $facultyId => $facultyName) { ?>
+                                                            <option value="<?php echo $facultyId; ?>"><?php echo  $facultyName; ?></option>
                                                         <?php } ?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <select name="selectedCourse" id="selectedCourse" class="form-select form-select-sm form-control" required disabled>
+                                                        <option value="" selected disabled>Select a faculty first</option>
                                                     </select>
                                                 </div>
                                                 <hr>
                                                 <div class="">
-                                                    <input class="btn btn-primary my-1 float-right" type="button" value="Generate" id="generateButton">
+                                                    <button class="btn btn-primary my-1 float-right" type="button" value="Generate" id="generateButton"><i class="fa-solid fa-gears mr-1"></i>Generate</button>
                                                 </div>
                                             </form>
                                         </fieldset>
@@ -248,7 +290,8 @@ function updateChart(criteriaNames, avgScores) {
     $(document).ready(function () {
         $('#generateButton').click(function () {
             var selectedCourse = $('#selectedCourse').val();
-            var selectedFaculty = <?php echo $_GET['faculty_id']; ?>;
+            // var selectedFaculty = <?php echo $_GET['faculty_id']; ?>;
+            var selectedFaculty = $('#selectedFaculty').val();
             var selectedAcadYear = <?php echo $_GET['acad_id']; ?>;
 
 
@@ -292,6 +335,64 @@ function updateChart(criteriaNames, avgScores) {
 
             });
         });
+
+$('#selectedFaculty').change(function () {
+    var selectedFaculty = $('#selectedFaculty').val();
+    var selectedAcadYear = <?php echo $_GET['acad_id']; ?>;
+    var selectedCourseSelect = $('#selectedCourse');
+
+        if (selectedFaculty === '') {
+            selectedCourseSelect.prop('disabled', true);
+            selectedCourseSelect.val('');
+        } else {
+            selectedCourseSelect.prop('disabled', false);
+        }
+
+    $.ajax({
+        url: 'fetch_course.php',
+        type: 'POST',
+        data: {
+            selectedFaculty: selectedFaculty,
+            selectedAcadYear: selectedAcadYear
+        },
+        success: function (response) {
+            // Parse the JSON response
+            var data = JSON.parse(response);
+
+            // Clear existing course options
+            $('#selectedCourse').empty();
+
+            if ($.isEmptyObject(data)) {
+                var selectedFacultyName = $('#selectedFaculty option:selected').text();
+                selectedCourseSelect.prop('disabled', true);
+                // If data is empty, add a disabled "No available subjects" option
+                $('#selectedCourse').append($('<option>', {
+                    value: '',
+                    text: 'No evaluated subjects available for '+ selectedFacultyName,
+                    disabled: true,
+                    selected: true
+                }));
+            } else {
+                // Add new course options
+                $.each(data, function (courseId, courseName) {
+                    $('#selectedCourse').append($('<option>', {
+                        value: courseId,
+                        text: courseName
+                    }));
+                });
+            }
+        },
+        error: function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error fetching data',
+            });
+        }
+    });
+});
+
+
     });
 
 </script>

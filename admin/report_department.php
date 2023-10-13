@@ -117,7 +117,7 @@ if (isset($_SESSION['error'])) {
                                             <form method="post" id="evaluationForm">
                                                 <div class="">
                                                     
-                                                    <select name="selectedDepartment" id="selectedDepartment" class="form-select form-select-lg" required>
+                                                    <select name="selectedDepartment" id="selectedDepartment" class="form-select form-select-sm form-control" required>
                                                         <option value="" selected disabled>Select a department</option>
                                                         <option value="ics">Institue of Computing Studies (ICS)</option>
                                                         <option value="ied">Institue of Education (IED)</option>

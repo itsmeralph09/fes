@@ -16,7 +16,7 @@ if (isset($_POST['selectedDepartment']) && isset($_POST['selectedAcadYear']) && 
             ct.level,
             ct.section,
             CONCAT(ct.program_code, ' ', ct.level, '-', ct.section) AS class_name,
-            COUNT(et.student_id) AS totalStudents
+            COUNT(DISTINCT et.student_id) AS totalStudents
         FROM
             eval_tbl AS et
         INNER JOIN
