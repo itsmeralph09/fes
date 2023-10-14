@@ -165,18 +165,12 @@ if (isset($_SESSION['error'])) {
                                             <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Course Selected</div>
                                         <div class="d-flex flex-lg-row flex-column">
-                                            
-                                                
-                                                    <div class="col-lg-6 col-12 justify-content-center align-content-center" id="chart-container" style="border: 2px dotted violet;">
-                                                        
-                                                        
+                                                    <div class="col-lg-6 col-12 justify-content-center align-content-center" id="chart-container">
                                                             <canvas class="p-1" id="polarAreaChart"></canvas>
-                                                        
                                                     </div>
-                                                    <div class="col-lg-6 col-12" id="table-container" style="border: 2px dotted pink;">
+                                                    <div class="col-lg-6 col-12" id="table-container">
                                                         <canvas class="p-1" id="donutChart"></canvas>
                                                     </div>
-                                                
                                         </div>
                                         </fieldset>
                                     </div>
