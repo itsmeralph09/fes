@@ -126,10 +126,10 @@ Swal.fire({
                 <table id="rap" class="table table-bordered nowrap" style="width: 100%;">
                     <thead class="table-dark">
                         <th>#</th>
+                        <th>Academic Year</th>
                         <th>Faculty</th>
                         <th>Course</th>
                         <th>Date Taken</th>
-                        <!-- <th>Action</th> -->
                     </thead>
                     <tbody>
                         <?php
@@ -172,6 +172,7 @@ Swal.fire({
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
+                                    <td>".$row['acad_id']."</td>
                                     <td>".$facultyName."</td>
                                     <td>".$course."</td>
                                    

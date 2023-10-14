@@ -38,7 +38,7 @@ if ($fetchActiveAcadYear->num_rows > 0) {
     $_SESSION['active_acad_yr'] = $rowAcad['acad_id'];
 } else {
     $_SESSION['error'] = "Evaluation for the current academic year and semester is not yet started!";
-    header('Location: evaluate.php');
+    header('Location: index.php');
     exit;
 }
 
