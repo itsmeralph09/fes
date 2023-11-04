@@ -140,17 +140,31 @@ if (isset($_SESSION['error'])) {
                                         <div class="d-flex flex-lg-row flex-column py-4">
                                             
                                                 
-                                                    <div class="col-lg-6 col-12 justify-content-center align-content-center" id="ics-container">
-                                                        
-                                                        
+                                                    <div class="col-lg-6 col-12" id="ics-container">
                                                         <canvas id="polarAreaChart"></canvas>
-                                                        
                                                     </div>
+
                                                     <div class="col-lg-6 col-12" id="ied-container">
                                                         <canvas class="" id="donutChart"></canvas>
                                                     </div>
+
+                                                    
                                                 
                                         </div>
+                                        <div class="col-lg-7 col-12" id="dataTable">
+                                                        <table id="evaluationTable" class="table table-striped table-bordered" style="width:100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Criteria</th>
+                                                                    <th>Total Score</th>
+                                                                    <th>Number of Answers</th>
+                                                                    <th>Percentage Score</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -291,7 +305,19 @@ if (isset($_SESSION['error'])) {
                 if (data.criteriaData.length > 0) {
                     // Data is available, create the polar area chart
                     createPolarAreaChart(data.criteriaData);
+                    // Data is available, create the DataTable
+                    var table = $('#evaluationTable').DataTable({
+                        data: data.criteriaData,
+                        columns: [
+                            { data: 'criteria' },
+                            { data: 'totalScore' },
+                            { data: 'numAnswers' },
+                            { data: 'percentageScore' }
+                        ]
+                    });
                 } else {
+                    // No data, show a message or hide the table
+                    $('#evaluationTable').hide();
                     // No data, show an error message
                     Swal.fire({
                         icon: 'info',
