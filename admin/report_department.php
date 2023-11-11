@@ -151,8 +151,9 @@ if (isset($_SESSION['error'])) {
                                                     
                                                 
                                         </div>
-                                        <div class="col-lg-7 col-12" id="dataTable">
-                                                        <table id="evaluationTable" class="table table-striped table-bordered" style="width:100%">
+                                        <div class="d-flex flex-lg-row flex-column py-2" id="dataTableScore" style="border: 2px solid red;">
+                                                        <div class="col-lg-8 col-12" style="border: 2px solid red;">
+                                                        <table id="evaluationTable" class="table table-striped table-bordered" style="width:100%" >
                                                             <thead>
                                                                 <tr>
                                                                     <th>Criteria</th>
@@ -164,7 +165,12 @@ if (isset($_SESSION['error'])) {
 
                                                             <tbody></tbody>
                                                         </table>
-                                                    </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-12 text-center" style="border: 2px solid red;">
+                                                            <h2>SCORE</h2>
+                                                        </div>
+                                        </div>
+                                        
                                         </fieldset>
                                     </div>
                                 </div>
@@ -306,6 +312,7 @@ if (isset($_SESSION['error'])) {
                     // Data is available, create the polar area chart
                     createPolarAreaChart(data.criteriaData);
                     // Data is available, create the DataTable
+                    $('#dataTableScore').show();
                     var table = $('#evaluationTable').DataTable({
                         data: data.criteriaData,
                         columns: [
@@ -317,7 +324,7 @@ if (isset($_SESSION['error'])) {
                     });
                 } else {
                     // No data, show a message or hide the table
-                    $('#evaluationTable').hide();
+                    $('#dataTableScore').hide();
                     // No data, show an error message
                     Swal.fire({
                         icon: 'info',

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 14, 2023 at 01:35 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- Host: localhost
+-- Generation Time: Nov 11, 2023 at 03:17 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,19 +34,19 @@ CREATE TABLE `acad_yr_tbl` (
   `semester` int(11) NOT NULL,
   `status` varchar(50) NOT NULL,
   `is_default` varchar(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `acad_yr_tbl`
 --
 
 INSERT INTO `acad_yr_tbl` (`acad_id`, `year_start`, `year_end`, `semester`, `status`, `is_default`) VALUES
-(1, 2023, 2024, 1, 'closed', 'no'),
-(2, 2023, 2024, 2, 'closed', 'no'),
-(3, 2023, 2024, 3, 'started', 'yes'),
-(19, 2024, 2025, 1, 'pending', 'no'),
-(20, 2024, 2025, 2, 'pending', 'no'),
-(21, 2024, 2025, 3, 'pending', 'no');
+(1, '2023', '2024', 1, 'closed', 'no'),
+(2, '2023', '2024', 2, 'closed', 'no'),
+(3, '2023', '2024', 3, 'started', 'yes'),
+(19, '2024', '2025', 1, 'pending', 'no'),
+(20, '2024', '2025', 2, 'pending', 'no'),
+(21, '2024', '2025', 3, 'pending', 'no');
 
 -- --------------------------------------------------------
 
@@ -63,7 +63,7 @@ CREATE TABLE `admin_tbl` (
   `ext_name` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_tbl`
@@ -85,7 +85,7 @@ CREATE TABLE `class_tbl` (
   `program_name` varchar(255) NOT NULL,
   `level` int(2) NOT NULL,
   `section` varchar(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `class_tbl`
@@ -107,7 +107,7 @@ CREATE TABLE `course_tbl` (
   `course_id` int(11) NOT NULL,
   `course_code` varchar(10) NOT NULL,
   `course_name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `course_tbl`
@@ -129,7 +129,7 @@ CREATE TABLE `criteria_tbl` (
   `criteria_id` int(11) NOT NULL,
   `criteria` varchar(100) NOT NULL,
   `criteria_order` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `criteria_tbl`
@@ -150,7 +150,7 @@ CREATE TABLE `department_tbl` (
   `department_id` int(11) NOT NULL,
   `department_code` varchar(20) NOT NULL,
   `department_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `department_tbl`
@@ -171,7 +171,7 @@ CREATE TABLE `eval_answer_tbl` (
   `eval_id` varchar(30) NOT NULL,
   `question_id` int(11) NOT NULL,
   `score` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `eval_answer_tbl`
@@ -213,7 +213,7 @@ CREATE TABLE `eval_tbl` (
   `department` varchar(10) NOT NULL,
   `comments` varchar(255) NOT NULL,
   `date_taken` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `eval_tbl`
@@ -240,7 +240,7 @@ CREATE TABLE `faculty_tbl` (
   `email` varchar(100) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
   `department` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `faculty_tbl`
@@ -262,7 +262,7 @@ CREATE TABLE `program_tbl` (
   `program_code` varchar(20) NOT NULL,
   `program_name` varchar(255) NOT NULL,
   `department_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `program_tbl`
@@ -285,7 +285,7 @@ CREATE TABLE `question_tbl` (
   `question` varchar(255) NOT NULL,
   `acad_id` int(11) NOT NULL,
   `criteria_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `question_tbl`
@@ -326,7 +326,7 @@ CREATE TABLE `student_tbl` (
   `class_id` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student_tbl`
@@ -349,7 +349,7 @@ CREATE TABLE `user_tbl` (
   `password` varchar(255) NOT NULL,
   `role` varchar(50) NOT NULL,
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_tbl`
