@@ -26,10 +26,18 @@
                 Navigation
             </div>
 
+            
+
             <li class="nav-item">
                 <a class="nav-link" href="acad_yr.php">
                     <i class="fas fa-fw fa-graduation-cap"></i>
                     <span>Academic Year</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="department.php">
+                    <i class="fas fa-fw fa-building-columns"></i>
+                    <span>Department</span></a>
             </li>
 
             <li class="nav-item">

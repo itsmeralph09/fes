@@ -152,7 +152,7 @@ if (isset($_SESSION['error'])) {
                                                 
                                         </div>
                                         <div class="d-flex flex-lg-row flex-column py-2" id="dataTableScore" style="border: 2px solid red;">
-                                                        <div class="col-lg-8 col-12" style="border: 2px solid red;">
+                                                        <!-- <div class="col-lg-8 col-12" style="border: 2px solid green;">
                                                         <table id="evaluationTable" class="table table-striped table-bordered" style="width:100%" >
                                                             <thead>
                                                                 <tr>
@@ -165,9 +165,10 @@ if (isset($_SESSION['error'])) {
 
                                                             <tbody></tbody>
                                                         </table>
-                                                        </div>
-                                                        <div class="col-lg-4 col-12 text-center" style="border: 2px solid red;">
-                                                            <h2>SCORE</h2>
+                                                        </div> -->
+                                                        <div class="col-lg-4 col-12 text-center" style="border: 2px solid pink;">
+                                                            <h2>Total Evaluation Score</h2>
+                                                            <h4>90</h4>
                                                         </div>
                                         </div>
                                         
@@ -311,20 +312,9 @@ if (isset($_SESSION['error'])) {
                 if (data.criteriaData.length > 0) {
                     // Data is available, create the polar area chart
                     createPolarAreaChart(data.criteriaData);
-                    // Data is available, create the DataTable
-                    $('#dataTableScore').show();
-                    var table = $('#evaluationTable').DataTable({
-                        data: data.criteriaData,
-                        columns: [
-                            { data: 'criteria' },
-                            { data: 'totalScore' },
-                            { data: 'numAnswers' },
-                            { data: 'percentageScore' }
-                        ]
-                    });
+                    
                 } else {
-                    // No data, show a message or hide the table
-                    $('#dataTableScore').hide();
+                    
                     // No data, show an error message
                     Swal.fire({
                         icon: 'info',
