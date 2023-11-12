@@ -147,28 +147,23 @@ if (isset($_SESSION['error'])) {
                                                     <div class="col-lg-6 col-12" id="ied-container">
                                                         <canvas class="" id="donutChart"></canvas>
                                                     </div>
-
-                                                    
-                                                
                                         </div>
-                                        <div class="d-flex flex-lg-row flex-column py-2" id="dataTableScore" style="border: 2px solid red;">
-                                                        <!-- <div class="col-lg-8 col-12" style="border: 2px solid green;">
-                                                        <table id="evaluationTable" class="table table-striped table-bordered" style="width:100%" >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Criteria</th>
-                                                                    <th>Total Score</th>
-                                                                    <th>Number of Answers</th>
-                                                                    <th>Percentage Score</th>
-                                                                </tr>
-                                                            </thead>
-
-                                                            <tbody></tbody>
-                                                        </table>
-                                                        </div> -->
-                                                        <div class="col-lg-4 col-12 text-center" style="border: 2px solid pink;">
-                                                            <h2>Total Evaluation Score</h2>
-                                                            <h4>90</h4>
+                                        <div class="d-flex flex-lg-row flex-column py-2" id="dataTableScore" style="border: 2px dotted red;">
+                                                        
+                                                        <div class="col-lg-4 col-12 text-center p-2 rounded m-1">
+                                                            <h5>Total Evaluation Score</h5>
+                                                            <!-- <div class="text-center font-weight-bold py-2" id="selectedDepartmentSpan1"></div> -->
+                                                            <!-- <div class="text-center font-italic text-warning" id="hiddenDiv1">No Department Selected</div> -->
+                                                            <div class="text-center font-weight-bolder font-italic h1" id="departmentScore"></div>
+                                                            
+                                                        </div>
+                                                        <div class="col-lg-4 col-12 text-center p-2 rounded m-1" style="border:2px dotted #7b0d0d;">
+                                                            <h5>Evaluation Score Breakdown</h5>
+                                                            <div class="text-center" id="scoreBreakDown"></div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-12 text-center p-2 rounded m-1">
+                                                            <h5>Student Class Breakdown</h5>
+                                                            <div class="text-center" id="studentCountBreakDown"></div>
                                                         </div>
                                         </div>
                                         
@@ -228,6 +223,20 @@ if (isset($_SESSION['error'])) {
         // Data is available, hide the hiddenDiv and show the chart and table containers
         $('#hiddenDiv').hide();
         $('#selectedDepartmentSpan').text($('#selectedDepartment option:selected').text());
+        $('#hiddenDiv1').hide();
+        $('#selectedDepartmentSpan1').text($('#selectedDepartment option:selected').text());
+
+        function calculateAverage(array) {
+            var total = 0;
+            var count = 0;
+
+            array.forEach(function(item, index) {
+                total += item;
+                count++;
+            });
+
+            return total / count;
+        }
 
         var labels = [];
         var data = [];
@@ -241,6 +250,17 @@ if (isset($_SESSION['error'])) {
         // Destroy the existing chart if it exists
         if (polarAreaChart !== null) {
             polarAreaChart.destroy();
+        }
+        // console.log(calculateAverage(data));
+        $('#departmentScore').text(calculateAverage(data) + '%');
+
+        var scoreBreakDown = document.getElementById('scoreBreakDown');
+        // Clear the content of the div
+        scoreBreakDown.innerHTML = "";
+
+        // Using a for loop to iterate through the array and append each element with a line break to the div
+        for (let i = 0; i < data.length; i++) {
+            scoreBreakDown.innerHTML += labels[i] + ' ' + data[i] + '%<br>';
         }
 
         // Create the polar area chart
@@ -295,6 +315,8 @@ if (isset($_SESSION['error'])) {
 
         // Clear the selected option in the <select> element
         // $('#selectedDepartment').val('');
+        // Data is available, hide the hiddenDiv and show the chart and table containers
+        
     });
 
     // Function to send an AJAX request to fetch data from the PHP script
@@ -403,6 +425,16 @@ function updateDonutChart(classData) {
         classNames.push(item.className);
         studentCounts.push(item.totalStudents);
     });
+
+    
+    var studentCountBreakDown = document.getElementById('studentCountBreakDown');
+    // Clear the content of the div
+    studentCountBreakDown.innerHTML = "";
+
+    // Using a for loop to iterate through the array and append each element with a line break to the div
+    for (let i = 0; i < classNames.length; i++) {
+        studentCountBreakDown.innerHTML += classNames[i] + ': ' + studentCounts[i] + ' student(s)<br>';
+    }
 
     // Create the donut chart or update the existing one
     if (typeof donutChart === 'undefined') {
