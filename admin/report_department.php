@@ -126,7 +126,7 @@ if (isset($_SESSION['error'])) {
                                                 <hr>
                                                 <div class="float-right">
                                                     <button class="btn btn-primary my-1" type="button" value="Generate" id="generateButton"><i class="fa-solid fa-gears mr-1"></i>Generate</button>
-                                                    <button class="btn btn-success my-1" type="button" id="printButton"><i class="fa-solid fa-print mr-1"></i>Print</button>
+                                                    <button class="btn btn-success my-1" type="button" id="printButton" disabled><i class="fa-solid fa-print mr-1"></i>Print</button>
                                                 </div>
                                             </form>
                                         </fieldset>
@@ -135,7 +135,7 @@ if (isset($_SESSION['error'])) {
                                         
                                         <fieldset class="p-1 my-1 w-100 rounded" id="printPage" style="border:2px solid #7b0d0d;">
                                             <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
-                                            <div class="text-center font-italic">You are viewing evaluation report for Academic Year <?php echo $acad_year. " ". $sem; ?> for department: </div>
+                                            <div class="text-center font-italic">You are viewing evaluation report for Academic Year <span class="font-weight-bold"><?php echo $acad_year. " ". $sem; ?> </span> for department: </div>
                                             <div class="text-center font-weight-bold" id="selectedDepartmentSpan"></div>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Department Selected</div>
                                         <div class="d-flex flex-lg-row flex-column py-4" id="chartDiv1">
@@ -262,6 +262,7 @@ if (isset($_SESSION['error'])) {
         for (let i = 0; i < data.length; i++) {
             scoreBreakDown.innerHTML += labels[i] + ' ' + data[i] + '%<br>';
         }
+        document.getElementById('printButton').disabled = false;
 
         // Create the polar area chart
         var ctx = document.getElementById('polarAreaChart').getContext('2d');
@@ -315,8 +316,7 @@ if (isset($_SESSION['error'])) {
 
         // Clear the selected option in the <select> element
         // $('#selectedDepartment').val('');
-        // Data is available, hide the hiddenDiv and show the chart and table containers
-        
+
     });
 
     // Function to send an AJAX request to fetch data from the PHP script
@@ -496,16 +496,19 @@ function updateDonutChart(classData) {
 document.getElementById('printButton').addEventListener('click', function() {
     var contentToPrint = document.getElementById('printPage').outerHTML;
     
-    var printWindow = window.open('', 'Print Window', 'width=800,height=800');
+    // Create a new window to render the content for printing
+    var printWindow = window.open('', '_blank', 'width=800,height=800');
     printWindow.document.open();
-    printWindow.document.write('<html><head><title>Faculty Evaluation System</title><style>#chartDiv1 { display: none; }</style></head><body>' + contentToPrint + '</body></html>');
+    printWindow.document.write('<html><head><title>Faculty Evaluation System</title><style>#chartDiv1 { display: none; }</style></head><body><center>Faculty Evaluation System</center>' + contentToPrint + '</body></html');
     printWindow.document.close();
 
     setTimeout(function() {
         printWindow.document.title = "Faculty Evaluation System"; // Set the title after the document is closed
         printWindow.print();
+        printWindow.close(); // Close the window after printing
     }, 500);
 });
+
 </script>
 </body>
 </html>
