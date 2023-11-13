@@ -124,20 +124,21 @@ if (isset($_SESSION['error'])) {
                                                     </select>
                                                 </div>
                                                 <hr>
-                                                <div class="">
-                                                    <button class="btn btn-primary my-1 float-right" type="button" value="Generate" id="generateButton"><i class="fa-solid fa-gears mr-1"></i>Generate</button>
+                                                <div class="float-right">
+                                                    <button class="btn btn-primary my-1" type="button" value="Generate" id="generateButton"><i class="fa-solid fa-gears mr-1"></i>Generate</button>
+                                                    <button class="btn btn-success my-1" type="button" id="printButton"><i class="fa-solid fa-print mr-1"></i>Print</button>
                                                 </div>
                                             </form>
                                         </fieldset>
 
 
                                         
-                                        <fieldset class="p-1 my-1 w-100 rounded" style="border:2px solid #7b0d0d;">
+                                        <fieldset class="p-1 my-1 w-100 rounded" id="printPage" style="border:2px solid #7b0d0d;">
                                             <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
                                             <div class="text-center font-italic">You are viewing evaluation report for Academic Year <?php echo $acad_year. " ". $sem; ?> for department: </div>
                                             <div class="text-center font-weight-bold" id="selectedDepartmentSpan"></div>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Department Selected</div>
-                                        <div class="d-flex flex-lg-row flex-column py-4">
+                                        <div class="d-flex flex-lg-row flex-column py-4" id="chartDiv1">
                                             
                                                 
                                                     <div class="col-lg-6 col-12" id="ics-container">
@@ -148,22 +149,21 @@ if (isset($_SESSION['error'])) {
                                                         <canvas class="" id="donutChart"></canvas>
                                                     </div>
                                         </div>
-                                        <div class="d-flex flex-lg-row flex-column py-2" id="dataTableScore" style="border: 2px dotted red;">
+                                        <div class="d-flex flex-lg-row flex-column py-2 justify-content-center" id="dataTableScore">
                                                         
-                                                        <div class="col-lg-4 col-12 text-center p-2 rounded m-1">
-                                                            <h5>Total Evaluation Score</h5>
-                                                            <!-- <div class="text-center font-weight-bold py-2" id="selectedDepartmentSpan1"></div> -->
-                                                            <!-- <div class="text-center font-italic text-warning" id="hiddenDiv1">No Department Selected</div> -->
+                                                        <div class="card shadow-sm border-left-danger col-lg-4 col-12 text-center p-2 rounded">
+                                                            <h5 class="text-gray-ralph">Total Evaluation Score</h5>
+                                                            
                                                             <div class="text-center font-weight-bolder font-italic h1" id="departmentScore"></div>
                                                             
                                                         </div>
-                                                        <div class="col-lg-4 col-12 text-center p-2 rounded m-1" style="border:2px dotted #7b0d0d;">
-                                                            <h5>Evaluation Score Breakdown</h5>
-                                                            <div class="text-center" id="scoreBreakDown"></div>
+                                                        <div class="card shadow-sm border-left-danger col-lg-3 col-12 text-center p-2 rounded mx-lg-4 my-sm-2 my-lg-0">
+                                                            <h5 class="text-gray-ralph">Evaluation Score Breakdown</h5>
+                                                            <div class="text-center font-italic" id="scoreBreakDown"></div>
                                                         </div>
-                                                        <div class="col-lg-4 col-12 text-center p-2 rounded m-1">
-                                                            <h5>Student Class Breakdown</h5>
-                                                            <div class="text-center" id="studentCountBreakDown"></div>
+                                                        <div class="card shadow-sm border-left-danger col-lg-4 col-12 text-center p-2 rounded">
+                                                            <h5 class="text-gray-ralph">Class Submission Breakdown</h5>
+                                                            <div class="text-center font-italic" id="studentCountBreakDown"></div>
                                                         </div>
                                         </div>
                                         
@@ -433,7 +433,7 @@ function updateDonutChart(classData) {
 
     // Using a for loop to iterate through the array and append each element with a line break to the div
     for (let i = 0; i < classNames.length; i++) {
-        studentCountBreakDown.innerHTML += classNames[i] + ': ' + studentCounts[i] + ' student(s)<br>';
+        studentCountBreakDown.innerHTML += classNames[i] + ': ' + studentCounts[i] + ' student(s) submitted<br>';
     }
 
     // Create the donut chart or update the existing one
@@ -491,6 +491,21 @@ function updateDonutChart(classData) {
         donutChart.update();
     }
 }
+</script>
+<script>
+document.getElementById('printButton').addEventListener('click', function() {
+    var contentToPrint = document.getElementById('printPage').outerHTML;
+    
+    var printWindow = window.open('', 'Print Window', 'width=800,height=800');
+    printWindow.document.open();
+    printWindow.document.write('<html><head><title>Faculty Evaluation System</title><style>#chartDiv1 { display: none; }</style></head><body>' + contentToPrint + '</body></html>');
+    printWindow.document.close();
+
+    setTimeout(function() {
+        printWindow.document.title = "Faculty Evaluation System"; // Set the title after the document is closed
+        printWindow.print();
+    }, 500);
+});
 </script>
 </body>
 </html>
