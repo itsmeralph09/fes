@@ -152,25 +152,44 @@ if (isset($_SESSION['error'])) {
                                                     </select>
                                                 </div>
                                                 <hr>
-                                                <div class="">
-                                                    <button class="btn btn-primary my-1 float-right" type="button" value="Generate" id="generateButton"><i class="fa-solid fa-gears mr-1"></i>Generate</button>
+                                                <div class="float-right">
+                                                    <button class="btn btn-primary my-1" type="button" value="Generate" id="generateButton"><i class="fa-solid fa-gears mr-1"></i>Generate</button>
+                                                    <button class="btn btn-success my-1" type="button" id="printButton" disabled><i class="fa-solid fa-print mr-1"></i>Print</button>
                                                 </div>
                                             </form>
                                         </fieldset>
-                                        <div class="text-center">
-                                            <div class="font-italic">You are viewing report for course: <span class="font-weight-bold" id="selectedCourseSpan">(no course selected)</span></div>
-                                        </div>
                                         
-                                        <fieldset class="p-1 my-1 w-100 rounded" style="border:2px solid #7b0d0d;">
+                                        
+                                        <fieldset class="p-1 my-1 w-100 rounded" id="printPage" style="border:2px solid #7b0d0d;">
                                             <legend class="w-auto text-center text-gray-ralph font-weight-bolder">Evaluation Summary</legend>
+                                            <div class="text-center p-2">
+                                                <div class="font-italic">You are viewing report for Academic Year <span class="font-weight-bold"><?php echo $acad_year. " ". $sem; ?> </span> for course: <span class="font-weight-bold" id="selectedCourseSpan">(no course selected)</span> for faculty <span class="font-weight-bold" id="selectedFacultySpan">(no selected faculty)</span></div>
+                                            </div>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Course Selected</div>
-                                        <div class="d-flex flex-lg-row flex-column">
+                                        <div class="d-flex flex-lg-row flex-column py-4" id="chartDiv1">
                                                     <div class="col-lg-6 col-12 justify-content-center align-content-center" id="chart-container">
                                                             <canvas class="p-1" id="polarAreaChart"></canvas>
                                                     </div>
                                                     <div class="col-lg-6 col-12" id="table-container">
                                                         <canvas class="p-1" id="donutChart"></canvas>
                                                     </div>
+                                        </div>
+                                        <div class="d-flex flex-lg-row flex-column py-2 justify-content-center" id="dataTableScore">
+                                                        
+                                                        <div class="card shadow-sm border-left-danger col-lg-4 col-12 text-center p-2 rounded">
+                                                            <h5 class="text-gray-ralph">Total Evaluation Score</h5>
+                                                            
+                                                            <div class="text-center font-weight-bolder font-italic h1" id="facultyScore"></div>
+                                                            
+                                                        </div>
+                                                        <div class="card shadow-sm border-left-danger col-lg-3 col-12 text-center p-2 rounded mx-lg-4 my-sm-2 my-lg-0">
+                                                            <h5 class="text-gray-ralph">Evaluation Score Breakdown</h5>
+                                                            <div class="text-center font-italic" id="scoreBreakDown"></div>
+                                                        </div>
+                                                        <div class="card shadow-sm border-left-danger col-lg-4 col-12 text-center p-2 rounded">
+                                                            <h5 class="text-gray-ralph">Class Submission Breakdown</h5>
+                                                            <div class="text-center font-italic" id="studentCountBreakDown"></div>
+                                                        </div>
                                         </div>
                                         </fieldset>
                                     </div>
@@ -315,6 +334,24 @@ function updateChart(criteriaNames, avgScores) {
                         // Update the chart with the new data
                         updateChart(data.criteriaNames, data.avgScores);
                         $('#selectedCourseSpan').text($('#selectedCourse option:selected').text());
+                        $('#selectedFacultySpan').text($('#selectedFaculty option:selected').text());
+                        // Calculate the total score
+                        var totalScore = calculateAverage(data.avgScores);
+                        // console.log(totalScore);
+                        // Set the text of the facultyScore
+                        $('#facultyScore').text(totalScore.toFixed(2) + '%'); // Assuming 2 decimal places
+                        // Get the scoreBreakDown element
+                        var scoreBreakDown = document.getElementById('scoreBreakDown');
+
+                        // Clear the content of the div
+                        scoreBreakDown.innerHTML = "";
+
+                        // Loop through the data and append each element with a line break to the div
+                        for (let i = 0; i < data.criteriaNames.length; i++) {
+                            scoreBreakDown.innerHTML += data.criteriaNames[i] + ' ' + data.avgScores[i] + '%<br>';
+                        }
+                        document.getElementById('printButton').disabled = false;
+
                     }
                     
 
@@ -328,7 +365,25 @@ function updateChart(criteriaNames, avgScores) {
                 }
 
             });
+function calculateAverage(scores) {
+    // Filter out any non-numeric values or undefined elements
+    var filteredScores = scores.filter(function(score) {
+        return !isNaN(score) && score !== undefined;
+    });
+
+    if (filteredScores.length === 0) {
+        return 0; // If there are no valid scores
+    }
+
+    var total = filteredScores.reduce(function(acc, val) {
+        return acc + parseFloat(val); // Parsing scores to float
+    }, 0);
+
+    return total / filteredScores.length;
+}
+
         });
+        
 
 $('#selectedFaculty').change(function () {
     var selectedFaculty = $('#selectedFaculty').val();
@@ -455,6 +510,14 @@ function updateDonutChart(classData) {
         studentCounts.push(item.totalStudents);
     });
 
+    var studentCountBreakDown = document.getElementById('studentCountBreakDown');
+    // Clear the content of the div
+    studentCountBreakDown.innerHTML = "";
+
+    // Using a for loop to iterate through the array and append each element with a line break to the div
+    for (let i = 0; i < classNames.length; i++) {
+        studentCountBreakDown.innerHTML += classNames[i] + ': ' + studentCounts[i] + ' student(s) submitted<br>';
+    }
     // Create the donut chart or update the existing one
     if (typeof donutChart === 'undefined') {
         var ctxDonut = document.getElementById('donutChart').getContext('2d');
@@ -507,6 +570,24 @@ function updateDonutChart(classData) {
         donutChart.update();
     }
 }
+</script>
+<script>
+document.getElementById('printButton').addEventListener('click', function() {
+    var contentToPrint = document.getElementById('printPage').outerHTML;
+    
+    // Create a new window to render the content for printing
+    var printWindow = window.open('', '_blank', 'width=800,height=800');
+    printWindow.document.open();
+    printWindow.document.write('<html><head><title>Faculty Evaluation System</title><style>#chartDiv1 { display: none; }</style></head><body><center>Faculty Evaluation System</center>' + contentToPrint + '</body></html');
+    printWindow.document.close();
+
+    setTimeout(function() {
+        printWindow.document.title = "Faculty Evaluation System"; // Set the title after the document is closed
+        printWindow.print();
+        printWindow.close(); // Close the window after printing
+    }, 500);
+});
+
 </script>
 </body>
 </html>
