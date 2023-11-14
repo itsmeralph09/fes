@@ -15,12 +15,13 @@
 <?php
     require '../db/dbconn.php';
     
-	$sqlQueryComments = "SELECT comments, CONCAT(acad_id, '-', faculty_id, '-', course_id, '-', class_id) AS evalID
+	$sqlQueryComments = "SELECT student_id, comments, CONCAT(acad_id, '-', faculty_id, '-', course_id, '-', class_id) AS evalID
         FROM eval_tbl
         WHERE CONCAT(acad_id, '-', faculty_id, '-', course_id, '-', class_id) = '" . $row['evalID'] . "'";
 
     $queryComments = mysqli_query($conn, $sqlQueryComments);
     while($rowQueryComments = mysqli_fetch_assoc($queryComments)){
+      $random_id = rand(1,9999).$rowQueryComments['student_id'];
 ?>
 
         <div class="card mb-2 rounded">
@@ -29,7 +30,7 @@
 
             <div class="d-flex justify-content-between">
               <div class="d-flex flex-row align-items-center">
-                <img src="../assets/img/admin.png" alt="avatar" width="25"
+                <img src="https://api.multiavatar.com/<?php echo $random_id; ?>.svg" alt="avatar" width="25"
                   height="25" />
                 <p class="small mb-0 ms-2 ml-2">Anonymous</p>
               </div>
