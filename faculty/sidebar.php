@@ -27,9 +27,9 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="evaluate.php">
-                    <i class="fas fa-fw fa-chart-bar"></i>
-                    <span>Evaluation Result</span></a>
+                <a class="nav-link" href="evaluation_list.php">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>Evaluation List</span></a>
             </li>
 
             
