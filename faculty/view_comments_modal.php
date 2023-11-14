@@ -1,9 +1,9 @@
 <!-- View Comments -->
-<div class="modal fade" id="view_comments<?php echo $row['evalID']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="view_comments<?php echo $row['evalID']; ?>" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            	<div class="row float-left ml-2"><h4 class="modal-title float-left" id="myModalLabel">Comments</h4></div>
+            	<div class="row float-left ml-2"><h6 class="modal-title float-left" id="myModalLabel">Comments for <span class="font-italic"><?php echo $row['course']; ?></span></h6></div>
                 <div class="row float-right mr-2"><button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true">&times;</button></div>
             </div>
             <div class="modal-body">
@@ -45,7 +45,7 @@
 </div>          	
 			</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Close</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Close</button>
             </div>
 
         </div>
