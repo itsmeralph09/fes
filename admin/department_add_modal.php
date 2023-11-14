@@ -10,7 +10,7 @@
             <div class="modal-body">
 			<div class="container-fluid">
 
-			<form method="POST" action="program_add.php">
+			<form method="POST" action="department_add.php">
 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Department Code</label>
@@ -25,7 +25,7 @@
 						<label class="control-label modal-label">Department Name</label>
 					</div>
 					<div class="col-sm-8">
-						<textarea type="text" id="mod_textarea" class="form-control" name="program_name" rows="4"></textarea>
+						<textarea type="text" id="mod_textarea" class="form-control" name="department_name" rows="4"></textarea>
 					</div>
 				</div>
 <!--  				<div class="row form-group">
