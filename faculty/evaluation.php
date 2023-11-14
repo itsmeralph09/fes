@@ -87,90 +87,102 @@ if (isset($_SESSION['error'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-<?php
-    require '../db/dbconn.php';
-
-    $acad_id = $_GET['acad_id'];
-    $sql = "SELECT * FROM acad_yr_tbl WHERE acad_id='$acad_id'";
-    $query = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($query);
-    $acad_year = $row['year_start']."-".$row['year_end'];
-    $sem = $row['semester'];
-?>
-
-                        <h1 class="h2 mb-0 text-gray-800"><i class="fas fa-fw fa-list mr-1"></i>Evaluation List</h1>
-                        <h5 class="h5 mb-0 text-dark">Academic Year <?php echo $acad_year; ?>
-                        <?php
-                            if ($sem == 1) {
-                                $sem = "1st Semester";
-                            } else if ($sem == 2) {
-                                $sem = "2nd Semester";
-                            } else{
-                                $sem = "Mid-Year";
-                            }
-                        ?>
-                            <?php echo $sem; ?>
-                        </h5>
+                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-chart-pie mr-1"></i>Evaluation List</h1>
                     </div>
                     <hr class="mb-3 bg-white1">
 
 <div class="container card p-2 mb-4 shadow-sm">
-                          
+
+
+<?php if(isset($success)) { ?>
+<script>
+Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: '<?php echo $success;?>'
+})
+</script>
+<?php } ?>
+
+<?php if(isset($error)) { ?>
+<script>
+Swal.fire({
+  icon: 'error',
+  title: 'Error!',
+  text: '<?php echo $error;?>'
+})
+</script>
+<?php } ?> 
+
+                            
     <div class="row">
-        <div class="col-12 col-md-12 overflow-auto" style="width: 100%;">
+        <div class="col-12 col-md-12">
             <div class="row">
             </div>
-                <div class="container my-3">
-                    <a href="evaluation.php" class="btn btn-secondary p-2"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
-                </div>
-            <hr class="mt-1">
-            <div class="container mb-4 overflow-auto">
-                <table id="rap" class="table table-bordered nowrap" style="width: 100%;">
+            <div class="container mb-3 mt-3">
+                <!-- <a href="#addnew" data-toggle="modal" class="btn btn-primary"><i class="fa-solid fa-plus mr-1"></i>New</a> -->
+            </div>
+            <!-- <hr> -->
+            <div class="container mb-4 mt-4">
+                <table id="myTable" class="table table-bordered nowrap" style="width:100%">
                     <thead class="table-dark">
                         <th>#</th>
-                        <th>Course</th>
-                        <th>Program</th>
-                        <th>No. of Evaluation</th>
-                        <th>Date Taken</th>
+                        <th>Academic Year & Semester</th>
+                        <!-- <th>Semester</th> -->
+                        
+                        <!-- <th>Default</th> -->
+                        <th>Status</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
                         <?php
                             require '../db/dbconn.php';
-                            $logged_in_faculty_id = $_SESSION['faculty_id'];
-                            $acad_id = $_GET['acad_id'];
-
-                            $sql = "
-                                SELECT CONCAT(et.acad_id,'-', et.faculty_id,'-', et.course_id,'-', et.class_id) as evalID, et.acad_id, et.faculty_id, et.course_id,et.class_id, et.date_taken, CONCAT(ct.course_code,' - ', ct.course_name) AS course, CONCAT(clt.program_code, ' ', clt.level, '-',clt.section) AS program, COUNT(*) AS submission_count
-                                FROM eval_tbl et
-                                INNER JOIN course_tbl ct ON et.course_id = ct.course_id
-                                INNER JOIN class_tbl clt ON et.class_id = clt.class_id
-                                WHERE et.faculty_id = '$logged_in_faculty_id' AND et.acad_id = '$acad_id'
-                                GROUP BY et.class_id, et.course_id
-                                ORDER BY et.course_id ASC, et.date_taken DESC
-                                ";
+                            $sql = "SELECT * FROM acad_yr_tbl ORDER BY year_start ASC";
 
                             //use for MySQLi Procedural
                             $num = 1;
                             $query = mysqli_query($conn, $sql);
                             while($row = mysqli_fetch_assoc($query)){
 
-                                $datetime  = new DateTime($row['date_taken']);
-                                $dateOnly = $datetime->format("d-M-Y");
+                                if ($row['status'] == "started") {
+                                    $status = "<td><div class='row'><div class='col text-center'><span class='badge badge-success rounded-sm badge-lg'><span class='h6'>".ucfirst($row['status'])."</span></span></div></div></td>";
+                                }else if ($row['status'] == "pending"){
+                                    $status = "<td><div class='row'><div class='col text-center'><span class='badge badge-warning rounded-sm badge-lg'><span class='h6'>".ucfirst($row['status'])."</span></span></div></div></td>";
+                                }else{
+                                    $status = "<td><div class='row'><div class='col text-center'><span class='badge badge-secondary rounded-sm badge-lg'><span class='h6'>".ucfirst($row['status'])."</span></span></div></div></td>";
+                                }
+
+                                if ($row['semester'] == 1) {
+                                    $semester = "1st Semester";
+                                } else if ($row['semester'] == 2){
+                                    $semester = "2nd Semester";
+                                } else{
+                                    $semester = "Mid Year";
+                                }
+
+                                if ($row['is_default'] == "yes") {
+                                    $is_default = "<div class='row'><div class='col text-center'><i class='fa-solid fa-circle-check text-primary fa-xl'></i></div></div>";
+                                } else{
+                                    $is_default = "<div class='row'><div class='col text-center'><i class='fa-solid fa-circle-xmark fa-xl'></i></div></div>";
+                                }
+
+                                $acad_id = $row['acad_id'];
+                                $sql2 = "SELECT * FROM question_tbl WHERE acad_id = '$acad_id'";
+                                $query2 = mysqli_query($conn, $sql2);
+                                $questionCount = mysqli_num_rows($query2);
 
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
-                                    <td>".$row['course']."</td>
-                                    <td>".$row['program']."</td>
-                                    <td class='text-center'>".$row['submission_count']."</td>
-                                    <td>".$dateOnly."</td>
+                                    <td>".$row['year_start']. "-" .$row['year_end']. " " .$semester."</td>
+                                    $status                  
                                     <td>
-                                        <a href='#view_comments".$row['evalID']."' class='btn btn-success' data-toggle='modal'><i class='fa fa-comment m-1'></i>View Comments</a>
+                                        
+                                        <a href='evaluation_list.php?acad_id=".$row['acad_id']."' class='btn btn-sm btn-success' data-toggle='modal'><i class='fa fa-eye m-1'></i>View</a>
+                                        
                                     </td>
-
                                 </tr>";
-                                include('view_comments_modal.php');
+                                
                             $num++;}
 
                         ?>
@@ -229,14 +241,12 @@ if (isset($_SESSION['error'])) {
     <script>
         $(document).ready(function(){
         //inialize datatable
-        $('#rap').DataTable({
+        $('#myTable').DataTable({
+            // responsive: true
             scrollX: true
         })
         });
-
     </script>
 
-
 </body>
-
 </html>
