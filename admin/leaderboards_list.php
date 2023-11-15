@@ -97,7 +97,7 @@ if (isset($_SESSION['error'])) {
     $sem = $row['semester'];
 ?>
 
-                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-chart-pie mr-1"></i>Evaluation Report</h1>
+                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-crown mr-1"></i>Leaderboards</h1>
                         <h5 class="h5 mb-0 text-dark">Academic Year <?php echo $acad_year; ?>
                         <?php
                             if ($sem == 1) {
@@ -120,7 +120,7 @@ if (isset($_SESSION['error'])) {
             <div class="row">
             </div>
                                     <div class="container my-3">
-                                        <a href="report.php" class="btn btn-secondary p-2"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
+                                        <a href="leaderboards.php" class="btn btn-secondary p-2"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
                                     </div>
                                     <hr class="mt-1">
             <div class="container mb-4 mt-4">
