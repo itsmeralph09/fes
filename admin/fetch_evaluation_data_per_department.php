@@ -41,7 +41,7 @@ if (isset($_POST['selectedDepartment']) && isset($_POST['selectedAcadYear']) && 
 
             // Calculate the percentage score
             $maxScore = 4; // Maximum score for each question
-            $percentageScore = ($totalScore / ($maxScore * $numAnswers)) * 100;
+            $percentageScore = ($totalScore / ($numAnswers));
 
             $criteriaData[] = [
                 'criteria' => $criteria,

@@ -240,27 +240,32 @@ if (isset($_SESSION['error'])) {
 
         var labels = [];
         var data = [];
+        var numAnswer = [];
 
         // Extract data for labels and percentage scores
         criteriaData.forEach(function (item) {
             labels.push(item.criteria);
             data.push(item.percentageScore);
+            numAnswer.push(item.numAnswers);
         });
+        console.log(numAnswer);
 
         // Destroy the existing chart if it exists
         if (polarAreaChart !== null) {
             polarAreaChart.destroy();
         }
         // console.log(calculateAverage(data));
-        $('#departmentScore').text(calculateAverage(data) + '%');
+        $('#departmentScore').text(calculateAverage(data).toFixed(2) + '');
 
         var scoreBreakDown = document.getElementById('scoreBreakDown');
         // Clear the content of the div
         scoreBreakDown.innerHTML = "";
+        var percentScore;
 
         // Using a for loop to iterate through the array and append each element with a line break to the div
         for (let i = 0; i < data.length; i++) {
-            scoreBreakDown.innerHTML += labels[i] + ' ' + data[i] + '%<br>';
+            percentScore = (data[i] / (4 * numAnswer[i])) * numAnswer[i] * 100;
+            scoreBreakDown.innerHTML += labels[i] + ' ' + data[i].toFixed(2) + ' (' + percentScore + '%)<br>';
         }
         document.getElementById('printButton').disabled = false;
 
@@ -295,7 +300,7 @@ if (isset($_SESSION['error'])) {
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                return context.label + ': ' + context.formattedValue + '%';
+                                return context.label + ': ' + context.formattedValue;
                             }
                         }
                     },
