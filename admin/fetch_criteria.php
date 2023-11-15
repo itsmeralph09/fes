@@ -1,10 +1,14 @@
 <?php
+require '../db/dbconn.php';
+
 class SelectOption {
     private $db;
 
     public function __construct() {
-        // Connect to the MySQL database
-        $this->db = mysqli_connect('localhost', 'root', '', 'fes_db');
+        // Use the database connection from dbconn.php
+        global $conn;
+        $this->db = $conn;
+
         if (!$this->db) {
             die('Failed to connect to MySQL: ' . mysqli_connect_error());
         }
