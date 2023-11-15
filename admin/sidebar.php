@@ -152,7 +152,13 @@
                     </div>
                 </div>
             </li>
-            <hr class="sidebar-divider mb-1">
+            <li class="nav-item">
+                <a class="nav-link" href="leaderboards.php">
+                    <i class="fas fa-fw fa-crown"></i>
+                    <span>Leaderboards</span></a>
+            </li>
+
+            <hr class="sidebar-divider my-1">
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

@@ -450,7 +450,7 @@ $('#selectedFaculty').change(function () {
 $(document).ready(function () {
     $('#generateButton').click(function () {
         var selectedCourse = $('#selectedCourse').val();
-        var facultyId = 1;
+        var facultyId = $('#selectedFaculty').val();
 
             // AJAX request to fetch evaluation summary (total number of students per class)
             $.ajax({
