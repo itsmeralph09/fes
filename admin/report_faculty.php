@@ -289,7 +289,7 @@ function updateChart(criteriaNames, avgScores) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return context.label + ': ' + context.formattedValue + '%';
+                            return context.label + ': ' + context.formattedValue;
                         }
                     }
                 }
@@ -339,7 +339,7 @@ function updateChart(criteriaNames, avgScores) {
                         var totalScore = calculateAverage(data.avgScores);
                         // console.log(totalScore);
                         // Set the text of the facultyScore
-                        $('#facultyScore').text(totalScore.toFixed(2) + '%'); // Assuming 2 decimal places
+                        $('#facultyScore').text(totalScore.toFixed(2)); // Assuming 2 decimal places
                         // Get the scoreBreakDown element
                         var scoreBreakDown = document.getElementById('scoreBreakDown');
 
@@ -348,7 +348,7 @@ function updateChart(criteriaNames, avgScores) {
 
                         // Loop through the data and append each element with a line break to the div
                         for (let i = 0; i < data.criteriaNames.length; i++) {
-                            scoreBreakDown.innerHTML += data.criteriaNames[i] + ' ' + data.avgScores[i] + '%<br>';
+                            scoreBreakDown.innerHTML += data.criteriaNames[i] + ' ' + data.avgScores[i] + '<br>';
                         }
                         document.getElementById('printButton').disabled = false;
 

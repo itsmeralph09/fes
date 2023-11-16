@@ -255,7 +255,7 @@ if (isset($_SESSION['error'])) {
             polarAreaChart.destroy();
         }
         // console.log(calculateAverage(data));
-        $('#departmentScore').text(calculateAverage(data).toFixed(2) + '');
+        $('#departmentScore').text(calculateAverage(data).toFixed(2));
 
         var scoreBreakDown = document.getElementById('scoreBreakDown');
         // Clear the content of the div

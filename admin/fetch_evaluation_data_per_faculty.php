@@ -20,7 +20,7 @@ if (isset($_POST['selectedCourse']) && is_numeric($_POST['selectedCourse'])) {
             SELECT
                 c.course_name,
                 crit.criteria,
-                (AVG(eat.score) / $maxScore) * 100 AS avg_score_percentage
+                (SUM(eat.score) / COUNT(eat.eval_id)) avg_score_percentage
             FROM
                 eval_tbl AS et
             INNER JOIN
