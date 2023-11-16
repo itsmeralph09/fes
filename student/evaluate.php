@@ -204,7 +204,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             require '../db/dbconn.php';
 
                             // SQL query to fetch course records
-                            $sql = "SELECT course_id, course_code, course_name FROM course_tbl";
+                            $sql = "SELECT c.course_id, c.course_code, c.course_name 
+                                    FROM course_tbl AS c
+                                    LEFT JOIN eval_tbl AS e ON c.course_id = e.course_id
+                                    WHERE e.course_id IS NULL
+                                    ";
 
                             $result = $conn->query($sql);
 
