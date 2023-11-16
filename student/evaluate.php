@@ -202,12 +202,13 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <?php
                             // Replace with your database connection details
                             require '../db/dbconn.php';
+                            $student_id = $_SESSION['student_id'];
 
                             // SQL query to fetch course records
-                            $sql = "SELECT c.course_id, c.course_code, c.course_name 
+                            $sql = "SELECT c.course_id, c.course_code, c.course_name
                                     FROM course_tbl AS c
-                                    LEFT JOIN eval_tbl AS e ON c.course_id = e.course_id
-                                    WHERE e.course_id IS NULL
+                                    LEFT JOIN eval_tbl AS e ON c.course_id = e.course_id AND e.student_id = '$student_id'
+                                    WHERE e.course_id IS NULL;
                                     ";
 
                             $result = $conn->query($sql);

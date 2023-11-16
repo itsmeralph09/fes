@@ -1,4 +1,4 @@
-<?php
+`<?php
 session_start();
 require './db/dbconn.php';
 
@@ -66,6 +66,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
                 $_SESSION['student_id'] = $row1['student_id'];
                 $_SESSION['class_id'] = $row1['class_id'];
+                $_SESSION['student_id'] = $row1['student_id'];
                 header("Location: ./student/index.php");
                 exit;
             }
