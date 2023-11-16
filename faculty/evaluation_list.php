@@ -129,9 +129,9 @@ if (isset($_SESSION['error'])) {
                     <thead class="table-dark">
                         <th>#</th>
                         <th>Course</th>
-                        <th>Program</th>
-                        <th>No. of Evaluation</th>
-                        <th>Date Taken</th>
+                        <th>Total Score</th>
+                        <!-- <th>No. of Evaluation</th> -->
+                        <th>Adjective Rating</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -141,12 +141,13 @@ if (isset($_SESSION['error'])) {
                             $acad_id = $_GET['acad_id'];
 
                             $sql = "
-                                SELECT CONCAT(et.acad_id,'-', et.faculty_id,'-', et.course_id,'-', et.class_id) as evalID, et.acad_id, et.faculty_id, et.course_id,et.class_id, et.date_taken, CONCAT(ct.course_code,' - ', ct.course_name) AS course, CONCAT(clt.program_code, ' ', clt.level, '-',clt.section) AS program, COUNT(*) AS submission_count
+                                SELECT CONCAT(et.acad_id,'-', et.faculty_id,'-', et.course_id) as evalID, et.acad_id, et.faculty_id, et.course_id,et.class_id, et.date_taken, CONCAT(ct.course_code,' - ', ct.course_name) AS course, CONCAT(clt.program_code, ' ', clt.level, '-',clt.section) AS program, COUNT(*) AS submission_count, AVG(eat.score) as avg_score
                                 FROM eval_tbl et
                                 INNER JOIN course_tbl ct ON et.course_id = ct.course_id
                                 INNER JOIN class_tbl clt ON et.class_id = clt.class_id
+                                INNER JOIN eval_answer_tbl eat ON et.eval_id = eat.eval_id
                                 WHERE et.faculty_id = '$logged_in_faculty_id' AND et.acad_id = '$acad_id'
-                                GROUP BY et.class_id, et.course_id
+                                GROUP BY et.course_id
                                 ORDER BY et.course_id ASC, et.date_taken DESC
                                 ";
 
@@ -162,9 +163,9 @@ if (isset($_SESSION['error'])) {
                                 "<tr>
                                     <td>".$num."</td>
                                     <td>".$row['course']."</td>
-                                    <td>".$row['program']."</td>
-                                    <td class='text-center'>".$row['submission_count']."</td>
-                                    <td>".$dateOnly."</td>
+                                    <td>".$row['avg_score']."</td>
+                                    
+                                    <td>Fair</td>
                                     <td>
                                         <a href='#view_comments".$row['evalID']."' class='btn btn-success' data-toggle='modal'><i class='fa fa-comment m-1'></i>View Comments</a>
                                     </td>

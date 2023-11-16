@@ -15,9 +15,9 @@
 <?php
     require '../db/dbconn.php';
     
-	$sqlQueryComments = "SELECT student_id, comments, CONCAT(acad_id, '-', faculty_id, '-', course_id, '-', class_id) AS evalID
+	$sqlQueryComments = "SELECT student_id, comments, CONCAT(acad_id, '-', faculty_id, '-', course_id) AS evalID
         FROM eval_tbl
-        WHERE CONCAT(acad_id, '-', faculty_id, '-', course_id, '-', class_id) = '" . $row['evalID'] . "'";
+        WHERE CONCAT(acad_id, '-', faculty_id, '-', course_id) = '" . $row['evalID'] . "'";
 
     $queryComments = mysqli_query($conn, $sqlQueryComments);
     while($rowQueryComments = mysqli_fetch_assoc($queryComments)){
