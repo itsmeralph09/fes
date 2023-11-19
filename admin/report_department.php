@@ -265,7 +265,7 @@ if (isset($_SESSION['error'])) {
         // Using a for loop to iterate through the array and append each element with a line break to the div
         for (let i = 0; i < data.length; i++) {
             percentScore = (data[i] / (4 * numAnswer[i])) * numAnswer[i] * 100;
-            scoreBreakDown.innerHTML += labels[i] + ' ' + data[i].toFixed(2) + ' (' + percentScore + '%)<br>';
+            scoreBreakDown.innerHTML += labels[i] + ' ' + data[i].toFixed(2) + ' (' + percentScore.toFixed(2) + '%)<br>';
         }
         document.getElementById('printButton').disabled = false;
 

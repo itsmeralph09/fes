@@ -124,7 +124,7 @@ if (isset($_SESSION['error'])) {
                                     </div>
                                     <hr class="mt-1">
             <div class="container mb-4 mt-4">
-                <table id="myTable" class="table table-bordered nowrap table-striped table-hover" style="width:100%">
+                <table id="myTable" class="table table-bordered nowrap table-hover" style="width:100%">
                     <thead class="table-dark">
                         <th>Ranking</th>
                         <th>Faculty</th>
@@ -138,31 +138,14 @@ if (isset($_SESSION['error'])) {
                             require '../db/dbconn.php';
                             $acad_id = $_GET['acad_id'];
 
-                            $sql = "SELECT
-                                      f.faculty_id,
-                                      CONCAT(f.first_name, ' ', f.middle_name, ' ', f.last_name) AS faculty_name,
-                                      FORMAT(SUM(average_score_percentage) / COUNT(DISTINCT criteria_id),2) AS average_total_score_percentage
-                                    FROM (
-                                      SELECT
-                                        e.faculty_id,
-                                        q.criteria_id,
-                                        ROUND((AVG(a.score) / MAX(a.score)) * 100, 2) AS average_score_percentage
-                                      FROM
-                                        eval_tbl e
-                                      JOIN eval_answer_tbl a ON e.eval_id = a.eval_id
-                                      JOIN question_tbl q ON a.question_id = q.question_id
-                                      WHERE
-                                        e.acad_id = '$acad_id'
-                                      GROUP BY
-                                        e.faculty_id, q.criteria_id
-                                    ) AS subquery
-                                    JOIN faculty_tbl f ON subquery.faculty_id = f.faculty_id
-                                    GROUP BY
-                                      f.faculty_id, faculty_name
-                                    ORDER BY
-                                      average_total_score_percentage ASC
-                                    LIMIT 10;
-                                    ";
+                            $sql = "SELECT ROUND(AVG(eat.score),2) as avg_score, et.faculty_id, CONCAT(f.first_name, ' ', f.middle_name, ' ', f.last_name) AS faculty_name
+                                    FROM eval_tbl et
+                                    INNER JOIN eval_answer_tbl eat ON et.eval_id = eat.eval_id
+                                    INNER JOIN faculty_tbl f ON et.faculty_id = f.faculty_id
+                                    WHERE et.acad_id = 3
+                                    GROUP BY et.faculty_id
+                                    ORDER BY avg_score DESC
+                                    LIMIT 10";
 
                             //use for MySQLi Procedural
                             $num = 1;
@@ -173,7 +156,7 @@ if (isset($_SESSION['error'])) {
                                 "<tr>
                                     <td># ".$num."</td>
                                     <td>".$row['faculty_name']."</td>                
-                                    <td>".$row['average_total_score_percentage']." %</td>                
+                                    <td>".$row['avg_score']."</td>                
                                 </tr>";
 
                                 
