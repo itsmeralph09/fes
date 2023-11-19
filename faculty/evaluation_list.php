@@ -125,13 +125,11 @@ if (isset($_SESSION['error'])) {
                 </div>
             <hr class="mt-1">
             <div class="container mb-4 overflow-auto">
-                <table id="rap" class="table table-bordered nowrap" style="width: 100%;">
+                <table id="rap" class="table table-bordered nowrap text-center" style="width: 100%;">
                     <thead class="table-dark">
                         <th>#</th>
-                        <th>Course</th>
-                        <th>Total Score</th>
-                        <!-- <th>No. of Evaluation</th> -->
-                        <th>Adjective Rating</th>
+                        <th>Average Score</th>
+                        <th>Rating</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -141,14 +139,10 @@ if (isset($_SESSION['error'])) {
                             $acad_id = $_GET['acad_id'];
 
                             $sql = "
-                                SELECT CONCAT(et.acad_id,'-', et.faculty_id,'-', et.course_id) as evalID, et.acad_id, et.faculty_id, et.course_id,et.class_id, et.date_taken, CONCAT(ct.course_code,' - ', ct.course_name) AS course, CONCAT(clt.program_code, ' ', clt.level, '-',clt.section) AS program, COUNT(*) AS submission_count, AVG(eat.score) as avg_score
+                                SELECT ROUND(AVG(eat.score),2) as avg_score
                                 FROM eval_tbl et
-                                INNER JOIN course_tbl ct ON et.course_id = ct.course_id
-                                INNER JOIN class_tbl clt ON et.class_id = clt.class_id
                                 INNER JOIN eval_answer_tbl eat ON et.eval_id = eat.eval_id
                                 WHERE et.faculty_id = '$logged_in_faculty_id' AND et.acad_id = '$acad_id'
-                                GROUP BY et.course_id
-                                ORDER BY et.course_id ASC, et.date_taken DESC
                                 ";
 
                             //use for MySQLi Procedural
@@ -159,15 +153,34 @@ if (isset($_SESSION['error'])) {
                                 $datetime  = new DateTime($row['date_taken']);
                                 $dateOnly = $datetime->format("d-M-Y");
 
+                                if ($row['avg_score'] >= 1 AND $row['avg_score'] <= 1.99) {
+                                    $rating = "<span class='text-danger'>Poor</span>";
+                                }else if ($row['avg_score'] >= 2 AND $row['avg_score'] <= 2.99){
+                                    $rating = "<span class='text-warning'>Fair</span>";
+                                }else if ($row['avg_score'] >= 3 AND $row['avg_score'] <= 3.99){
+                                    $rating = "<span class='text-primary'>Satisfactory</span>";
+                                }else if ($row['avg_score'] == 4){
+                                    $rating = "<span class='text-success'>Very Satisfactory</span>";
+                                }else{
+                                    $rating = "<span class='text-secondary'>No data</span>";
+                                }
+
+                                if ($row['avg_score'] == "") {
+                                    $avg_score = "No data";
+                                }else{
+                                    $avg_score = $row['avg_score'];
+                                }
+
                                 echo
                                 "<tr>
-                                    <td>".$num."</td>
-                                    <td>".$row['course']."</td>
-                                    <td>".$row['avg_score']."</td>
+                                    <td class='text-center font-weight-bold'>".$acad_year.' '.$sem."</td>
+                                    <td class='text-center font-weight-bold font-italic'>".$avg_score."</td>
                                     
-                                    <td>Fair</td>
-                                    <td>
-                                        <a href='#view_comments".$row['evalID']."' class='btn btn-success' data-toggle='modal'><i class='fa fa-comment m-1'></i>View Comments</a>
+                                    <td class='text-center font-weight-bold font-italic'>
+                                        ".$rating."
+                                    </td>
+                                    <td class='text-center'>
+                                        <a href='#view_comments".$acad_id."' class='btn btn-success' data-toggle='modal'><i class='fa fa-comment m-1'></i>View Comments</a>
                                     </td>
 
                                 </tr>";

@@ -1,5 +1,5 @@
 <!-- View Comments -->
-<div class="modal fade" id="view_comments<?php echo $row['evalID']; ?>" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="view_comments<?php echo $acad_id; ?>" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,10 +14,11 @@
       <div class="card-body p-4">            	
 <?php
     require '../db/dbconn.php';
+
+    $logged_in_faculty_id = $_SESSION['faculty_id'];
+
     
-	$sqlQueryComments = "SELECT student_id, comments, CONCAT(acad_id, '-', faculty_id, '-', course_id) AS evalID
-        FROM eval_tbl
-        WHERE CONCAT(acad_id, '-', faculty_id, '-', course_id) = '" . $row['evalID'] . "'";
+	$sqlQueryComments = "SELECT comments  FROM `eval_tbl` WHERE faculty_id='$logged_in_faculty_id' AND acad_id = '$acad_id'";
 
     $queryComments = mysqli_query($conn, $sqlQueryComments);
     while($rowQueryComments = mysqli_fetch_assoc($queryComments)){
