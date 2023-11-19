@@ -3,9 +3,9 @@ session_start();
 require './db/dbconn.php';
 
 if (isset($_SESSION['name'])) {
+    $_SESSION['error'] = "You are still logged in!";
     if ($_SESSION['role'] == "student") {
         header("Location: ./student/index.php");
-        $_SESSION['error'] = "You must login first!";
         exit;
     } elseif ($_SESSION['role'] == "faculty") {
         header("Location: ./faculty/index.php");
@@ -49,6 +49,7 @@ if (isset($_POST['submit'])) {
                 $result1 = mysqli_query($conn, $query1);
                 $row1 = mysqli_fetch_assoc($result1);
                 $_SESSION['name'] = ucfirst($row1['first_name'])." ".ucfirst($row1['last_name']);
+                $_SESSION['admin_id'] = $row1['admin_id'];
                 header("Location: ./admin/index.php");
                 exit;
             } elseif ($row['role'] == "faculty") {
