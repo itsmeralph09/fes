@@ -19,6 +19,15 @@ if ($_SESSION['role'] != "faculty") {
     exit;
 }
 
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,9 +52,33 @@ if ($_SESSION['role'] != "faculty") {
     <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
 </head>
+<?php if(isset($success)) { ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '<?php echo $success;?>'
+    });
+});
+</script>
+<?php } ?>
 
+<?php if(isset($error)) { ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Swal.fire({
+        icon: 'warning',
+        // title: 'info!',
+        text: '<?php echo $error;?>'
+    });
+});
+</script>
+<?php } ?>
 <body id="page-top">
 
     <!-- Page Wrapper -->
