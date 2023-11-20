@@ -39,6 +39,32 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    // Check if email already exists in the database
+    $checkEmailQuery = "SELECT * FROM admin_tbl WHERE email = '$email'";
+    $checkEmailResult = mysqli_query($conn, $checkEmailQuery);
+
+    if (mysqli_num_rows($checkEmailResult) > 0) {
+        $_SESSION['error'] = "Email already exists!";
+        mysqli_close($conn);
+        header('Location: admin.php');
+        exit;
+    }
+
+    // Check if school ID already exists in the faculty_tbl
+    $checkFacultyQuery = "SELECT * FROM admin_tbl WHERE school_id = '$school_id'";
+    $checkFacultyResult = mysqli_query($conn, $checkFacultyQuery);
+
+    // Check if school ID already exists in the user_tbl
+    $checkUserQuery = "SELECT * FROM user_tbl WHERE school_id = '$school_id'";
+    $checkUserResult = mysqli_query($conn, $checkUserQuery);
+
+    if (mysqli_num_rows($checkFacultyResult) > 0 || mysqli_num_rows($checkUserResult) > 0) {
+        $_SESSION['error'] = "School ID already exists!";
+        mysqli_close($conn);
+        header('Location: admin.php');
+        exit;
+    }
+    
         if ($password == $confirm_password) {
             $hashed_pass = password_hash($password, PASSWORD_BCRYPT);
             
