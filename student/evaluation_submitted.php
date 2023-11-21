@@ -143,6 +143,27 @@ Swal.fire({
                             $query = mysqli_query($conn, $sql);
                             while($row = mysqli_fetch_assoc($query)){
 
+                                $acad_id = $row['acad_id'];
+                                $sqlFetchAcad = "SELECT CONCAT(year_start, ' - ', year_end) as acad, semester 
+                                                FROM `acad_yr_tbl` 
+                                                WHERE `acad_id` = '$acad_id'";
+                                $resultFetchAcad= $conn->query($sqlFetchAcad);
+
+                                if ($resultFetchAcad->num_rows > 0) {
+                                    $rowFetchAcad = $resultFetchAcad->fetch_assoc();
+                                    $acad = $rowFetchAcad['acad'];
+                                    $semester = $rowFetchAcad['semester'];
+                                        if ($semester == 1) {
+                                            $sem = "First Semester";
+                                        }else if ($semester == 2) {
+                                            $sem = "Second Semester";
+                                        }else if ($semester == 3) {
+                                            $sem = "Mid-Year";
+                                        }
+                                    $academic = $acad . ' ' . $sem;
+
+                                }
+
                                 $faculty_id = $row['faculty_id']; 
                                 $sqlFetchFaculty = "SELECT CONCAT_WS(' ', `first_name`, `middle_name`, `last_name`, `ext_name`) AS `faculty_name`
                                 FROM `faculty_tbl`
@@ -172,7 +193,7 @@ Swal.fire({
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
-                                    <td>".$row['acad_id']."</td>
+                                    <td>".$academic."</td>
                                     <td>".$facultyName."</td>
                                     <td>".$course."</td>
                                    
