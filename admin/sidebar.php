@@ -153,6 +153,11 @@
                 </div>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="evaluation_list.php">
+                    <i class="fas fa-fw fa-chart-bar"></i>
+                    <span>Submitted Evaluation</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="leaderboards.php">
                     <i class="fas fa-fw fa-crown"></i>
                     <span>Leaderboards</span></a>
