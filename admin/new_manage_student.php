@@ -138,12 +138,12 @@ Swal.fire({
                         <?php
                             require '../db/dbconn.php';
                             $sql = "
-                                    SELECT st.*, ct.*, dt.department_code
+                                    SELECT st.*,CONCAT(ct.program_code, ' ',ct.level, ' - ', ct.section) AS class, dt.department_code
                                     FROM student_tbl st
                                     INNER JOIN class_tbl ct ON st.class_id = ct.class_id
                                     INNER JOIN program_tbl pt ON ct.program_id = pt.program_id
                                     INNER JOIN department_tbl dt ON pt.department_id = dt.department_id
-                                    ORDER BY ct.program_id, st.class_id DESC, st.last_name ASC
+                                    ORDER BY ct.program_id, class ASC, st.last_name ASC
                                 ";
 
                             //use for MySQLi Procedural
@@ -153,16 +153,13 @@ Swal.fire({
 
                             while($row = mysqli_fetch_assoc($query)){
 
-                                $class_id = $row['class_id'];
-                                $class= $row['program_code']." ".$row['level']."-".$row['section'];
-
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
-                                    <td>".$row['first_name']. " " .$row['middle_name']. " " .$row['last_name']."</td> 
+                                    <td>".$row['last_name']. " " .$row['first_name']. ", " .$row['middle_name']."</td> 
                                     <td>".$row['school_id']."</td>
                                     <td>".$row['email']."</td>
-                                    <td>".$class."</td>
+                                    <td>".$row['class']."</td>
                                     <td>".strtoupper($row['department_code'])."</td>
                                     <td>
                                         <a href='#edit_".$row['student_id']."' class='btn btn-success btn-sm m-1' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a>
