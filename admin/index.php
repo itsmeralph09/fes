@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-danger">Faculty Evaluation Overview</h6>
-                                    <div class="dropdown no-arrow">
+<!--                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-danger">Number of Users</h6>
-            <div class="dropdown no-arrow">
+<!--             <div class="dropdown no-arrow">
                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-            </div>
+            </div> -->
         </div>
         <!-- Card Body -->
         <div class="card-body">
@@ -395,8 +395,8 @@ document.addEventListener('DOMContentLoaded', function () {
     <script src="../assets/js/demo/chart-area-demo.js"></script>
 <script>
 // Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
+// Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+// Chart.defaults.global.defaultFontColor = '#858796';
 
 // Function to fetch data from PHP script
 function fetchDataFromDatabase() {
