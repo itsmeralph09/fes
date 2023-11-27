@@ -131,16 +131,19 @@ Swal.fire({
                         <th>School ID</th>
                         <th>Email</th>
                         <th>Class</th>
+                        <th>Department</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
                         <?php
                             require '../db/dbconn.php';
                             $sql = "
-                                    SELECT student_tbl.*, class_tbl.* 
-                                    FROM student_tbl
-                                    INNER JOIN class_tbl ON student_tbl.class_id = class_tbl.class_id
-                                    ORDER BY student_tbl.school_id
+                                    SELECT st.*, ct.*, dt.department_code
+                                    FROM student_tbl st
+                                    INNER JOIN class_tbl ct ON st.class_id = ct.class_id
+                                    INNER JOIN program_tbl pt ON ct.program_id = pt.program_id
+                                    INNER JOIN department_tbl dt ON pt.department_id = dt.department_id
+                                    ORDER BY ct.program_id, st.class_id DESC, st.last_name ASC
                                 ";
 
                             //use for MySQLi Procedural
@@ -160,6 +163,7 @@ Swal.fire({
                                     <td>".$row['school_id']."</td>
                                     <td>".$row['email']."</td>
                                     <td>".$class."</td>
+                                    <td>".strtoupper($row['department_code'])."</td>
                                     <td>
                                         <a href='#edit_".$row['student_id']."' class='btn btn-success btn-sm m-1' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a>
                                         <a href='#delete_".$row['student_id']."' class='btn btn-danger btn-sm m-1' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>
