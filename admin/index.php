@@ -404,7 +404,7 @@ function fetchDataFromDatabase() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            return data;
+            return data.map(Number); // Convert strings to numbers
         });
 }
 
