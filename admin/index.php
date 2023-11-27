@@ -395,14 +395,15 @@ document.addEventListener('DOMContentLoaded', function () {
     <script src="../assets/js/demo/chart-area-demo.js"></script>
 <script>
 // Set new default font family and font color to mimic Bootstrap's default styling
-// Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-// Chart.defaults.global.defaultFontColor = '#858796';
+Chart.defaults.global.defaultFontFamily = 'Nunito, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
 
 // Function to fetch data from PHP script
 function fetchDataFromDatabase() {
     return fetch('polar_chart_fetch.php')
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             return data;
         });
 }
@@ -410,6 +411,7 @@ function fetchDataFromDatabase() {
 // Create the polar area chart when the data is fetched
 async function createPolarChart() {
     const data = await fetchDataFromDatabase();
+    console.log(data);
 
     // Polar Area Chart Example
     var ctx = document.getElementById("myPolarChart");
@@ -485,7 +487,9 @@ async function createPolarChart() {
 }
 
 // Call the function to create the chart
-createPolarChart();
+document.addEventListener('DOMContentLoaded', function () {
+    createPolarChart();
+});
 
 </script>
 </body>
