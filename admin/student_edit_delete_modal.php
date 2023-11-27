@@ -63,7 +63,8 @@
 
 	    $sqlFetchClass = "SELECT *,
 	    CONCAT(program_code, ' ', level, '-', section) AS class_name
-	    FROM class_tbl";
+	    FROM class_tbl
+	    ORDER BY class_name ASC";
 	    $resultFetchClass = $conn->query($sqlFetchClass);
 
 	    if ($resultFetchClass->num_rows > 0) {
