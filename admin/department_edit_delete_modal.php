@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            	<div class="row float-left ml-2"><h4 class="modal-title float-left" id="myModalLabel">Edit Criteria</h4></div>
+            	<div class="row float-left ml-2"><h4 class="modal-title float-left" id="myModalLabel">Edit Department</h4></div>
                 <div class="row float-right mr-2"><button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true">&times;</button></div>
             </div>
             <div class="modal-body">
