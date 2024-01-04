@@ -154,7 +154,7 @@ if (isset($_SESSION['error'])) {
 
                                 echo
                                 "<tr>
-                                    <td># ".$num."</td>
+                                    <td>".$num."</td>
                                     <td>".$row['faculty_name']."</td>                
                                     <td>".$row['avg_score']."</td>                
                                 </tr>";
