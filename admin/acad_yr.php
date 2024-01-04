@@ -160,11 +160,17 @@ Swal.fire({
 
                                 if ($row['is_default'] == "yes") {
                                     $is_default = "<div class='row'><div class='col text-center'><i class='fa-solid fa-circle-check text-primary fa-xl'></i></div></div>";
+                                    $is_default_button = "<a href='#set_default".$row['acad_id']."' class='btn btn-secondary btn-sm disabled' data-toggle='modal'><i class='fa fa-wrench m-1'></i>Set Default</a>";
                                 } else{
                                     $is_default = "<div class='row'><div class='col text-center'><i class='fa-solid fa-circle-xmark fa-xl'></i></div></div>";
+                                    $is_default_button = "<a href='#set_default".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-wrench m-1'></i>Set Default</a>";
                                 }
 
-
+                                if ($row['status'] == "started") {
+                                    $status_button = "<a href='#stop_".$row['acad_id']."' class='btn btn-secondary btn-sm' data-toggle='modal'><i class='fa fa-stop m-1'></i>Close</a>";
+                                }else{
+                                    $status_button = "<a href='#start_".$row['acad_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-play m-1'></i>Start</a>";
+                                }
 
                                 echo
                                 "<tr>
@@ -174,13 +180,9 @@ Swal.fire({
                                    $status
                                    <td>".$is_default."</td>
                                     <td>
-                                        <!-- <a href='#edit_".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-pen-to-square m-1'></i>Edit</a> -->
+                                        $status_button
                                         
-                                        <a href='#set_default".$row['acad_id']."' class='btn btn-primary btn-sm' data-toggle='modal'><i class='fa fa-wrench m-1'></i>Set as Default</a>
-
-                                        <a href='#start_".$row['acad_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-play m-1'></i>Start</a>
-                                        <a href='#stop_".$row['acad_id']."' class='btn btn-secondary btn-sm' data-toggle='modal'><i class='fa fa-stop m-1'></i>Close</a>
-
+                                        $is_default_button
                                         
                                     </td>
                                 </tr>";
