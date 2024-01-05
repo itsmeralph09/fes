@@ -12,7 +12,7 @@ class SelectOption {
     }
 
     public function getClassOptions() {
-        $query = "SELECT class_id, program_code, level, section FROM class_tbl ORDER BY program_code ASC";
+        $query = "SELECT class_id, program_code, level, section FROM class_tbl ORDER BY program_code ASC, level ASC, section ASC";
         $result = mysqli_query($this->db, $query);
 
         $options = '';
