@@ -208,7 +208,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             $sql = "SELECT c.course_id, c.course_code, c.course_name
                                     FROM course_tbl AS c
                                     LEFT JOIN eval_tbl AS e ON c.course_id = e.course_id AND e.student_id = '$student_id'
-                                    WHERE e.course_id IS NULL;
+                                    WHERE e.course_id IS NULL
+                                    ORDER BY c.course_code ASC, c.course_name ASC;
                                     ";
 
                             $result = $conn->query($sql);
