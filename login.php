@@ -17,6 +17,10 @@ if (isset($_SESSION['name'])) {
 }
 
 
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
 if (isset($_SESSION['error'])) {
     $error = $_SESSION['error'];
     unset($_SESSION['error']);
@@ -133,6 +137,9 @@ if (isset($_POST['submit'])) {
                             <?php if(isset($error)) { ?>
                             <p class="text-danger" role="alert"><i class="fa-solid fa-triangle-exclamation mr-2"></i><?php echo $error; ?></p>
                             <?php } ?>
+                            <?php if(isset($success)) { ?>
+                            <p class="text-success" role="alert"><i class="fa-solid fa-triangle-exclamation mr-2"></i><?php echo $success; ?></p>
+                            <?php } ?>
 
 
 
@@ -163,16 +170,16 @@ if (isset($_POST['submit'])) {
                                         </div>
                                         <input type="submit" name="submit" value="Login" class="btn btn-user btn-block btn-ralph">
                                     </form>
-
-
-
                                     <hr>
+                                    <div class="text-center">
+                                        <p class="small mb-0">No Accounts Yet?</p>
+                                        <a href="#addnew" data-toggle="modal" class="small small-ralph">Create an Account!</a>
+                                        <?php include('signup_modal.php'); ?>
+                                    </div>
                                     <div class="text-center">
                                         <a class="small small-ralph" href="forgot-password.html">Forgot Password?</a>
                                     </div>
-<!--                                     <div class="text-center">
-                                        <a class="small small-ralph" href="register.html">Create an Account!</a>
-                                    </div> -->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -189,6 +196,32 @@ if (isset($_POST['submit'])) {
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="assets/js/sb-admin-2.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get references to the relevant elements
+        var firstNameInput = document.querySelector('input[name="first_name"]');
+        var lastNameInput = document.querySelector('input[name="last_name"]');
+        var emailInput = document.querySelector('input[name="email"]');
+
+        // Attach an input event listener to both first name and last name inputs
+        firstNameInput.addEventListener("input", updateEmail);
+        lastNameInput.addEventListener("input", updateEmail);
+
+        // Function to update the email input based on first name and last name
+        function updateEmail() {
+            // Get the values from first name and last name inputs
+            var firstName = firstNameInput.value.trim().toLowerCase();
+            var lastName = lastNameInput.value.trim().toLowerCase();
+
+            // Create the email by concatenating the first name, last name, and domain
+            var email = firstName + lastName + "@pcb.edu.ph";
+
+            // Set the value of the email input
+            emailInput.value = email;
+        }
+    });
+</script>
+
 
 </body>
 
