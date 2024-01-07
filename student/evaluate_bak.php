@@ -74,16 +74,6 @@ $conn->close();
     <!-- <script src="../assets/fontawesome-free-6.4.0-web/js/all.min.js"></script> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-    <!-- Add these lines to your head section -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css" integrity="sha512-Ars0BmSwpsUJnWMw+KoUKGKunT7+T8NGK0ORRKj+HT8naZzLSIQoOSIIM3oyaJljgLxFi0xImI5oZkAWEFARSA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
-  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
 
 </head>
 
@@ -209,10 +199,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                                                 </select>
                                                             </fieldset>
                                                         </div>
-<!-- Remove the existing course select dropdown -->
-<div class="col-md-6 my-2">
-    <fieldset class="form-group input-group">
-
                                         <?php
                             // Replace with your database connection details
                             require '../db/dbconn.php';
@@ -240,12 +226,18 @@ document.addEventListener('DOMContentLoaded', function () {
                             // Close the database connection
                             $conn->close();
                             ?>
-<select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
-            <?php echo $options; ?>
-        </select>
-    </fieldset>
-</div>
-
+                                            <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
+                                                <fieldset class="form-group input-group">
+                                                    <!-- <div class="input-group-prepend">
+                                                         <span class="input-group-text bg-danger1 text-light">
+                                                            <i class="fas fa-sticky-note"></i>
+                                                        </span>
+                                                    </div> -->
+                                                    <select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
+                                                        <?php echo $options; ?>
+                                                    </select>
+                                                </fieldset>
+                                            </div>
                                         </div>
                                         </div>
                                         
@@ -293,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <?php include 'logout.php'; ?>
 
     <!-- Bootstrap core JavaScript-->
-    <!-- <script src="../assets/vendor/jquery/jquery.min.js"></script> -->
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -352,70 +344,9 @@ $(document).ready(function() {
     });
 });
 
-// // Add the following script in the <script> section or in an external JavaScript file
-
-// $(document).ready(function() {
-//     // Function to fetch course suggestions
-//     function fetchCourseSuggestions(query) {
-//         $.ajax({
-//             type: "POST",
-//             url: "fetch_courses.php", // Create a new PHP file (e.g., fetch_courses.php) to handle fetching course suggestions
-//             data: { query: query },
-//             success: function(response) {
-//                 $("#courseSuggestions").html(response);
-//                 $("#courseSuggestions").show();
-//             },
-//             error: function(xhr, status, error) {
-//                 console.error(xhr.responseText);
-//             }
-//         });
-//     }
-
-//     // Listen for input events on the course input field
-//     $("#courseInput").on("input", function() {
-//         var query = $(this).val();
-//         if (query.length >= 2) { // Adjust the minimum length for suggestions as needed
-//             fetchCourseSuggestions(query);
-//         } else {
-//             $("#courseSuggestions").hide();
-//         }
-//     });
-
-//     // Handle selecting a course suggestion
-//     $("#courseSuggestions").on("click", "a", function() {
-//         var selectedCourse = $(this).text();
-//         $("#courseInput").val(selectedCourse);
-//         $("#courseSuggestions").hide();
-//     });
-// });
 
 
 </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Initialize Selectize on the courseSelect element
-        $('#courseSelect').selectize({
-            placeholder: 'Select a Course',
-            sortField: 'text', // Sort options by text
-            maxItems: 1, // Limit the selection to one item
-            onChange: function (value) {
-                console.log('Selected value:', value);
-            }
-        });
-        // Initialize Selectize on the courseSelect element
-        $('#facultySelect').selectize({
-            placeholder: 'Select a Faculty',
-            sortField: 'text', // Sort options by text
-            maxItems: 1, // Limit the selection to one item
-            onChange: function (value) {
-                console.log('Selected value:', value);
-            }
-        });
-
-    });
-</script>
-
 
 </body>
 

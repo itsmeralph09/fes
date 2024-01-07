@@ -74,6 +74,16 @@ $conn->close();
     <!-- <script src="../assets/fontawesome-free-6.4.0-web/js/all.min.js"></script> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <!-- Add these lines to your head section -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap4.min.css" integrity="sha512-ht3CSPjgWsxdbLti7wtKNEk5hLoGtP2J8C40muB5/PCWwNw9M/NMJpyvHdeko7ADC60SEOiCenU5pg+kJiG9lg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 
 </head>
 
@@ -199,6 +209,10 @@ document.addEventListener('DOMContentLoaded', function () {
                                                                 </select>
                                                             </fieldset>
                                                         </div>
+<!-- Remove the existing course select dropdown -->
+<div class="col-md-6 my-2">
+    <fieldset class="form-group input-group">
+
                                         <?php
                             // Replace with your database connection details
                             require '../db/dbconn.php';
@@ -226,18 +240,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             // Close the database connection
                             $conn->close();
                             ?>
-                                            <div class="col-md-6 my-2"><!-- Added col class and added `mb-2` for spacing -->
-                                                <fieldset class="form-group input-group">
-                                                    <!-- <div class="input-group-prepend">
-                                                         <span class="input-group-text bg-danger1 text-light">
-                                                            <i class="fas fa-sticky-note"></i>
-                                                        </span>
-                                                    </div> -->
-                                                    <select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
-                                                        <?php echo $options; ?>
-                                                    </select>
-                                                </fieldset>
-                                            </div>
+<select id="courseSelect" name="course_id" class="form-select form-select-sm form-control" aria-label=".form-select-sm example" required>
+            <?php echo $options; ?>
+        </select>
+    </fieldset>
+</div>
+
                                         </div>
                                         </div>
                                         
@@ -285,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <?php include 'logout.php'; ?>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <!-- <script src="../assets/vendor/jquery/jquery.min.js"></script> -->
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
@@ -345,9 +353,31 @@ $(document).ready(function() {
 });
 
 
+</script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initialize Selectize on the courseSelect element
+        $('#courseSelect').selectize({
+            placeholder: 'Select a Course',
+            sortField: 'text', // Sort options by text
+            maxItems: 1, // Limit the selection to one item
+            onChange: function (value) {
+                console.log('Selected value:', value);
+            }
+        });
+        // Initialize Selectize on the courseSelect element
+        $('#facultySelect').selectize({
+            placeholder: 'Select a Faculty',
+            sortField: 'text', // Sort options by text
+            maxItems: 1, // Limit the selection to one item
+            onChange: function (value) {
+                console.log('Selected value:', value);
+            }
+        });
+
+    });
 </script>
 
 </body>
-
 </html>
