@@ -26,9 +26,17 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateProfileModal">
+                                <a class="dropdown-item disabled" href="">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     <?php echo $name; ?>
+                                </a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateProfileModal">
+                                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Update Password
+                                </a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateClassModal">
+                                    <i class="fas fa-user fa-sm fa-chalkboard-user mr-2 text-gray-400"></i>
+                                    Update Class Section
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

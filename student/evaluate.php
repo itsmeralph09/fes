@@ -111,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <?php } ?>
 
-
 <body id="page-top">
 
     <!-- Page Wrapper -->

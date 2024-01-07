@@ -144,7 +144,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                             <span class="text-primary font-italic"><?php echo $row['class']; ?></span>.
                                         </p>
                                         <small class="font-italic">
-                                            Check if your name, School ID, program, year and section is correct before submitting evaluation!
+                                            Check if your Name, School ID, Program, Year and Section is correct before submitting evaluation!
+                                            <br><span>If your class section is incorrect, </span>
+                                            <a href="#" data-toggle="modal" data-target="#updateClassModal">update class section.</a>
                                         </small>
                                     </div>
                                 </div>
