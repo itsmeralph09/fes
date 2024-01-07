@@ -172,12 +172,11 @@ if (isset($_POST['submit'])) {
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <p class="small mb-0">No Accounts Yet?</p>
-                                        <a href="#addnew" data-toggle="modal" class="small small-ralph">Create an Account!</a>
-                                        <?php include('signup_modal.php'); ?>
+                                        <p class="small mb-0">No Account Yet?</p>
+                                        <a href="signup_page.php" class="small small-ralph">Register Account!</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small small-ralph" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small small-ralph" href="">Forgot Password?</a>
                                     </div>
                                     
                                 </div>

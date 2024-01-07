@@ -11,6 +11,11 @@ background-repeat: no-repeat;
 background-size: cover;
 background-repeat: no-repeat;
 }
+.bg-login-image2{
+background: url('../img/Poly.png');
+background-size: cover;
+background-repeat: no-repeat;
+}
 .btn-ralph{
 	background-color: #7b0d0d;
 	border-color: #7b0d0d;

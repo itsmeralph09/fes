@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Check if email already exists in the database
+    // Check if email already exists in the student_tbl
     $checkEmailQuery = "SELECT * FROM student_tbl WHERE email = ?";
     $stmtEmail = mysqli_prepare($conn, $checkEmailQuery);
     mysqli_stmt_bind_param($stmtEmail, "s", $email);
@@ -32,13 +32,13 @@ if (isset($_POST['submit'])) {
     $checkEmailResult = mysqli_stmt_get_result($stmtEmail);
 
     if (mysqli_num_rows($checkEmailResult) > 0) {
-        $_SESSION['error'] = "Email already taken!";
+        $_SESSION['error'] = "Email is already taken!";
         mysqli_close($conn);
-        header('Location: login.php');
+        header('Location: signup_page.php');
         exit;
     }
 
-    // Check if school ID already exists in the faculty_tbl
+    // Check if school ID already exists in the student_tbl
     $checkFacultyQuery = "SELECT * FROM student_tbl WHERE school_id = ?";
     $stmtFaculty = mysqli_prepare($conn, $checkFacultyQuery);
     mysqli_stmt_bind_param($stmtFaculty, "s", $school_id);
@@ -55,7 +55,7 @@ if (isset($_POST['submit'])) {
     if (mysqli_num_rows($checkFacultyResult) > 0 || mysqli_num_rows($checkUserResult) > 0) {
         $_SESSION['error'] = "School ID is already taken!";
         mysqli_close($conn);
-        header('Location: login.php');
+        header('Location: signup_page.php');
         exit;
     }
 
@@ -73,12 +73,12 @@ if (isset($_POST['submit'])) {
         $result2 = mysqli_stmt_execute($stmtInsertUser);
 
         if (!$result || !$result2) {
-            $_SESSION['error'] = "Error creating account! Please try again.";
+            $_SESSION['error'] = "Error registering account! Please try again.";
             mysqli_close($conn);
-            header('Location: login.php');
+            header('Location: signup_page.php');
             exit;
         } else {
-            $_SESSION['success'] = "Account created successfully, you can now login!";
+            $_SESSION['success'] = "Account registered successfully, you can now login your account!";
             header('Location: login.php');
             mysqli_close($conn);
             exit;
@@ -86,10 +86,10 @@ if (isset($_POST['submit'])) {
     } else {
         $_SESSION['error'] = "Passwords do not match!";
         mysqli_close($conn);
-        header('Location: login.php');
+        header('Location: signup_page.php');
         exit;
     }
 }
-header('Location: login.php');
+header('Location: signup_page.php');
 exit;
 ?>

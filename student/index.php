@@ -114,6 +114,45 @@ document.addEventListener('DOMContentLoaded', function () {
                         <?php
 
                         require '../db/dbconn.php';
+                        $school_id = $_SESSION['school_id'];
+
+                            $sql = "SELECT CONCAT(st.first_name, ' ', st.last_name) as name, CONCAT(ct.program_code, ' ', ct.level, '-', ct.section) as class FROM student_tbl st
+                                INNER JOIN class_tbl ct on ct.class_id = st.class_id
+                                WHERE school_id = '$school_id'";
+
+                            $result = mysqli_query($conn, $sql);
+                            $row = mysqli_fetch_assoc($result);
+
+                        ?>
+                        <!-- Profile Card -->
+                        <div class="col-xl-12 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="font-weight-bold text-gray mb-1 text-uppercase">
+                                                <p>Welcome to Faculty Evaluation System!
+                                                </p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="h6 mb-0 font-weight-bold text-gray">
+                                        <p>Hello,
+                                            <span class="text-primary font-italic"><?php echo $_SESSION['name']; ?></span>,
+                                            <span class="text-primary font-italic"><?php echo $school_id; ?></span>, of
+                                            <span class="text-primary font-italic"><?php echo $row['class']; ?></span>.
+                                        </p>
+                                        <small class="font-italic">
+                                            Check if your name, School ID, program, year and section is correct before submitting evaluation!
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                        <?php
+
+                        require '../db/dbconn.php';
 
                             $sql = "SELECT * FROM acad_yr_tbl WHERE is_default = 'yes'";
 
@@ -171,40 +210,19 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                         </div>
 
-                        <!--Total Faculty Card -->
-                        <?php
-
-                            require '../db/dbconn.php';
-
-                            $sql = "SELECT * FROM faculty_tbl ORDER BY date_created ASC";
-
-                            $result = mysqli_query($conn, $sql);
-                            $total_faculties = mysqli_num_rows($result);
-                        ?>
-<!--                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                                                Total Faculties To Evaluate</div>
-                                            <div class="h5 mb-0 font-weight-bold text-success"><?php echo $total_faculties; ?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-person-chalkboard fa-2x text-success"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-
                         <!-- Total Users Card -->
                         <?php
 
                             require '../db/dbconn.php';
 
-                            $sql = "SELECT * FROM eval_tbl WHERE student_id = ".$_SESSION['student_id'];
+                            $fetchActiveAcadYearSQL = "SELECT * FROM acad_yr_tbl WHERE is_default ='yes'";
+                            $fetchActiveAcadYearSQLResult = mysqli_query($conn, $fetchActiveAcadYearSQL);
+                            $res = mysqli_fetch_assoc($fetchActiveAcadYearSQLResult);
+                            $default_acad_yr = $res['acad_id'];
+
+                            $student_id = $_SESSION['student_id'];
+
+                            $sql = "SELECT * FROM eval_tbl WHERE student_id = '$student_id' AND acad_id = '$default_acad_yr'";
 
                             $result = mysqli_query($conn, $sql);
                             $eval_submitted = mysqli_num_rows($result);

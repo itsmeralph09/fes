@@ -109,7 +109,7 @@ $classOptions = $selectOption->getClassOptions();
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="submit" name="submit" class="btn btn-primary">Signup</a>
+                <button type="submit" name="submit" class="btn btn-primary">Signup</button>
 			</form>
             </div>
 
