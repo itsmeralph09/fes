@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="row g-4 mb-4">
                     
                     <div class="col-12 col-md-12 mb-2">
-                        <div class="card card-settings shadow-sm p-4">
+                        <div class="card card-settings shadow-sm p-3">
                             <fieldset class="p-2 mb-3 w-100 rounded" style="border:2px solid #7b0d0d;">
                                 <legend class="w-auto text-gray-ralph font-weight-bolder">Evaluate:</legend>
 
@@ -358,7 +358,7 @@ $(document).ready(function() {
     document.addEventListener('DOMContentLoaded', function () {
         // Initialize Selectize on the courseSelect element
         $('#courseSelect').selectize({
-            placeholder: 'Select a Course',
+            placeholder: 'Select or type a Course',
             sortField: 'text', // Sort options by text
             maxItems: 1, // Limit the selection to one item
             onChange: function (value) {
@@ -367,7 +367,7 @@ $(document).ready(function() {
         });
         // Initialize Selectize on the courseSelect element
         $('#facultySelect').selectize({
-            placeholder: 'Select a Faculty',
+            placeholder: 'Select or type a Faculty',
             sortField: 'text', // Sort options by text
             maxItems: 1, // Limit the selection to one item
             onChange: function (value) {
