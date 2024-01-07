@@ -144,9 +144,13 @@ document.addEventListener('DOMContentLoaded', function () {
                                             <span class="text-primary font-italic"><?php echo $row['class']; ?></span>.
                                         </p>
                                         <small class="font-italic">
-                                            Check if your Name, School ID, Program, Year and Section is correct before submitting evaluation!
-                                            <br><span>If your class section is incorrect, </span>
-                                            <a href="#" data-toggle="modal" data-target="#updateClassModal">update class section.</a>
+                                            * Check if your Name, School ID, Program, Year and Section is correct before submitting evaluation!
+                                        </small>
+                                        <br>
+                                        <hr class="bg-primary">
+                                        <small class="font-italic">
+                                            <span class="">* If your class section is incorrect, </span>
+                                            <a class="" href="#" data-toggle="modal" data-target="#updateClassModal"><u>update class section.</u></a>
                                         </small>
                                     </div>
                                 </div>
@@ -235,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                                                Total Submitted Evaluation</div>
+                                                Total Submitted Evaluation This Semester</div>
                                             <div class="h5 mb-0 font-weight-bold text-warning"><?php echo $eval_submitted; ?></div>
                                         </div>
                                         <div class="col-auto">
