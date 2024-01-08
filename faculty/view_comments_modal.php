@@ -30,11 +30,6 @@
             <p class="text-dark font-italic">"<?php echo $rowQueryComments['comments']; ?>"</p>
 
             <div class="d-flex justify-content-between">
-              <div class="d-flex flex-row align-items-center">
-                <img src="https://api.multiavatar.com/<?php echo $random_id; ?>.svg" alt="avatar" width="25"
-                  height="25" />
-                <p class="small mb-0 ms-2 ml-2">Anonymous</p>
-              </div>
             </div>
           </div>
         </div>
