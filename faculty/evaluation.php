@@ -171,6 +171,12 @@ Swal.fire({
                                 $query2 = mysqli_query($conn, $sql2);
                                 $questionCount = mysqli_num_rows($query2);
 
+                                if ($row['results_release'] == 'yes') {
+                                    $result_rel = "<div class='row'><div class='col text-center'><a href='evaluation_list.php?acad_id=".$row['acad_id']."' class='btn btn-sm btn-success' data-toggle='modal'><i class='fa fa-eye m-1'></i>View Result</a></div></div>";
+                                }else{
+                                    $result_rel = "<div class='row'><div class='col text-center'>Result not available</div></div>";
+                                }
+
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
@@ -178,7 +184,7 @@ Swal.fire({
                                     $status                  
                                     <td>
                                         
-                                        <a href='evaluation_list.php?acad_id=".$row['acad_id']."' class='btn btn-sm btn-success' data-toggle='modal'><i class='fa fa-eye m-1'></i>View</a>
+                                        $result_rel
                                         
                                     </td>
                                 </tr>";
