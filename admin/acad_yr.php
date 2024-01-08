@@ -130,6 +130,7 @@ Swal.fire({
                         <th>Semester</th>
                         <th>Evaluation Status</th>
                         <th>Default</th>
+                        <th>Results Release</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
@@ -172,6 +173,12 @@ Swal.fire({
                                     $status_button = "<a href='#start_".$row['acad_id']."' class='btn btn-success btn-sm' data-toggle='modal'><i class='fa fa-play m-1'></i>Start</a>";
                                 }
 
+                                if ($row['results_release'] == "no") {
+                                    $result_button = "<a href='#release_".$row['acad_id']."' class='btn btn-info btn-sm' data-toggle='modal'><i class='fa fa-square-poll-vertical m-1'></i>Release Results</a>";
+                                }else{
+                                    $result_button = "<a href='#hold_".$row['acad_id']."' class='btn btn-secondary btn-sm' data-toggle='modal'><i class='fa fa-square-poll-vertical m-1'></i>Hold Results</a>";
+                                }
+
                                 echo
                                 "<tr>
                                     <td>".$num."</td>
@@ -179,11 +186,13 @@ Swal.fire({
                                     <td>".$semester."</td>
                                    $status
                                    <td>".$is_default."</td>
+                                   <td class='text-center'>".ucfirst($row['results_release'])."</td>
                                     <td>
                                         $status_button
                                         
                                         $is_default_button
                                         
+                                        $result_button
                                     </td>
                                 </tr>";
                                 include('acad_yr_edit_delete_modal.php');

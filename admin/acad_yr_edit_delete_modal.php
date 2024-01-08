@@ -204,3 +204,77 @@
         </div>
     </div>
 </div>
+
+<!-- release -->
+<div class="modal fade" id="release_<?php echo $row['acad_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            	<div class="row float-left ml-2"><h4 class="modal-title float-left" id="myModalLabel">Release Results of Academic Year and Semester</h4></div>
+                <div class="row float-right mr-2"><button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+            </div>
+            <div class="modal-body">	
+            	<p class="text-center text-info">Are you sure you want to release results for academic year and semester?</p>
+				<h5 class="text-center text-secondary">Academic Year: <span class="text-info"><?php echo $row['year_start'].'-'.$row['year_end']; ?></span></h5>
+				<h5 class="text-center text-secondary">Semester: <span class="text-info">
+					<?php
+
+						if ($row['semester'] == 1) {
+							echo '1st Semester';
+						} elseif ($row['semester'] == 2) {
+							echo '2nd Semester';
+						} elseif ($row['semester'] == 3) {
+							echo 'Mid-Year';
+						}
+
+					?>
+						
+					</span></h5>
+				
+			</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
+                <a href="acad_yr_release.php?acad_id=<?php echo $row['acad_id']; ?>" class="btn btn-info"><i class="fa fa-play m-1"></i>Yes</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- hold -->
+<div class="modal fade" id="hold_<?php echo $row['acad_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            	<div class="row float-left ml-2"><h4 class="modal-title float-left" id="myModalLabel">Hold Results of Academic Year and Semester</h4></div>
+                <div class="row float-right mr-2"><button type="button" class="close float-right" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+            </div>
+            <div class="modal-body">	
+            	<p class="text-center text-secondary">Are you sure you want to hold results for academic year and semester?</p>
+				<h5 class="text-center text-secondary">Academic Year: <span class="text-secondary"><?php echo $row['year_start'].'-'.$row['year_end']; ?></span></h5>
+				<h5 class="text-center text-secondary">Semester: <span class="text-secondary">
+					<?php
+
+						if ($row['semester'] == 1) {
+							echo '1st Semester';
+						} elseif ($row['semester'] == 2) {
+							echo '2nd Semester';
+						} elseif ($row['semester'] == 3) {
+							echo 'Mid-Year';
+						}
+
+					?>
+						
+					</span></h5>
+				
+			</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
+                <a href="acad_yr_hold.php?acad_id=<?php echo $row['acad_id']; ?>" class="btn btn-secondary"><i class="fa fa-play m-1"></i>Yes</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
