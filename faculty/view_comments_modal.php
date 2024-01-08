@@ -28,9 +28,6 @@
         <div class="card mb-2 rounded">
           <div class="card-body">
             <p class="text-dark font-italic">"<?php echo $rowQueryComments['comments']; ?>"</p>
-
-            <div class="d-flex justify-content-between">
-            </div>
           </div>
         </div>
 
