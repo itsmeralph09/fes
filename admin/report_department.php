@@ -155,6 +155,7 @@ if (isset($_SESSION['error'])) {
                                                             <h5 class="text-gray-ralph">Total Evaluation Score</h5>
                                                             
                                                             <div class="text-center font-weight-bolder font-italic h1" id="departmentScore"></div>
+                                                            <div class="text-center font-weight-bold font-italic h6" id="departmentRate"></div>
                                                             
                                                         </div>
                                                         <div class="card shadow-sm border-left-danger col-lg-3 col-12 text-center p-2 rounded mx-lg-4 my-sm-2 my-lg-0">
@@ -256,6 +257,19 @@ if (isset($_SESSION['error'])) {
         }
         // console.log(calculateAverage(data));
         $('#departmentScore').text(calculateAverage(data).toFixed(2));
+
+        var average = calculateAverage(data);
+
+        if (average >= 1 && average <= 1.99) {
+            $('#departmentRate').text("Poor");
+        } else if (average >= 2 && average <= 2.99) {
+            $('#departmentRate').text("Fair");
+        } else if (average >= 3 && average <= 3.99) {
+            $('#departmentRate').text("Satisfactory");
+        } else if (average === 4) {
+            $('#departmentRate').text("Very Satisfactory");
+        }
+
 
         var scoreBreakDown = document.getElementById('scoreBreakDown');
         // Clear the content of the div

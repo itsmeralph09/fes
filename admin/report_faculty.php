@@ -180,6 +180,7 @@ if (isset($_SESSION['error'])) {
                                                             <h5 class="text-gray-ralph">Total Evaluation Score</h5>
                                                             
                                                             <div class="text-center font-weight-bolder font-italic h1" id="facultyScore"></div>
+                                                            <div class="text-center font-weight-bold font-italic h6" id="facultyRate"></div>
                                                             
                                                         </div>
                                                         <div class="card shadow-sm border-left-danger col-lg-3 col-12 text-center p-2 rounded mx-lg-4 my-sm-2 my-lg-0">
@@ -340,6 +341,17 @@ function updateChart(criteriaNames, avgScores) {
                         // console.log(totalScore);
                         // Set the text of the facultyScore
                         $('#facultyScore').text(totalScore.toFixed(2)); // Assuming 2 decimal places
+                        var average = totalScore;
+
+                        if (average >= 1 && average <= 1.99) {
+                            $('#facultyRate').text("Poor");
+                        } else if (average >= 2 && average <= 2.99) {
+                            $('#facultyRate').text("Fair");
+                        } else if (average >= 3 && average <= 3.99) {
+                            $('#facultyRate').text("Satisfactory");
+                        } else if (average === 4) {
+                            $('#facultyRate').text("Very Satisfactory");
+                        }
                         // Get the scoreBreakDown element
                         var scoreBreakDown = document.getElementById('scoreBreakDown');
 
