@@ -150,8 +150,8 @@ if (isset($_SESSION['error'])) {
                             $query = mysqli_query($conn, $sql);
                             while($row = mysqli_fetch_assoc($query)){
 
-                                $datetime  = new DateTime($row['date_taken']);
-                                $dateOnly = $datetime->format("d-M-Y");
+                                // $datetime  = new DateTime($row['date_taken']);
+                                // $dateOnly = $datetime->format("d-M-Y");
 
                                 if ($row['avg_score'] >= 1 AND $row['avg_score'] <= 1.99) {
                                     $rating = "<span class='text-danger'>Poor</span>";
