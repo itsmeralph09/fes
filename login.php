@@ -173,7 +173,7 @@ if (isset($_POST['submit'])) {
                                     <hr>
                                     <div class="text-center">
                                         <p class="small mb-0">No Account Yet?</p>
-                                        <a href="signup_page.php" class="small small-ralph">Register Account!</a>
+                                        <a href="signup.php" class="small small-ralph">Register Account!</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small small-ralph" href="">Forgot Password?</a>
