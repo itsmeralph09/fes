@@ -129,7 +129,7 @@ if (isset($_SESSION['error'])) {
                                                         // }
 
                                                         $faculties = [];
-                                                        $sql2 = "SELECT faculty_id, CONCAT(first_name,' ',last_name) AS faculty_name, department FROM faculty_tbl";
+                                                        $sql2 = "SELECT faculty_id, CONCAT(first_name,' ',last_name) AS faculty_name, department FROM faculty_tbl ORDER BY department ASC, faculty_name ASC";
                                                         $result2 = $conn->query($sql2);
                                                         if ($result2->num_rows > 0) {
                                                             while ($row2 = $result2->fetch_assoc()) {
