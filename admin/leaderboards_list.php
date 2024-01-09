@@ -142,7 +142,7 @@ if (isset($_SESSION['error'])) {
                                     FROM eval_tbl et
                                     INNER JOIN eval_answer_tbl eat ON et.eval_id = eat.eval_id
                                     INNER JOIN faculty_tbl f ON et.faculty_id = f.faculty_id
-                                    WHERE et.acad_id = 3
+                                    WHERE et.acad_id = '$acad_id'
                                     GROUP BY et.faculty_id
                                     ORDER BY avg_score DESC
                                     LIMIT 10";
