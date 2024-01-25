@@ -69,6 +69,7 @@
 							<option value="" disabled selected>Select a department</option>
 							<option value="ics">Institute of Computing Studies</option>
 							<option value="ied">Institute of Education</option>
+							<option value="shs">Senior High School</option>
 						</select>
 					</div>
 				</div>

@@ -73,6 +73,8 @@
 							<option  value="2">2nd Year</option>
 							<option value="3">3rd Year</option>
 							<option  value="4">4th Year</option>
+							<option  value="11">Grade 11</option>
+							<option  value="12">Grade 12</option>
 						</select>
 					</div>
 				</div>
@@ -84,21 +86,12 @@
 						<select name="section" class="form-select form-select-lg" aria-label=".form-select-lg example" required>
 							<option value="" selected disabled>Select a section</option>
 							<option value="A">A</option>
-							<option  value="B">B</option>
+							<option value="B">B</option>
 							<option value="C">C</option>
-							<option  value="D">D</option>
+							<option value="D">D</option>
 						</select>
 					</div>
 				</div>
-<!-- 				<div class="row form-group">
-					<div class="col-sm-4">
-						<label class="control-label modal-label">Description</label>
-					</div>
-					<div class="col-sm-8">
-						<textarea type="text" class="form-control" name="description" rows="3"></textarea>
-					</div>
-				</div> -->
-				
             </div> 
 			</div>
             <div class="modal-footer">
