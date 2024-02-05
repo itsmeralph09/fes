@@ -121,6 +121,7 @@ if (isset($_SESSION['error'])) {
                                                         <option value="" selected disabled>Select a department</option>
                                                         <option value="ics">Institue of Computing Studies (ICS)</option>
                                                         <option value="ied">Institue of Education (IED)</option>
+                                                        <option value="shs">Senior High School (SHS)</option>
                                                     </select>
                                                 </div>
                                                 <hr>

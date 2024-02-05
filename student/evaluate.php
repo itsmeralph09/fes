@@ -171,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                         // Initialize optgroup variables
                                         $icsOptions = '';
                                         $iedOptions = '';
+                                        $shsOptions = '';
 
                                         if ($result->num_rows > 0) {
                                             while ($row = $result->fetch_assoc()) {
@@ -182,6 +183,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                                     $icsOptions .= $option;
                                                 } elseif ($row['department'] === 'ied') {
                                                     $iedOptions .= $option;
+                                                } elseif ($row['department'] === 'shs') {
+                                                    $shsOptions .= $option;
                                                 }
                                             }
                                         }
@@ -204,6 +207,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                                                     </optgroup>
                                                                     <optgroup label="Institute of Education">
                                                                         <?php echo $iedOptions; ?>
+                                                                    </optgroup>
+                                                                    <optgroup label="Senior High School">
+                                                                        <?php echo $shsOptions; ?>
                                                                     </optgroup>
                                                                 </select>
                                                             </fieldset>
