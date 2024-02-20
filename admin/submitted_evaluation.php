@@ -60,6 +60,36 @@ if (isset($_SESSION['error'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Check if the URL has a success parameter (insertion succeeded)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('success')) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Questions inserted successfully.',
+        }).then(function() {
+            // Refresh the page to reflect the changes
+            location.reload();
+        });
+    }
+
+    // Check if the URL has an error parameter (insertion failed)
+    if (urlParams.has('error')) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Failed to insert questions. Please try again.',
+        }).then(function() {
+            // Refresh the page to reflect the changes
+            location.reload();
+        });
+    }
+});
+</script>
 </head>
 
 <body id="page-top">
@@ -114,7 +144,25 @@ if (isset($_SESSION['error'])) {
                     <hr class="mb-3 bg-white1">
 
 <div class="container card p-2 mb-4 shadow-sm">
-                            
+ <?php if(isset($success)) { ?>
+<script>
+Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: '<?php echo $success;?>'
+})
+</script>
+<?php } ?>
+
+<?php if(isset($error)) { ?>
+<script>
+Swal.fire({
+  icon: 'error',
+  title: 'Error!',
+  text: '<?php echo $error;?>'
+})
+</script>
+<?php } ?>                            
     <div class="row">
         <div class="col-12 col-md-12">
             <div class="row">
@@ -132,19 +180,20 @@ if (isset($_SESSION['error'])) {
                         <th>Faculty</th>
                         <th>Class</th>
                         <th>Date Taken</th>
+                        <th>Action</th>
                     </thead>
                     <tbody>
                         <?php
                             require '../db/dbconn.php';
                             $acad_id = $_GET['acad_id'];
 
-                            $sql = "SELECT st.school_id, CONCAT(st.first_name, ' ', st.last_name) as student_name, CONCAT(ct.course_code, ' ', ct.course_name) as course, CONCAT(ft.first_name, ' ', ft.last_name) as faculty_name, CONCAT(clt.program_code, ' ', clt.level, '-',clt.section) AS class, et.date_taken
+                            $sql = "SELECT et.eval_id,st.school_id, CONCAT(st.first_name, ' ', st.last_name) as student_name, CONCAT(ct.course_code, ' ', ct.course_name) as course, CONCAT(ft.first_name, ' ', ft.last_name) as faculty_name, CONCAT(clt.program_code, ' ', clt.level, '-',clt.section) AS class, et.date_taken
                                     FROM eval_tbl as et
                                     INNER JOIN student_tbl AS st ON et.student_id = st.student_id
                                     INNER JOIN course_tbl AS ct ON et.course_id = ct.course_id
                                     INNER JOIN faculty_tbl AS ft ON et.faculty_id = ft.faculty_id
                                     INNER JOIN class_tbl AS clt ON et.class_id = clt.class_id
-                                    WHERE et.acad_id = '$acad_id'";
+                                    WHERE et.acad_id = '$acad_id' AND et.deleted = 0";
 
                             //use for MySQLi Procedural
                             $num = 1;
@@ -162,9 +211,11 @@ if (isset($_SESSION['error'])) {
                                     <td>".$row['faculty_name']."</td>
                                     <td>".$row['class']."</td>
                                    <td>".$dateOnly."</td>
-
+                                   <td>
+                                        <a href='#delete_".$row['eval_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>
+                                    </td>
                                 </tr>";
-                                
+                                include('submitted_evaluation_delete_modal.php');
                             $num++;}
 
                         ?>
