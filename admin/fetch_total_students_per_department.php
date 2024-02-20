@@ -24,6 +24,7 @@ if (isset($_POST['selectedDepartment']) && isset($_POST['selectedAcadYear']) && 
         WHERE
             et.department = '$selectedDepartment'
             AND et.acad_id = $selectedAcadYear
+            AND et.deleted != 1
         GROUP BY
             ct.class_id
     ";

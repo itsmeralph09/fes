@@ -15,7 +15,7 @@ if (isset($_POST['selectedDepartment']) && isset($_POST['selectedAcadYear']) && 
             INNER JOIN question_tbl q ON a.question_id = q.question_id
             INNER JOIN criteria_tbl c ON q.criteria_id = c.criteria_id
             INNER JOIN acad_yr_tbl ay ON e.acad_id = ay.acad_id
-            WHERE ay.acad_id = ? AND e.department = ?
+            WHERE ay.acad_id = ? AND e.department = ? AND e.deleted != 1
             GROUP BY c.criteria
             ORDER BY c.criteria_order";
 
