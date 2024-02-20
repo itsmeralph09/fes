@@ -11,6 +11,7 @@ if (isset($_POST['selectedFaculty'])) {
             FROM eval_tbl e
             INNER JOIN course_tbl c ON e.course_id = c.course_id
             WHERE e.faculty_id = ?
+            AND e.deleted != 1
             AND e.acad_id = ? ";
 
     $stmt = $conn->prepare($sql);

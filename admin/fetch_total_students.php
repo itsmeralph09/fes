@@ -25,6 +25,7 @@ if (isset($_POST['selectedCourse']) && is_numeric($_POST['selectedCourse']) && i
             class_tbl AS ct ON et.class_id = ct.class_id
         WHERE
             et.course_id = $selectedCourse
+            AND et.deleted != 1
             AND et.faculty_id = $facultyId
         GROUP BY
             ct.class_id

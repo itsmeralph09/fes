@@ -33,6 +33,7 @@ if (isset($_POST['selectedCourse']) && is_numeric($_POST['selectedCourse'])) {
                 course_tbl AS c ON et.course_id = c.course_id
             WHERE
                 et.acad_id = $selectedAcadYear
+                AND et.deleted != 1
                 AND et.faculty_id = $selectedFaculty
                 AND c.course_id = $selectedCourse
             GROUP BY
