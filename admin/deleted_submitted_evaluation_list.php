@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $sem = $row['semester'];
 ?>
 
-                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-chart-bar mr-1"></i>Submitted Evaluation List</h1>
+                        <h1 class="h2 mb-0 text-gray-800"> <i class="fas fa-fw fa-trash mr-1"></i>Deleted Submitted Evaluation List</h1>
                         <h5 class="h5 mb-0 text-dark">Academic Year <?php echo $acad_year; ?>
                         <?php
                             if ($sem == 1) {
@@ -167,8 +167,7 @@ Swal.fire({
             <div class="row">
             </div>
                                     <div class="container my-3">
-                                        <a href="evaluation_list.php" class="btn btn-secondary p-2"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
-                                        <a href="deleted_submitted_evaluation_list.php?acad_id=<?php echo $acad_id; ?>" class="btn btn-info p-2 float-right"><i class="fa-solid fa-trash mx-2 fa-xs"></i>Archive</a>
+                                        <a href="submitted_evaluation.php?acad_id=<?php echo $acad_id; ?>" class="btn btn-secondary p-2"><i class="fa-solid fa-arrow-turn-down fa-rotate-90 mx-2 fa-xs"></i>Back</a>
                                     </div>
                                     <hr class="mt-1">
             <div class="container mb-4 overflow-auto">
@@ -193,7 +192,7 @@ Swal.fire({
                                     INNER JOIN course_tbl AS ct ON et.course_id = ct.course_id
                                     INNER JOIN faculty_tbl AS ft ON et.faculty_id = ft.faculty_id
                                     INNER JOIN class_tbl AS clt ON et.class_id = clt.class_id
-                                    WHERE et.acad_id = '$acad_id' AND et.deleted = 0";
+                                    WHERE et.acad_id = '$acad_id' AND et.deleted = 1";
 
                             //use for MySQLi Procedural
                             $num = 1;
@@ -212,7 +211,7 @@ Swal.fire({
                                     <td>".$row['class']."</td>
                                    <td>".$dateOnly."</td>
                                    <td>
-                                        <button class='btn btn-danger btn-sm' onclick='confirmDelete(\"" . $row['eval_id'] . "\", \"" . $row['student_name'] . "\", \"" . $row['course'] . "\", \"" . $row['class'] . "\")'><i class='fa fa-trash m-1'></i>Delete</button>
+                                        <button class='btn btn-info btn-sm' onclick='confirmRestore(\"" . $row['eval_id'] . "\", \"" . $row['student_name'] . "\", \"" . $row['course'] . "\", \"" . $row['class'] . "\")'><i class='fa fa-arrow-rotate-left m-1'></i>Restore</button>
                                     </td>
                                 </tr>";
                                 // include('submitted_evaluation_delete_modal.php');
@@ -282,14 +281,14 @@ Swal.fire({
     </script>
 <script>
     // Function to handle deletion confirmation
-    function confirmDelete(eval_id, student_name, course, class_name) {
+    function confirmRestore(eval_id, student_name, course, class_name) {
         Swal.fire({
-            title: 'Delete Submitted Evaluation',
-            html: `<h4 class="text-center text-danger">Are you sure you want to delete submitted evaluation?</h4>
-                    <h6 class="text-left text-secondary">Name: <span class="text-danger">${student_name}</span></h6>
-                    <h6 class="text-left text-secondary">Course: <span class="text-danger">${course}</span></h6>
-                    <h6 class="text-left text-secondary">Class: <span class="text-danger">${class_name}</span></h6>`,
-            icon: 'error',
+            title: 'Restore Deleted Submitted Evaluation',
+            html: `<h4 class="text-center text-info">Are you sure you want to restore deleted submitted evaluation?</h4>
+                    <h6 class="text-left text-secondary">Name: <span class="text-info">${student_name}</span></h6>
+                    <h6 class="text-left text-secondary">Course: <span class="text-info">${course}</span></h6>
+                    <h6 class="text-left text-secondary">Class: <span class="text-info">${class_name}</span></h6>`,
+            icon: 'info',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
@@ -298,24 +297,24 @@ Swal.fire({
         }).then((result) => {
             if (result.isConfirmed) {
                 // If confirmed, send AJAX request to delete
-                deleteEvaluation(eval_id);
+                restoreEvaluation(eval_id);
             }
         });
     }
 
     // Function to send AJAX request to delete evaluation
-    function deleteEvaluation(eval_id) {
+    function restoreEvaluation(eval_id) {
         $.ajax({
             type: 'POST',
-            url: 'submitted_evaluation_delete.php',
+            url: 'submitted_evaluation_restore.php',
             data: { eval_id: eval_id },
             success: function(response) {
                 // Handle success response here
                 // For example, you can show a success SweetAlert popup
                 Swal.fire({
                     icon: 'success',
-                    title: 'Deletion Successful',
-                    text: 'The evaluation has been deleted successfully!',
+                    title: 'Restore Successful',
+                    text: 'The evaluation has been restored successfully!',
                     timer: 3000 // Auto close timer in milliseconds
                 }).then(function() {
                     // Reload the page after the popup is closed
@@ -327,8 +326,8 @@ Swal.fire({
                 // For example, you can show an error SweetAlert popup
                 Swal.fire({
                     icon: 'error',
-                    title: 'Deletion Failed',
-                    text: 'Failed to delete the evaluation. Please try again later.'
+                    title: 'Restore Failed',
+                    text: 'Failed to restore the evaluation. Please try again later.'
                 });
                 console.error(xhr.responseText);
             }
