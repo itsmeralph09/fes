@@ -14,9 +14,8 @@
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
-                <a href="submitted_evaluation_delete.php?acad_id=<?php echo $acad_id; ?>&eval_id=<?php echo $row['eval_id']; ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
+                <a href="submitted_evaluation_delete.php?acad_id=<?php echo $acad_id; ?>&eval_id=<?php echo $row['eval_id']; ?>" class="btn btn-danger"><i class="fa fa-trash m-1" id="delete_btn"></i>Yes</a>
             </div>
-
         </div>
     </div>
 </div>

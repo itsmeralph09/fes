@@ -39,7 +39,7 @@ if (isset($_SESSION['error'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>PCB FES - Student Dashboard</title>
+    <title>PCB FES - Admin Dashboard</title>
 
 <!-- new css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -57,9 +57,8 @@ if (isset($_SESSION['error'])) {
     <link href="../assets/css/custom.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/fe15f2148c.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css" integrity="sha256-h2Gkn+H33lnKlQTNntQyLXMWq7/9XI2rlPCsLsVcUBs=" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js" integrity="sha256-+0Qf8IHMJWuYlZ2lQDBrF1+2aigIRZXEdSvegtELo2I=" crossorigin="anonymous"></script>
 
 
 <script>
@@ -212,7 +211,7 @@ Swal.fire({
                                     <td>".$row['class']."</td>
                                    <td>".$dateOnly."</td>
                                    <td>
-                                        <a href='#delete_".$row['eval_id']."' class='btn btn-danger btn-sm' data-toggle='modal'><i class='fa fa-trash m-1'></i>Delete</a>
+                                        <button class='btn btn-danger btn-sm' onclick='confirmDelete(\"" . $row['eval_id'] . "\", \"" . $row['student_name'] . "\", \"" . $row['course'] . "\", \"" . $row['class'] . "\")'><i class='fa fa-trash m-1'></i>Delete</button>
                                     </td>
                                 </tr>";
                                 include('submitted_evaluation_delete_modal.php');
@@ -280,8 +279,62 @@ Swal.fire({
         });
 
     </script>
+<script>
+    // Function to handle deletion confirmation
+    function confirmDelete(eval_id, student_name, course, class_name) {
+        Swal.fire({
+            title: 'Delete Submitted Evaluation',
+            html: `<h4 class="text-center text-danger">Are you sure you want to delete submitted evaluation?</h4>
+                    <h6 class="text-left text-secondary">Name: <span class="text-danger">${student_name}</span></h6>
+                    <h6 class="text-left text-secondary">Course: <span class="text-danger">${course}</span></h6>
+                    <h6 class="text-left text-secondary">Class: <span class="text-danger">${class_name}</span></h6>`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, send AJAX request to delete
+                deleteEvaluation(eval_id);
+            }
+        });
+    }
+
+    // Function to send AJAX request to delete evaluation
+    function deleteEvaluation(eval_id) {
+        $.ajax({
+            type: 'POST',
+            url: 'submitted_evaluation_delete.php',
+            data: { eval_id: eval_id },
+            success: function(response) {
+                // Handle success response here
+                // For example, you can show a success SweetAlert popup
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deletion Successful',
+                    text: 'The evaluation has been deleted successfully!',
+                    timer: 3000 // Auto close timer in milliseconds
+                }).then(function() {
+                    // Reload the page after the popup is closed
+                    location.reload();
+                });
+            },
+            error: function(xhr, status, error) {
+                // Handle error here
+                // For example, you can show an error SweetAlert popup
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Deletion Failed',
+                    text: 'Failed to delete the evaluation. Please try again later.'
+                });
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>
 
 
 </body>
-
 </html>

@@ -1,23 +1,31 @@
 <?php
-	session_start();
-	require '../db/dbconn.php';
+// Check if eval_id is provided via POST method
+if(isset($_POST['eval_id'])) {
+    // Include database connection
+    require '../db/dbconn.php';
 
-	if(isset($_GET['eval_id'])){
-		$acad_id = $_GET['acad_id'];
-		$sql = "UPDATE eval_tbl SET deleted = 1 WHERE eval_id = '".$_GET['eval_id']."'";
+    // Sanitize the eval_id to prevent SQL injection
+    $eval_id = mysqli_real_escape_string($conn, $_POST['eval_id']);
 
-		if(mysqli_query($conn, $sql)){
-			$_SESSION['success'] = 'Submitted evaluation deleted successfully';
-		}
+    // SQL query to update the record
+    $sql = "UPDATE eval_tbl SET deleted = 1 WHERE eval_id = '$eval_id'";
 
-		else{
-			$_SESSION['error'] = 'Something went wrong in deleting submitted evaluation';
-		}
-	}
-	else{
-		$_SESSION['error'] = 'Select submitted evaluation to delete first';
-	}
+    // Execute the query
+    if(mysqli_query($conn, $sql)) {
+        // Return success response
+        http_response_code(200);
+        echo "Evaluation deleted successfully.";
+    } else {
+        // Return error response
+        http_response_code(500);
+        echo "Error: " . mysqli_error($conn);
+    }
 
-	header('Location: submitted_evaluation.php?acad_id=' . urlencode($acad_id));
-
+    // Close database connection
+    mysqli_close($conn);
+} else {
+    // If eval_id is not provided, return error response
+    http_response_code(400);
+    echo "Error: eval_id is missing.";
+}
 ?>
