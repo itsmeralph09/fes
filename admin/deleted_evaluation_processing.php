@@ -45,7 +45,7 @@ while ($row = mysqli_fetch_assoc($query)) {
     $nestedData[] = $row['faculty_name'];
     $nestedData[] = $row['class'];
     $nestedData[] = $dateOnly;
-    $nestedData[] = "<button class='btn btn-danger btn-sm' onclick='confirmRestore(\"" . $row['eval_id'] . "\", \"" . $row['student_name'] . "\", \"" . $row['course'] . "\", \"" . $row['class'] . "\")'><i class='fa fa-trash m-1'></i>Delete</button>";
+    $nestedData[] = "<button class='btn btn-info btn-sm' onclick='confirmRestore(\"" . $row['eval_id'] . "\", \"" . $row['student_name'] . "\", \"" . $row['course'] . "\", \"" . $row['class'] . "\")'><i class='fa fa-arrow-rotate-left m-1'></i>Restore</button>";
 
     $data[] = $nestedData;
     $num++; // Increment for the next row
