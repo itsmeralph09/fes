@@ -172,54 +172,18 @@ Swal.fire({
                                     <hr class="mt-1">
             <div class="container mb-4 overflow-auto">
                 <table id="rap" class="table table-bordered nowrap" style="width: 100%;">
-                    <thead class="table-dark">
-                        <th>#</th>
-                        <th>Student</th>
-                        <th>Course</th>
-                        <th>Faculty</th>
-                        <th>Class</th>
-                        <th>Date Taken</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                        <?php
-                            require '../db/dbconn.php';
-                            $acad_id = $_GET['acad_id'];
-
-                            $sql = "SELECT et.eval_id,st.school_id, CONCAT(st.first_name, ' ', st.last_name) as student_name, CONCAT(ct.course_code, ' ', ct.course_name) as course, CONCAT(ft.first_name, ' ', ft.last_name) as faculty_name, CONCAT(clt.program_code, ' ', clt.level, '-',clt.section) AS class, et.date_taken
-                                    FROM eval_tbl as et
-                                    INNER JOIN student_tbl AS st ON et.student_id = st.student_id
-                                    INNER JOIN course_tbl AS ct ON et.course_id = ct.course_id
-                                    INNER JOIN faculty_tbl AS ft ON et.faculty_id = ft.faculty_id
-                                    INNER JOIN class_tbl AS clt ON et.class_id = clt.class_id
-                                    WHERE et.acad_id = '$acad_id' AND et.deleted = 1";
-
-                            //use for MySQLi Procedural
-                            $num = 1;
-                            $query = mysqli_query($conn, $sql);
-                            while($row = mysqli_fetch_assoc($query)){
-
-                                $datetime  = new DateTime($row['date_taken']);
-                                $dateOnly = $datetime->format("d-M-Y");
-
-                                echo
-                                "<tr>
-                                    <td>".$num."</td>
-                                    <td>".$row['student_name']."</td>
-                                    <td>".$row['course']."</td>
-                                    <td>".$row['faculty_name']."</td>
-                                    <td>".$row['class']."</td>
-                                   <td>".$dateOnly."</td>
-                                   <td>
-                                        <button class='btn btn-info btn-sm' onclick='confirmRestore(\"" . $row['eval_id'] . "\", \"" . $row['student_name'] . "\", \"" . $row['course'] . "\", \"" . $row['class'] . "\")'><i class='fa fa-arrow-rotate-left m-1'></i>Restore</button>
-                                    </td>
-                                </tr>";
-                                // include('submitted_evaluation_delete_modal.php');
-                            $num++;}
-
-                        ?>
-                    </tbody>
-                </table>
+    <thead class="table-dark">
+        <th>#</th>
+        <th>Student</th>
+        <th>Course</th>
+        <th>Faculty</th>
+        <th>Class</th>
+        <th>Date Taken</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
             </div>
         </div>
     </div>
@@ -270,15 +234,31 @@ Swal.fire({
     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 
-    <script>
-        $(document).ready(function(){
-        //inialize datatable
-        $('#rap').DataTable({
-            scrollX: true
-        })
-        });
-
-    </script>
+<script>
+$(document).ready(function() {
+    $('#rap').DataTable({
+        "scrollX": true,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "deleted_evaluation_processing.php",
+            "type": "POST",
+            "data": {
+                "acad_id": "<?php echo $acad_id; ?>"
+            }
+        },
+        "columns": [
+            { "data": 0 }, // Assuming you're returning eval_id as the first column from the server
+            { "data": 1 },
+            { "data": 2 },
+            { "data": 3 },
+            { "data": 4 },
+            { "data": 5 },
+            { "data": 6 }
+        ]
+    });
+});
+</script>
 <script>
     // Function to handle deletion confirmation
     function confirmRestore(eval_id, student_name, course, class_name) {
@@ -318,7 +298,8 @@ Swal.fire({
                     timer: 3000 // Auto close timer in milliseconds
                 }).then(function() {
                     // Reload the page after the popup is closed
-                    location.reload();
+                    // location.reload();
+                    $('#rap').DataTable().ajax.reload(); // Reload the DataTable
                 });
             },
             error: function(xhr, status, error) {

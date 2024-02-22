@@ -238,6 +238,7 @@ Swal.fire({
 <script>
 $(document).ready(function() {
     $('#rap').DataTable({
+        "scrollX": true,
         "processing": true,
         "serverSide": true,
         "ajax": {
