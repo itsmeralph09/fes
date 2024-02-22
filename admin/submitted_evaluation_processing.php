@@ -17,7 +17,17 @@ $sqlBase = " FROM eval_tbl as et
             WHERE et.acad_id = '$acad_id' AND et.deleted = 0 ";
 
 if (!empty($searchValue)) {
-    $sqlBase .= " AND (st.first_name LIKE '%$searchValue%' OR st.last_name LIKE '%$searchValue%' OR ct.course_code LIKE '%$searchValue%' OR ct.course_name LIKE '%$searchValue%')";
+    // Separate the search terms by space and search each term in different columns
+    $searchTerms = array_filter(array_unique(explode(" ", str_replace("-", " ", $searchValue))));
+
+    $searchCondition = "";
+    foreach ($searchTerms as $term) {
+        $searchCondition .= "(st.first_name LIKE '%$term%' OR st.last_name LIKE '%$term%' OR ct.course_code LIKE '%$term%' OR ct.course_name LIKE '%$term%' OR ft.first_name LIKE '%$term%' OR ft.last_name LIKE '%$term%' OR clt.program_code LIKE '%$term%' OR clt.level LIKE '%$term%' OR clt.section LIKE '%$term%') AND ";
+    }
+    // Remove the last " AND " from the condition
+    $searchCondition = rtrim($searchCondition, " AND ");
+
+    $sqlBase .= " AND ($searchCondition)";
 }
 
 // Count the total number of records in the database
