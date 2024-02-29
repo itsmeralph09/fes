@@ -151,11 +151,12 @@ if (isset($_SESSION['error'])) {
                                             </div>
                                             <div class="text-center font-italic p-2 text-warning" id="hiddenDiv">No Faculty Selected</div>
                                         <div class="d-flex flex-lg-row flex-column py-4">
-                                            <div class="container">
+                                            <div class="container overflow-auto">
                                                 <p class="font-weight-bold">Overall Average Rating: <span id="overallAverage" class="font-italic text-danger">No Faculty Selected</span></p>
-                                                <table id="myTable" class="table table-bordered" width="100%">
+                                                <table id="myTable" class="table table-bordered nowrap" width="100%" style="width: 100%;">
                                                     
                                                         <thead class="table-dark">
+                                                            <th>#</th>
                                                             <th>Course</th>
                                                             <th>Course Name</th>
                                                             <th>Average</th>
@@ -235,7 +236,7 @@ if (isset($_SESSION['error'])) {
                         var rowCount = 0;
                         var descriptiveRating = '';
                         $("#myTable tbody tr").each(function() {
-                            var average = parseFloat($(this).find('td:eq(2)').text());
+                            var average = parseFloat($(this).find('td:eq(3)').text());
                             if (!isNaN(average)) {
                                 totalAverage += average;
                                 rowCount++;

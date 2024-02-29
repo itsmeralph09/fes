@@ -24,7 +24,7 @@ $result = $conn->query($sql);
 // Initialize HTML content for table rows and descriptive rating
 $html = '';
 $descriptiveRating = '';
-
+$num = 1;
 while ($row = $result->fetch_assoc()) {
     // Calculate descriptive rating based on average score
     $average = round($row['average'], 2);
@@ -40,11 +40,14 @@ while ($row = $result->fetch_assoc()) {
 
     // Build HTML for table rows
     $html .= '<tr>';
+    $html .= '<td>' . $num . '</td>';
     $html .= '<td>' . $row['course_code'] . '</td>';
     $html .= '<td>' . $row['course_name'] . '</td>';
     $html .= '<td>' . $average . '</td>'; // Display the average score
     $html .= '<td>' . $descriptiveRating . '</td>'; // Display the descriptive rating
     $html .= '</tr>';
+
+    $num++;
 }
 
 // Return the HTML content
