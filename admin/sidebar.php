@@ -149,6 +149,7 @@
                         <h6 class="collapse-header">Report per:</h6>
                         <a class="collapse-item" href="report.php">Department</a>
                         <a class="collapse-item" href="report_2.php">Faculty</a>
+                        <a class="collapse-item" href="report_3.php">Faculty - Summarized<sup>New</sup></a>
                     </div>
                 </div>
             </li>
