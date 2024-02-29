@@ -226,47 +226,60 @@ if (isset($_SESSION['error'])) {
                     success: function(data) {
                         // Assuming data is returned in JSON format
                         // You can customize this part according to your data structure
-                        $("#myTable tbody").html(data);
-                        $('#printButton').prop('disabled', false);
-                        $('#selectedFacultySpan').text($("#selectedFaculty option:selected").text());
-                        $('#hiddenDiv').hide();
+                        if (data.trim() !== '') {
+                            $("#myTable tbody").html(data);
+                            $('#printButton').prop('disabled', false);
+                            $('#selectedFacultySpan').text($("#selectedFaculty option:selected").text());
+                            $('#hiddenDiv').hide();
 
-                        // Calculate the overall average and descriptive rating
-                        var totalAverage = 0;
-                        var rowCount = 0;
-                        var descriptiveRating = '';
-                        $("#myTable tbody tr").each(function() {
-                            var average = parseFloat($(this).find('td:eq(3)').text());
-                            if (!isNaN(average)) {
-                                totalAverage += average;
-                                rowCount++;
+                            // Calculate the overall average and descriptive rating
+                            var totalAverage = 0;
+                            var rowCount = 0;
+                            var descriptiveRating = '';
+                            $("#myTable tbody tr").each(function() {
+                                var average = parseFloat($(this).find('td:eq(3)').text());
+                                if (!isNaN(average)) {
+                                    totalAverage += average;
+                                    rowCount++;
+                                }
+                            });
+
+                            if (rowCount > 0) {
+                                var overallAverage = totalAverage / rowCount;
+                                $("#overallAverage").text(overallAverage.toFixed(2));
+
+                                // Set descriptive rating
+                                if (overallAverage >= 1 && overallAverage <= 1.99) {
+                                    descriptiveRating = "Poor";
+                                } else if (overallAverage >= 2 && overallAverage <= 2.99) {
+                                    descriptiveRating = "Fair";
+                                } else if (overallAverage >= 3 && overallAverage <= 3.99) {
+                                    descriptiveRating = "Satisfactory";
+                                } else if (overallAverage === 4) {
+                                    descriptiveRating = "Very Satisfactory";
+                                }
+                            } else {
+                                $("#overallAverage").text("No Faculty Selected");
                             }
-                        });
 
-                        if (rowCount > 0) {
-                            var overallAverage = totalAverage / rowCount;
-                            $("#overallAverage").text(overallAverage.toFixed(2));
-
-                            // Set descriptive rating
-                            if (overallAverage >= 1 && overallAverage <= 1.99) {
-                                descriptiveRating = "Poor";
-                            } else if (overallAverage >= 2 && overallAverage <= 2.99) {
-                                descriptiveRating = "Fair";
-                            } else if (overallAverage >= 3 && overallAverage <= 3.99) {
-                                descriptiveRating = "Satisfactory";
-                            } else if (overallAverage === 4) {
-                                descriptiveRating = "Very Satisfactory";
-                            }
+                            // Set text of overallAverage span with descriptive rating
+                            $("#overallAverage").text($("#overallAverage").text() + " (" + descriptiveRating + ")");
                         } else {
-                            $("#overallAverage").text("No Faculty Selected");
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'No data available for the selected faculty!',
+                            });
                         }
-
-                        // Set text of overallAverage span with descriptive rating
-                        $("#overallAverage").text($("#overallAverage").text() + " (" + descriptiveRating + ")");
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
                         // Handle errors here
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'An error occurred while fetching data. Please try again later!',
+                        });
                     }
                 });
             } else {
