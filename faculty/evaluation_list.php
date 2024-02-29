@@ -139,10 +139,17 @@ if (isset($_SESSION['error'])) {
                             $acad_id = $_GET['acad_id'];
 
                             $sql = "
-                                SELECT ROUND(AVG(eat.score),2) as avg_score
-                                FROM eval_tbl et
-                                INNER JOIN eval_answer_tbl eat ON et.eval_id = eat.eval_id
-                                WHERE et.faculty_id = '$logged_in_faculty_id' AND et.acad_id = '$acad_id'
+                                SELECT AVG(course_avg.average) AS avg_score
+                                FROM (
+                                    SELECT AVG(eat.score) AS average
+                                    FROM eval_tbl et
+                                    INNER JOIN eval_answer_tbl eat ON et.eval_id = eat.eval_id
+                                    WHERE et.faculty_id = '$logged_in_faculty_id' 
+                                    AND et.acad_id = '$acad_id' 
+                                    AND et.deleted = 0
+                                    GROUP BY et.course_id
+                                ) AS course_avg;
+
                                 ";
 
                             //use for MySQLi Procedural
@@ -168,7 +175,7 @@ if (isset($_SESSION['error'])) {
                                 if ($row['avg_score'] == "") {
                                     $avg_score = "No data";
                                 }else{
-                                    $avg_score = $row['avg_score'];
+                                    $avg_score = round($row['avg_score'], 2);
                                 }
 
                                 echo
