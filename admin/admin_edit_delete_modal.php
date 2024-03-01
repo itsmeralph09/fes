@@ -15,7 +15,7 @@
 						<label class="control-label modal-label">School ID</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" name="school_id" value="<?php echo $row['school_id']; ?>">
+						<input type="text" class="form-control" name="school_id" value="<?php echo $row['school_id']; ?>" readonly>
 					</div>
 				</div>
 				<div class="row form-group">
