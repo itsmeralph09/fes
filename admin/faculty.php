@@ -134,12 +134,14 @@ Swal.fire({
                     <tbody>
                         <?php
                             require '../db/dbconn.php';
-                            $sql = "SELECT * FROM faculty_tbl ORDER BY date_created ASC";
+                            $sql = "SELECT ft.faculty_id, ft.school_id as school_id_ft, ft.first_name, ft.middle_name, ft.last_name, ft.ext_name, ft.email, ft.department, ft.date_created, ut.user_id, ut.school_id
+                                    FROM faculty_tbl ft
+                                    INNER JOIN user_tbl ut on ut.school_id = ft.school_id
+                                    ORDER BY ft.date_created ASC";
 
                             //use for MySQLi Procedural
                             $num = 1;
                             $query = mysqli_query($conn, $sql);
-
 
                             while($row = mysqli_fetch_assoc($query)){
                                 echo

@@ -10,12 +10,14 @@
 			<div class="container-fluid">
 			<form method="POST" action="faculty_update.php">
 				<input type="hidden" class="form-control" name="faculty_id" value="<?php echo $row['faculty_id']; ?>">
+				<input type="hidden" class="form-control" name="user_id" value="<?php echo $row['user_id']; ?>">
 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">School ID</label>
 					</div>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" name="school_id" value="<?php echo $row['school_id']; ?>" readonly>
+						<input type="hidden" class="form-control" name="old_school_id" value="<?php echo $row['school_id']; ?>">
+						<input type="text" class="form-control" name="school_id" value="<?php echo $row['school_id']; ?>">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -64,17 +66,26 @@
 					</div>
 					<div class="col-sm-8">
 						<select name="department" required>
-							<option value="<?php echo $row['department']; ?>" selected>
-								<?php 
-									if ($row['department'] == "ics"){
-										echo "Institue of Computing Studies";
-									} elseif($row['department'] == "ied"){
-										echo "Institue of Education";
-									}
-								?>
-							</option>
-							<option value="ics">Institute of Computing Studies</option>
-							<option value="ied">Institute of Education</option>
+							<?php
+
+                                    $sqlFetchDept = "SELECT * FROM department_tbl";
+                                    $resultFetchDept = $conn->query($sqlFetchDept);
+
+                                    if ($resultFetchDept->num_rows > 0) {
+                                        
+                                        while ($rowFetchDept = $resultFetchDept->fetch_assoc()) {
+
+                                            $department_code = $rowFetchDept['department_code'];
+                                            $department_name = ucwords($rowFetchDept['department_name']);
+                                            $selected = ($department_code == $row['department']) ? 'selected' : '';
+                                            echo "<option value='$department_code' $selected>$department_name</option>";
+                                        }
+                                        
+                                    } else{
+                                        echo "<option value='none' selected disabled>No department available</option>";
+                                    }
+
+                            ?>
 						</select>
 					</div>
 				</div>
