@@ -24,8 +24,9 @@ $course_name = "";
 if (isset($_POST['submit'])) {
     require '../db/dbconn.php';
 
-    $course_code = $_POST['course_code'];
-    $course_name = $_POST['course_name'];
+    $course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
+    $course_name = mysqli_real_escape_string($conn, $_POST['course_name']);
+    $acad_id = mysqli_real_escape_string($conn, $_POST['acad_id']);
 
 
     // Check if section already exists in the database
@@ -35,28 +36,28 @@ if (isset($_POST['submit'])) {
     if (mysqli_num_rows($checkSectionResult) > 0) {
         $_SESSION['error'] = "Course Code already exists!";
         mysqli_close($conn);
-        header('Location: course.php');
+        header('Location: course.php?acad_id=' . urlencode($acad_id));
         exit;
     }
 
-    $query = "INSERT INTO course_tbl (course_code, course_name) VALUES ('$course_code', '$course_name')";
+    $query = "INSERT INTO course_tbl (course_code, course_name, acad_id) VALUES ('$course_code', '$course_name', '$acad_id')";
     $result = mysqli_query($conn, $query);
 
 
     if (!$result) {
         $_SESSION['error'] = "Error adding course!";
         mysqli_close($conn);
-        header('Location: course.php');
+        header('Location: course.php?acad_id=' . urlencode($acad_id));
         exit;  
     } else{
         $_SESSION['success'] = "Course added successfully!";
         mysqli_close($conn);
-        header('Location: course.php');
+        header('Location: course.php?acad_id=' . urlencode($acad_id));
         exit;
     }
 
 }
-header('location: course.php');
+header('location: course.php?acad_id=' . urlencode($acad_id));
 
 
 ?>

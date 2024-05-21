@@ -10,6 +10,7 @@
             <div class="modal-body">
 			<div class="container-fluid">
 			<form method="POST" action="course_add.php">
+				<input type="hidden" class="form-control" name="acad_id" value="<?php echo $acad_id; ?>" required>
 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Course Code</label>

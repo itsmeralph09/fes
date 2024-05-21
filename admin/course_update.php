@@ -3,9 +3,10 @@
 	require '../db/dbconn.php';
 
 	if(isset($_POST['edit'])){
-		$course_id = $_POST['course_id'];
-		$course_code = $_POST['course_code'];
-		$course_name = $_POST['course_name'];
+		$course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
+		$course_code = mysqli_real_escape_string($conn, $_POST['course_code']);
+    	$course_name = mysqli_real_escape_string($conn, $_POST['course_name']);
+    	$acad_id = mysqli_real_escape_string($conn, $_POST['acad_id']);
 
 		$sql = "UPDATE course_tbl SET course_code = '$course_code', course_name ='$course_name' WHERE course_id = '$course_id'";
 		$result = mysqli_query($conn, $sql);
@@ -21,6 +22,6 @@
 		$_SESSION['error'] = 'Select course to edit first!';
 	}
 
-	header('location: course.php');
+	header('location: course.php?acad_id=' . urlencode($acad_id));
 
 ?>

@@ -10,6 +10,7 @@
 			<div class="container-fluid">
 			<form method="POST" action="course_update.php">
 				<input type="hidden" class="form-control" name="course_id" value="<?php echo $row['course_id']; ?>">
+				<input type="hidden" class="form-control" name="acad_id" value="<?php echo $acad_id; ?>">
 				<div class="row form-group">
 					<div class="col-sm-4">
 						<label class="control-label modal-label">Course Code</label>
