@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
 
 
     // Check if section already exists in the database
-    $checkSectionQuery= "SELECT * FROM course_tbl WHERE course_code = '$course_code'";
+    $checkSectionQuery= "SELECT * FROM course_tbl WHERE course_code = '$course_code' AND acad_id = '$acad_id'";
     $checkSectionResult = mysqli_query($conn, $checkSectionQuery);
 
     if (mysqli_num_rows($checkSectionResult) > 0) {
