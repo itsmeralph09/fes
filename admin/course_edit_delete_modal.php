@@ -55,7 +55,7 @@
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa-solid fa-x mr-1"></i>Cancel</button>
-                <a href="course_delete.php?course_id=<?php echo $row['course_id']; ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
+                <a href="course_delete.php?course_id=<?php echo $row['course_id']; ?>&acad_id=<?php echo $acad_id; ?>" class="btn btn-danger"><i class="fa fa-trash m-1"></i>Yes</a>
             </div>
 
         </div>

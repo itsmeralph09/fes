@@ -158,7 +158,7 @@ Swal.fire({
                             require '../db/dbconn.php';
 
                             $acad_id = $_GET['acad_id'];
-                            $sql = "SELECT * FROM course_tbl where acad_id = '$acad_id'";
+                            $sql = "SELECT * FROM course_tbl where acad_id = '$acad_id' AND deleted = 0";
 
                             //use for MySQLi Procedural
                             $num = 1;

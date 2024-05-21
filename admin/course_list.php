@@ -166,7 +166,7 @@ Swal.fire({
                                 }
 
                                 $acad_id = $row['acad_id'];
-                                $sql2 = "SELECT * FROM course_tbl WHERE acad_id = '$acad_id'";
+                                $sql2 = "SELECT * FROM course_tbl WHERE acad_id = '$acad_id' AND deleted = 0";
                                 $query2 = mysqli_query($conn, $sql2);
                                 $courseCount = mysqli_num_rows($query2);
 
