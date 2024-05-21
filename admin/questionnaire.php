@@ -119,7 +119,7 @@ Swal.fire({
             <div class="row">
             </div>
             <div class="container mb-3 mt-3">
-                <a href="#addnew" data-toggle="modal" class="btn btn-primary"><i class="fa-solid fa-plus mr-1"></i>New</a>
+                <p class="card-title text-danger">List of questionnaires for each academic year and semester</p>
             </div>
             <hr>
             <div class="container mb-4">
