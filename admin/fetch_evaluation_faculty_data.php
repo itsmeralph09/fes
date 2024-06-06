@@ -34,7 +34,7 @@ while ($row = $result->fetch_assoc()) {
         $descriptiveRating = "Fair";
     } else if ($average >= 3 && $average <= 3.99) {
         $descriptiveRating = "Satisfactory";
-    } else if ($average === 4) {
+    } else if ($average == 4) {
         $descriptiveRating = "Very Satisfactory";
     }
 
